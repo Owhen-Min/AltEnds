@@ -5,6 +5,8 @@ import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import AiBoard from '@/views/AiBoard.vue'
 import CommunityView from '@/views/CommunityView.vue'
+import MovieListView from '@/views/MovieListView.vue'
+import MovieDetailView from '@/views/MovieDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +41,16 @@ const router = createRouter({
       name: 'community',
       component: CommunityView
     },
+    {
+      path:'/movielist',
+      name:'movielist',
+      component: MovieListView
+    },
+    {
+      path:'/movielist/detail',
+      name:'MovieDetail',
+      component: MovieDetailView
+    }
   ],
 })
 
