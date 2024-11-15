@@ -16,7 +16,7 @@
         <div class="card">
             <div class="card" id="user-login" v-if=true>
                 <RouterLink :to="{name:'login'}">로그인</RouterLink>
-                <!-- <RouterLink :to="{name: 'signup'}">회원가입</RouterLink> --> 
+                <RouterLink :to="{name: 'signup'}">회원가입</RouterLink> 
             </div>
             <div class="card" id="user-management" v-else>
                 <p>회원 정보를 간단하게 보여줍니다.</p>
