@@ -12,5 +12,14 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <style scoped>
-
+.nav-bar {
+  position: sticky; /* Makes the navbar stick to the top */
+  top: 0; /* Position the navbar at the top */
+  background-color: #f8f9fa; /* Light background for visibility */
+  padding: 1rem; /* Add some padding */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+nav.a {
+  text-decoration: none;
+}
 </style>

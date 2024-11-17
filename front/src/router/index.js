@@ -6,7 +6,7 @@ import ProfileView from '@/views/ProfileView.vue'
 import AiBoard from '@/views/AiBoard.vue'
 import CommunityView from '@/views/CommunityView.vue'
 import MovieListView from '@/views/MovieListView.vue'
-import MovieDetailView from '@/views/MovieDetailView.vue'
+import MovieListDetailView from '@/views/MovieListDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +47,9 @@ const router = createRouter({
       component: MovieListView
     },
     {
-      path:'/movielist/detail',
-      name:'MovieDetail',
-      component: MovieDetailView
+      path:'/movielist/:movieid',
+      name:'MovieListDetail',
+      component: MovieListDetailView
     }
   ],
 })
