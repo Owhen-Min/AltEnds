@@ -28,7 +28,10 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         const password = password1
-        LoginView({ username, password })
+        const payload = {
+          username, password
+        }
+        logIn(payload)
       })
       .catch((error) => {
         console.log(error)
@@ -47,6 +50,7 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         token.value = response.data.key
+        router.push({ name: 'HomeView' })
       })
       .catch((error) => {
         console.log(error)
