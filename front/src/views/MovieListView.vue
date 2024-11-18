@@ -23,12 +23,14 @@
 </template>
 
 <script setup>
-import router from '@/router';
 import axios from 'axios';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 // Sample movie data for demonstration
 const movies = ref(null)
 const API_URL = 'http://127.0.0.1:8000/api/v1/movies'
+
+const router = useRouter()
 
 const goDetail = ((movieid) => {
   router.push({ name: 'MovieListDetail', params: { movieid: movieid }})

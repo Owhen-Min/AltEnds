@@ -6,7 +6,9 @@
           <h2 class="card-header">이번 주 영화</h2>
           <div class="card-body">
             <div v-for="(movie, index) in movies" :key="index" class="movie-card">
-              <h4>{{ movie }}</h4>
+              <RouterLink :to="{ name: 'MovieListDetail', params: { movieid: 1 } }">
+                <h4>{{ movie }}</h4>
+              </RouterLink>
               <hr />
             </div>
           </div>
@@ -30,11 +32,19 @@
           <div class="card-body" id="user-management" v-if="isLoggedIn">
             <h5>회원 정보</h5>
             <p>회원 정보를 간단하게 보여줍니다.</p>
+            <RouterLink :to="{ name: 'Profile' }">
+              <button class="btn btn-link">마이페이지</button>
+            </RouterLink>
+            <button class="btn btn-link">로그아웃</button>
           </div>
           <div class="card-body" id="user-login" v-else>
             <h5>로그인</h5>
-            <RouterLink class="btn btn-link" :to="{ name: 'Login' }">로그인</RouterLink>
-            <RouterLink class="btn btn-link" :to="{ name: 'SignUp' }">회원가입</RouterLink>
+            <RouterLink :to="{ name: 'Login' }">
+              <button class="btn btn-link">로그인</button>
+            </RouterLink>
+            <RouterLink :to="{ name: 'SignUp' }">
+              <button class="btn btn-link">회원가입</button>
+            </RouterLink>
           </div>
         </div>
 
@@ -48,14 +58,16 @@
       </div>
     </div>
   </div>
-  <RouterLink class="btn btn-link" :to="{ name: 'MovieSelect' }">결말 비틀러 가기</RouterLink>
+  <RouterLink :to="{ name: 'MovieSelect' }">
+    <button class="btn btn-link" >결말 비틀러 가기</button>
+  </RouterLink>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
-const isLoggedIn = ref(false); // 실제 로그인 기능을 구현할 경우 대체될 placeholder
+const isLoggedIn = ref(true); // 실제 로그인 기능을 구현할 경우 대체될 placeholder
 const userRanking = ref([
   { username: '윤상흠', likes: 1000000 },
   { username: '민경현', likes: 999999 },

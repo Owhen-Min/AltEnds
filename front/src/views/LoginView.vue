@@ -7,7 +7,7 @@
       <label for="">패스워드</label>
       <input type="text"><br>
 
-      <input type="submit">
+      <input type="submit" value="로그인">
     </form>
   </div>
 </template>
