@@ -22,8 +22,10 @@
 </template>
 
 <script setup>
-import router from '@/router';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const posts = ref([
   { title: '리얼 개웃김', description: 'A gripping thriller about reality.' },
