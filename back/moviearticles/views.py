@@ -71,7 +71,7 @@ def generate_alt_ending(request, movie_pk):
     movie_title = movie.title
     movie_plot = movie.plot
 
-    prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot with alternative ending by user input. return only plots without 잡말. PLEASE ANSWER IN KOREAN."
+    prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot with alternative ending by user input. return only plots without 잡말. If user input is irrelevant with movie, than return error message. PLEASE ANSWER IN KOREAN."
     gpt_prompt = (f"{user_prompt}")
     
     try:
