@@ -1,9 +1,9 @@
 <template>
   <nav class="nav-bar">
-    <RouterLink to="/">Home</RouterLink> |
-    <RouterLink to="/aiboard">AI 게시판</RouterLink> |
-    <RouterLink to="/community">커뮤니티</RouterLink> |
-    <RouterLink :to="{name:'movielist'}">영화 정보</RouterLink>
+    <RouterLink :to="{ name: 'Home' }">Home</RouterLink> |
+    <RouterLink :to="{ name: 'EndingList' }">AI 게시판</RouterLink> |
+    <RouterLink :to="{ name: 'Community' }">커뮤니티</RouterLink> |
+    <RouterLink :to="{ name: 'MovieList'}">영화 정보</RouterLink>
   </nav>
 </template>
 

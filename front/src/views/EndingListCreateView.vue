@@ -1,14 +1,13 @@
 <template>
   <div>
-    <Board />
+    <h1>EndingListCreateView</h1>
   </div>
 </template>
 
 <script setup>
 
-import Board from '@/components/Board.vue'
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
