@@ -1,15 +1,25 @@
 from rest_framework import serializers
-from .models import Article
+from .models import Ending, Movie
 
 
-class ArticleListSerializer(serializers.ModelSerializer):
+class EndingListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
+        model = Ending
         fields = ('id', 'title', 'content')
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class EndingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
+        model = Ending
         fields = '__all__'
         read_only_fields = ('user',)
+
+class MovieListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'poster')
+        
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'
