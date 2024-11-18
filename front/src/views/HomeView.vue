@@ -48,6 +48,7 @@
       </div>
     </div>
   </div>
+  <RouterLink class="btn btn-link" :to="{ name: 'MovieSelect' }">결말 비틀러 가기</RouterLink>
 </template>
 
 <script setup>
