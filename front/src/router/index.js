@@ -11,6 +11,7 @@ import EndingListCreateView from '@/views/EndingListCreateView.vue'
 import CommunityView from '@/views/CommunityView.vue'
 import CommunityDetailView from '@/views/CommunityDetailView.vue'
 import CommunityCreateView from '@/views/CommunityCreateView.vue'
+import MovieListSelectView from '@/views/MovieListSelectView.vue'
 
 
 const router = createRouter({
@@ -42,47 +43,53 @@ const router = createRouter({
     },
     // 5. 원본 영화 리스트 페이지
     {
-      path:'/movielist',
-      name:'MovieList',
+      path: '/movielist',
+      name: 'MovieList',
       component: MovieListView
     },
-    // 6. 원본 영화 상세 페이지
+    // 6. 원본 영화 선택 페이지
     {
-      path:'/movielist/:movieid',
-      name:'MovieListDetail',
+      path: '/movieselect',
+      name: 'MovieSelect',
+      component: MovieListSelectView
+    },
+    // 7. 원본 영화 상세 페이지
+    {
+      path: '/movielist/:movieid',
+      name: 'MovieListDetail',
       component: MovieListDetailView
     },
-    // 7. 대체 결말 리스트 페이지
+    // 8. 대체 결말 리스트 페이지
     {
       path: '/ending',
       name: 'EndingList',
       component: EndingListView
     },
-    // 8. 대체 결말 상세 페이지
+    // 9. 대체 결말 상세 페이지
     {
       path: '/ending/:endingid',
-      name:'EndingListDetail',
+      name: 'EndingListDetail',
       component: EndingListDetailView
     },
-    // 9. 대체 결말 생성 페이지
+    // 10. 대체 결말 생성 페이지
     {
-      path: '/ending/create',
+      path: '/ending/create/:movieid',
       name: 'EndingListCreate',
       component: EndingListCreateView
     },
-    // 10. 커뮤니티 게시판 페이지
+    // 11. 커뮤니티 게시판 페이지
     {
       path: '/community',
       name: 'Community',
       component: CommunityView
     },
-    // 11. 커뮤니티 게시글 상세 페이지
+    // 12. 커뮤니티 게시글 상세 페이지
     {
       path: '/community/:articleid',
       name: 'CommunityDetail',
       component: CommunityDetailView
     },
-    // 12. 커뮤니티 게시글 작성 페이지
+    // 13. 커뮤니티 게시글 작성 페이지
     {
       path: '/community/create',
       name: 'CommunityCreate',
