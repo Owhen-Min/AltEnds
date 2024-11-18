@@ -1,4 +1,6 @@
 from pathlib import Path
+from decouple import config
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,10 +18,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECRET_KEY = config('SECRET_KEY')
+print(SECRET_KEY)
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'decouple',
     'accounts',
     'moviearticles',
     'communityarticles',
