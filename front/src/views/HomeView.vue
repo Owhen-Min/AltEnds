@@ -18,7 +18,7 @@
           <h2 class="card-header">대체 결말 랭킹</h2>
           <div class="card-body">
             <div class="row">
-              <div class="ranking-card col-4" v-for="altend in altEndRanking" :key="altend.movie">
+              <div @click="goEndingDetail(1)" class="ranking-card col-4" v-for="altend in altEndRanking" :key="altend.movie">
                 <h5>영화: {{ altend.movie }}</h5>
                 <p>대체 결말: {{ altend.content }}</p>
               </div>
@@ -35,12 +35,12 @@
             <RouterLink :to="{ name: 'Profile' }">
               <button class="btn btn-link">마이페이지</button>
             </RouterLink>
-            <button class="btn btn-link">로그아웃</button>
+            <button class="btn btn-link" @click="isLoggedIn=!isLoggedIn">로그아웃</button>
           </div>
           <div class="card-body" id="user-login" v-else>
             <h5>로그인</h5>
             <RouterLink :to="{ name: 'Login' }">
-              <button class="btn btn-link">로그인</button>
+              <button class="btn btn-link" @click="isLoggedIn=!isLoggedIn">로그인</button>
             </RouterLink>
             <RouterLink :to="{ name: 'SignUp' }">
               <button class="btn btn-link">회원가입</button>
@@ -50,7 +50,7 @@
 
         <div class="card mb-4 p-3">
           <h5>사용자 랭킹</h5>
-          <div v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
+          <div @click="goProfile()" v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
             <p>{{ index + 1 }}위: {{ user.username }}</p>
             <p>받은 좋아요 수: {{ user.likes }}</p>
           </div>
@@ -64,7 +64,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import router from '@/router';
+import { pushScopeId, ref } from 'vue';
 
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
 const isLoggedIn = ref(true); // 실제 로그인 기능을 구현할 경우 대체될 placeholder
@@ -87,6 +88,14 @@ const altEndRanking = ref([
     content: '대체 결말 내용 3...'
   }
 ]);
+
+const goEndingDetail = function (endingid) {
+  router.push({ name: 'EndingListDetail', params: { endingid: endingid } })
+}
+
+const goProfile = function (userid) {
+  router.push({ name: 'Profile' })
+}
 </script>
 
 <style scoped>
