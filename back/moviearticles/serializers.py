@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from .models import Article
+from .models import Ending
 
 
-class ArticleListSerializer(serializers.ModelSerializer):
+class EndingListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
+        model = Ending
         fields = ('id', 'title', 'content')
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class EndingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
+        model = Ending
         fields = '__all__'
         read_only_fields = ('user',)

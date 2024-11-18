@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .serializers import ArticleListSerializer, ArticleSerializer
-from .models import Article
+from .serializers import EndingListSerializer, EndingSerializer
+from .models import Ending
 
 
 # @api_view(['GET', 'POST'])
