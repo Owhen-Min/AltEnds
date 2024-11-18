@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="container py-2 my-3">
     <div class="col-12">
@@ -40,7 +39,7 @@ const movies = ref([
 const selectedMovie = ref(null);
 
 const goDetail = ((index) => {
-  router.push(`/movielist/${index}`)
+  router.push({ name: 'MovieListDetail', params: { movieid: index }})
 })
 </script>
 

@@ -2,10 +2,10 @@
   <nav class="nav-bar">
     <div class="row">
       <div class="pages col-6 justify-content-start">
-        <RouterLink to="/">Home</RouterLink> |
-        <RouterLink to="/aiboard">AI 게시판</RouterLink> |
-        <RouterLink to="/community">커뮤니티</RouterLink> |
-        <RouterLink :to="{name:'movielist'}">영화 정보</RouterLink>
+        <RouterLink :to="{ name: 'Home' }">Home</RouterLink> |
+        <RouterLink :to="{ name: 'EndingList' }">AI 게시판</RouterLink> |
+        <RouterLink :to="{ name: 'Community' }">커뮤니티</RouterLink> |
+        <RouterLink :to="{ name: 'MovieList'}">영화 정보</RouterLink>
       </div>
       <div class="d-flex userpages col-6 justify-content-end" v-if="isUserLogin">
         <RouterLink :to="{name:'profile'}">마이 프로필</RouterLink>

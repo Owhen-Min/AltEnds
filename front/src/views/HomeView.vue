@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="container py-3">
     <div class="row gx-5">
@@ -34,8 +33,8 @@ vue
           </div>
           <div class="card-body" id="user-login" v-else>
             <h5>로그인</h5>
-            <RouterLink class="btn btn-link" :to="{ name: 'login' }">로그인</RouterLink>
-            <RouterLink class="btn btn-link" :to="{ name: 'signup' }">회원가입</RouterLink>
+            <RouterLink class="btn btn-link" :to="{ name: 'Login' }">로그인</RouterLink>
+            <RouterLink class="btn btn-link" :to="{ name: 'SignUp' }">회원가입</RouterLink>
           </div>
         </div>
 

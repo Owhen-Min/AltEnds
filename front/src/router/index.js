@@ -3,54 +3,91 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
-import AiBoard from '@/views/AiBoard.vue'
-import CommunityView from '@/views/CommunityView.vue'
 import MovieListView from '@/views/MovieListView.vue'
 import MovieListDetailView from '@/views/MovieListDetailView.vue'
+import EndingListView from '@/views/EndingListView.vue'
+import EndingListDetailView from '@/views/EndingListDetailView.vue'
+import EndingListCreateView from '@/views/EndingListCreateView.vue'
+import CommunityView from '@/views/CommunityView.vue'
+import CommunityDetailView from '@/views/CommunityDetailView.vue'
+import CommunityCreateView from '@/views/CommunityCreateView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // 1. 메인 페이지
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: HomeView,
     },
+    // 2. 로그인 페이지
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: LoginView
     },
+    // 3. 회원가입 페이지
     {
       path: '/signup',
-      name: 'signup',
+      name: 'SignUp',
       component: SignUpView
     },
+    // 4. 사용자 프로필 페이지
     {
       path: '/profile',
-      name: 'profile',
+      name: 'Profile',
       component: ProfileView
     },
-    {
-      path: '/aiboard',
-      name: 'aiboard',
-      component: AiBoard
-    },
-    {
-      path: '/community',
-      name: 'community',
-      component: CommunityView
-    },
+    // 5. 원본 영화 리스트 페이지
     {
       path:'/movielist',
-      name:'movielist',
+      name:'MovieList',
       component: MovieListView
     },
+    // 6. 원본 영화 상세 페이지
     {
       path:'/movielist/:movieid',
       name:'MovieListDetail',
       component: MovieListDetailView
-    }
+    },
+    // 7. 대체 결말 리스트 페이지
+    {
+      path: '/ending',
+      name: 'EndingList',
+      component: EndingListView
+    },
+    // 8. 대체 결말 상세 페이지
+    {
+      path: '/ending/:endingid',
+      name:'EndingListDetail',
+      component: EndingListDetailView
+    },
+    // 9. 대체 결말 생성 페이지
+    {
+      path: '/ending/create',
+      name: 'EndingListCreate',
+      component: EndingListCreateView
+    },
+    // 10. 커뮤니티 게시판 페이지
+    {
+      path: '/community',
+      name: 'Community',
+      component: CommunityView
+    },
+    // 11. 커뮤니티 게시글 상세 페이지
+    {
+      path: '/community/:articleid',
+      name: 'CommunityDetail',
+      component: CommunityDetailView
+    },
+    // 12. 커뮤니티 게시글 작성 페이지
+    {
+      path: '/community/create',
+      name: 'CommunityCreate',
+      component: CommunityCreateView
+    },
   ],
 })
 
