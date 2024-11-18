@@ -4,43 +4,53 @@
       <h3>이번 주 영화 정보</h3>
     </div>
     <div class="row justify-content-center">
-        <div 
-          class="card align-items-center justify-content-center m-2 col-3" 
-          v-for="(movie, index) in movies" 
-          :key="index" 
-          @click="goDetail(index+1)"
+      <div 
+        class="card align-items-center justify-content-center m-2 col-3" 
+        v-for="movie in movies" 
+        :key="movie.id" 
+        @click="goDetail(movie.id)"
+      >
+        <img 
+          :src="API_URL + movie.poster" 
+          alt="Movie Poster" 
+          class="movie-poster"
         >
-          <img 
-            src="https://m.media-amazon.com/images/I/81EBp0vOZZL.jpg" 
-            alt="Movie Poster" 
-            class="movie-poster"
-          >
-          <br>
-          <h4>{{ movie.title }}</h4>
-        </div>
+        <br>
+        <h4>{{ movie.title }}</h4>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
 import router from '@/router';
-import { ref } from 'vue';
-
+import axios from 'axios';
+import { computed, onMounted, ref } from 'vue';
 // Sample movie data for demonstration
-const movies = ref([
-  { title: '리얼', description: 'A gripping thriller about reality.' },
-  { title: '성냥팔이 소녀의 재림', description: 'A touching story about hope.' },
-  { title: '클레멘타인', description: 'A drama about love and loss.' },
-  { title: '웃겨야 사는 영화', description: 'A hilarious comedy that will make you laugh.' },
-  { title: '영화 5', description: 'Description for movie 5.' },
-  { title: '영화 6', description: 'Description for movie 6.' }
-]);
+const movies = ref(null)
+const API_URL = 'http://127.0.0.1:8000/api/v1/movies'
 
-const selectedMovie = ref(null);
-
-const goDetail = ((index) => {
-  router.push({ name: 'MovieListDetail', params: { movieid: index }})
+const goDetail = ((movieid) => {
+  router.push({ name: 'MovieListDetail', params: { movieid: movieid }})
 })
+
+onMounted(() => {
+  axios({
+    method: 'get',
+    url: `${API_URL}/`
+  })
+    .then((response) => {
+      console.log('영화목록 가져오기 성공')
+      console.log(response.data)
+      movies.value = response.data
+      
+    })
+    .catch((error) => {
+      console.log('실패')
+      console.log(error)
+    })
+})
+
 </script>
 
 <style scoped>
