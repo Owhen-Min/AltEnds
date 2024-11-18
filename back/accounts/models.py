@@ -9,7 +9,7 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to="profilepictures/", null=True, blank=True)
     join_date = models.DateField(auto_now_add=True)
     token = models.IntegerField(default=100)
-    first_name = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)  

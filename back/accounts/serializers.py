@@ -7,7 +7,9 @@ class CustomRegisterSerializer(RegisterSerializer):
     def save(self, request):
         user = super().save(request)
         nickname = self.initial_data.get('nickname')
-        if nickname:
+        first_name = self.cleaned_data.get('firstname')
+        if nickname and first_name:
             user.nickname = nickname
+            user.first_name = first_name
             user.save()
         return user
