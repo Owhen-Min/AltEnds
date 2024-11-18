@@ -12,13 +12,12 @@ class Ending(models.Model):
 
 
 class Movie(models.Model):
-    id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
     director = models.TextField()
     openYear = models.IntegerField()
     genre = models.TextField()
     plot = models.TextField()
-    poster = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, blank=True)
+    poster = models.ImageField(upload_to='movies', height_field=None, width_field=None, max_length=None, blank=True)
 
 
 class Comment(models.Model):
