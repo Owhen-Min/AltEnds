@@ -28,10 +28,10 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         const password = password1
-        const payload = {
-          username, password
-        }
-        logIn(payload)
+        // const payload = {
+        //   username, password
+        // }
+        logIn({ username, password })
       })
       .catch((error) => {
         console.log(error)
@@ -50,7 +50,7 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         token.value = response.data.key
-        router.push({ name: 'HomeView' })
+        router.push({ name: 'Home' })
       })
       .catch((error) => {
         console.log(error)
@@ -65,11 +65,11 @@ export const useMovieStore = defineStore('movie', () => {
       .then((response) => {
         console.log(response.data)
         token.value = null,
-        router.push({ name: 'HomeView' })
+        router.push({ name: 'Home' })
       })
       .catch((error) => {
         console.log(error)
       })
   }
-  return { API_URL, isLogin, signUp, logIn, logOut }
+  return { API_URL, token, isLogin, signUp, logIn, logOut }
 })
