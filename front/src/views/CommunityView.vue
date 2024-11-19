@@ -6,17 +6,31 @@ vue
       <RouterLink to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
     </header>
     </div>
-
-    <div class="posts-container">
-      <div>
-        <div class="table-header container flex p-3">
-          <div class="row justify-content-center align-items-center">
-          <div class="header-item col-1">Index</div>
-          <div class="header-item col-5">제목</div>
-          <div class="header-item col-2">작성자</div>
-          <div class="header-item col-2">조회수</div>
-          <div class="header-item col-2">좋아요 수</div>
-        </div>
+    <div class="container justify-content-center p-1 flex">
+      <div class="d-flex col-1 justify-content-center"></div>
+      <div class="d-flex col-7 justify-content-center">
+        <p class="font-weight-bold">제목</p>
+      </div>
+      <div class="d-flex col-2 justify-content-center">
+        <p class="font-weight-bold">작성자</p>
+      </div>
+      <div class="d-flex col-1 justify-content-center">
+        <p class="font-weight-bold">조회수</p>
+      </div>
+      <div class="d-flex col-1 justify-content-center">
+        <p class="font-weight-bold">좋아요 수</p>
+      </div>
+    </div>
+    <div class="container p-1 flex" v-for="post in posts" :key="post.id" @click="goDetail(post.id)">
+      <div class="d-flex col-1 justify-content-center">{{ post.id }}</div>
+      <div class="d-flex col-7 justify-content-start">
+        <p class="font-weight-bold">{{ post.title }}</p>
+      </div>
+      <div class="d-flex col-2 justify-content-center">
+        <p class="font-weight-bold">{{ post.user_nickname }}</p>
+      </div>
+      <div class="d-flex col-1 justify-content-center">
+        <p class="font-weight-bold"> 200 </p>
       </div>
       <div 
         class="post-item container" 
