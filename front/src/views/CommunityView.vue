@@ -57,7 +57,6 @@ const store = useMovieStore()
 const goDetail = ((index) => {
   router.push({ name: 'CommunityDetail', params: { articleid: index }})
 })
-    console.log(`${store.API_URL}/communities/articles/`)
 
 onMounted(() => {
   axios ({
