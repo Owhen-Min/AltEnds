@@ -12,6 +12,7 @@ import CommunityView from '@/views/CommunityView.vue'
 import CommunityDetailView from '@/views/CommunityDetailView.vue'
 import CommunityCreateView from '@/views/CommunityCreateView.vue'
 import MovieListSelectView from '@/views/MovieListSelectView.vue'
+import { useMovieStore } from '@/stores/counter'
 
 
 const router = createRouter({
@@ -96,6 +97,19 @@ const router = createRouter({
       component: CommunityCreateView
     },
   ],
+})
+
+router.beforeEach ((to, from) => {
+  const store = useMovieStore()
+  console.log(to.name)
+  if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
+    window.alert('로그인이 필요합니다.')
+    return { name : 'LoginView'}
+  }
+  else if ((to.name === 'SignUp'|to.name==='Login') && store.isLogin){
+    window.alert('이미 로그인 되어 있습니다.')
+    return { name : 'HomeView'}
+  }
 })
 
 export default router
