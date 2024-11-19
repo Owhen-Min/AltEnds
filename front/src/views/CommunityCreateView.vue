@@ -25,10 +25,8 @@ const store = useMovieStore()
 const title = ref('')
 const content = ref('')
 const router = useRouter()
-const createArticle = function () {
-  
-  axios.defaults.withCredentials = true;
-  
+
+const createArticle = function () {  
   axios({
     method: 'post',
     url: `${store.API_URL}/api/v1/communities/articles/`,
@@ -40,7 +38,7 @@ const createArticle = function () {
       Authorization: `Token ${store.token}`
     }
     
-  }, { withCredentials: true })
+  })
   .then((res) => {
     router.push({name: 'CommunityDetail', params:{articleid:res.data.id}})
     
