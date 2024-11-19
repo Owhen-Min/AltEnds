@@ -25,7 +25,7 @@
         <p class="font-weight-bold">{{ post.title }}</p>
       </div>
       <div class="d-flex col-2 justify-content-center">
-        <p class="font-weight-bold">{{ post.author }}</p>
+        <p class="font-weight-bold">{{ post.user_nickname }}</p>
       </div>
       <div class="d-flex col-1 justify-content-center">
         <p class="font-weight-bold"> 200 </p>

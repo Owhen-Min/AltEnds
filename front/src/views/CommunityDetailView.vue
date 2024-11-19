@@ -1,6 +1,7 @@
 <template>
   <div class="container card py-5" v-if="article">
       <p>{{ article.id }} 번째 게시글</p>
+      <p>작성자 : {{ article.user_nickname }}</p>
       <p>작성 시간 : {{ article.created_at }}</p>
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
@@ -37,6 +38,7 @@ onMounted(() => {
   })
     .then((res) => {
       article.value = res.data
+      console.log(article.value)
     })
     .catch((err) => {
       console.log(err)
