@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from django.contrib.auth import get_user_model
@@ -37,3 +38,18 @@ def article_detail(request, article_pk):
     elif request.method == 'DELETE':
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@login_required
+@api_view(['POST'])
+def likes(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.user in article.like_users.all():
+        article.like_users.remove(request.user)
+        is_liked = False
+    else:
+        article.like_users.add(request.user)
+        is_liked = True
+    context = {
+        'is_liked': is_liked,
+    }
+    return Response(context)
