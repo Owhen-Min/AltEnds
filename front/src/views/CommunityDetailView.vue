@@ -1,4 +1,3 @@
-<template>
   <div class="container card py-5" v-if="article">
       <p>{{ article.id }} 번째 게시글</p>
       <p>작성 시간 : {{ article.created_at }}</p>

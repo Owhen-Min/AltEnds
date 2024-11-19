@@ -72,5 +72,18 @@ export const useMovieStore = defineStore('movie', () => {
         console.log(error)
       })
   }
-  return { API_URL, token, isLogin, signUp, logIn, logOut }
+
+  const getProfile = function (username) {
+    axios({
+      method: 'get',
+      url: `${API_URL}/accounts/user/${username}/`,
+    })
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+  return { API_URL, token, isLogin, signUp, logIn, logOut, getProfile }
 })

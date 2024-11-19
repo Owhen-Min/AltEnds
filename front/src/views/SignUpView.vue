@@ -6,10 +6,10 @@
       <input type="text" id="username" v-model.trim="username"><br>
 
       <label for="password1">비밀번호 : </label>
-      <input type="text" id="password1" v-model.trim="password1"><br>
+      <input type="password" id="password1" v-model.trim="password1"><br>
       
       <label for="password2">비밀번호 재입력 : </label>
-      <input type="text" id="password2" v-model.trim="password2"><br>
+      <input type="password" id="password2" v-model.trim="password2"><br>
 
       <label for="firstname">이름 : </label>
       <input type="text" id="firstname" v-model.trim="firstname"><br>

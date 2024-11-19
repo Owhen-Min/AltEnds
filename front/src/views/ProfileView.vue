@@ -19,12 +19,19 @@
         </div>
       </div>
     </div>
+    <button @click="$router.go(-1)">이전으로</button>
     <button>정보변경</button>
   </article>
 </template>
 
 <script setup>
+import { useMovieStore } from '@/stores/counter';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
+const user_pk = route.params.pk
+const store = useMovieStore()
 </script>
 
 <style scoped>

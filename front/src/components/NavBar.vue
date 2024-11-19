@@ -8,13 +8,13 @@
         <RouterLink :to="{ name: 'MovieList'}">영화 정보</RouterLink>
       </div>
       <div class="d-flex userpages col-6 justify-content-end align-items-center" v-if="isLogin">
-        <RouterLink :to="{ name:'Profile' }">마이 프로필</RouterLink>
+        <RouterLink :to="{ name: 'Profile', params: { userid: myid } }">마이페이지</RouterLink>
         <button class="btn btn-link" @click="logOut">로그아웃</button>
       </div>
       <div class="d-flex userpages col-6 justify-content-end" v-else>
         <RouterLink :to="{ name: 'Login' }">로그인</RouterLink>
         <span class="mx-2"> | </span>
-        <RouterLink :to="{ name:'SignUp' }">회원가입</RouterLink>
+        <RouterLink :to="{ name: 'SignUp' }">회원가입</RouterLink>
       </div>
     </div>
   </nav>
@@ -25,6 +25,7 @@ import { useMovieStore } from '@/stores/counter';
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const myid = 1
 const store = useMovieStore()
 const isLogin = computed (() => {
   return store.isLogin
