@@ -49,6 +49,7 @@ export const useMovieStore = defineStore('movie', () => {
       }
     })
       .then((response) => {
+        console.log(response.data.key)
         token.value = response.data.key
         router.push({ name: 'Home' })
       })
