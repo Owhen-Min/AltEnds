@@ -32,9 +32,7 @@
           <div class="card-body" id="user-management" v-if="isLogin">
             <h5>회원 정보</h5>
             <p>회원 정보를 간단하게 보여줍니다.</p>
-            <RouterLink :to="{ name: 'Profile', params: { userid: myid } }">
-              <button class="btn btn-link">마이페이지</button>
-            </RouterLink>
+            <button @click="goMyProfile" class="btn btn-link">마이페이지</button>
             <button class="btn btn-link" @click="logOut">로그아웃</button>
           </div>
           <div class="card-body" id="user-login" v-else>
@@ -66,6 +64,7 @@
 <script setup>
 import router from '@/router';
 import { useMovieStore } from '@/stores/counter';
+import axios from 'axios';
 import { computed, ref } from 'vue';
 
 const store = useMovieStore()
@@ -73,7 +72,7 @@ const store = useMovieStore()
 const isLogin = computed (() => {
   return store.isLogin
 })
-const myid = 1
+
 const userid = 2
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
 
@@ -97,13 +96,28 @@ const altEndRanking = ref([
   }
 ])
 
-
 const goEndingDetail = function (endingid) {
   router.push({ name: 'EndingListDetail', params: { endingid: endingid } })
 }
 
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })
+}
+
+const goMyProfile = function () {
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/accounts/user/`,
+    headers: {
+      Authorization: `Token ${store.token}`,
+    },
+  })
+    .then((response) => {
+      goProfile(response.data.pk)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 const logOut = store.logOut
