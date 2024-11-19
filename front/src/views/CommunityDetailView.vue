@@ -60,7 +60,6 @@ onMounted(() => {
   axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)
     .then((res) => {
       article.value = res.data;
-      console.log(article.value);
     })
     .catch((err) => {
       console.error("Error fetching article:", err);

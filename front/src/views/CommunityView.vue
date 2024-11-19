@@ -1,49 +1,30 @@
 <template>
   <div class="community-board">
+    <!-- Board Header -->
     <header class="board-header d-flex justify-content-between align-items-center mb-4">
       <h2>커뮤니티 게시판</h2>
       <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
     </header>
-    <div class="container justify-content-center p-1 flex">
-      <div class="d-flex col-1 justify-content-center"></div>
-      <div class="d-flex col-7 justify-content-center">
-        <p class="font-weight-bold">제목</p>
-      </div>
-      <div class="d-flex col-2 justify-content-center">
-        <p class="font-weight-bold">작성자</p>
-      </div>
-      <div class="d-flex col-1 justify-content-center">
-        <p class="font-weight-bold">조회수</p>
-      </div>
-      <div class="d-flex col-1 justify-content-center">
-        <p class="font-weight-bold">좋아요 수</p>
-      </div>
-    </div>
-    <div class="container p-1 flex" v-for="post in posts" :key="post.id" @click="goDetail(post.id)">
-      <div class="d-flex col-1 justify-content-center">{{ post.id }}</div>
-      <div class="d-flex col-7 justify-content-start">
-        <p class="font-weight-bold">{{ post.title }}</p>
-      </div>
-      <div class="d-flex col-2 justify-content-center">
-        <p class="font-weight-bold">{{ post.user_nickname }}</p>
-      </div>
-      <div class="d-flex col-1 justify-content-center">
-        <p class="font-weight-bold"> 200 </p>
-      </div>
-      <div 
-        class="post-item container" 
-        v-for="post in posts" 
-        :key="post.id" 
-        @click="goDetail(post.id)"
-      >
-        <div class="post-details col-1">{{ post.id }}</div>
-        <div class="post-details col-5">{{ post.title }}</div>
-        <div class="post-details col-2">{{ post.user_nickname }}</div>
-        <div class="post-details col-2">200</div>
-        <div class="post-details col-2">500</div>
-      </div>
+
+    <!-- Table Header -->
+    <div class="d-flex table-header">
+      <div class="col-1 text-center font-weight-bold">번호</div>
+      <div class="col-7 text-center font-weight-bold">제목</div>
+      <div class="col-2 text-center font-weight-bold">작성자</div>
+      <div class="col-1 text-center font-weight-bold">조회수</div>
+      <div class="col-1 text-center font-weight-bold">좋아요</div>
     </div>
 
+    <!-- Posts List -->
+    <div v-for="post in posts" :key="post.id" class="post-item" @click="goDetail(post.id)">
+      <div class="col-1 text-center">{{ post.id }}</div>
+      <div class="col-7 text-left">{{ post.title }}</div>
+      <div class="col-2 text-center">{{ post.user_nickname }}</div>
+      <div class="col-1 text-center">{{ post.views || 0 }}</div>
+      <div class="col-1 text-center">{{ post.likes || 0 }}</div>
+    </div>
+
+    <!-- Board Footer -->
     <footer class="board-footer d-flex justify-content-between mt-4">
       <RouterLink to="/" class="btn btn-light">이전 페이지로</RouterLink>
       <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
@@ -62,22 +43,25 @@ const router = useRouter();
 const posts = ref([]);
 const store = useMovieStore();
 
+// Navigate to post details
 const goDetail = (postId) => {
   router.push({ name: 'CommunityDetail', params: { articleid: postId } });
 };
 
+// Fetch posts on component mount
 onMounted(() => {
-  axios.get(`${store.API_URL}/api/v1/communities/articles/`, {
-    headers: {
-      Authorization: `Token ${store.token}`,
-    },
-  })
-  .then((res) => {
-    posts.value = res.data;
-  })
-  .catch((err) => {
-    console.error('Error fetching posts:', err);
-  });
+  axios
+    .get(`${store.API_URL}/api/v1/communities/articles/`, {
+      headers: {
+        Authorization: `Token ${store.token}`,
+      },
+    })
+    .then((res) => {
+      posts.value = res.data;
+    })
+    .catch((err) => {
+      console.error('Error fetching posts:', err);
+    });
 });
 </script>
 
@@ -95,24 +79,18 @@ onMounted(() => {
   margin-bottom: 20px;
 }
 
-.table-header,
-.posts-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-item {
-  display: flex;
-  justify-content: center;
-  font-weight: bold;
-  padding: 25 px;
+.table-header {
   background-color: #e9ecef;
+  padding: 10px 5px;
+  font-size: 15px;
 }
 
 .post-item {
   display: flex;
-  padding: 5px;
+  align-items: center;
+  padding: 10px;
   cursor: pointer;
+  border-bottom: 1px solid #dee2e6;
   transition: background-color 0.2s;
 }
 
@@ -120,15 +98,11 @@ onMounted(() => {
   background-color: #e2e6ea;
 }
 
-.post-details {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #dee2e6;
-}
-
 .board-footer {
   margin-top: 20px;
+}
+
+.font-weight-bold {
+  font-weight: bold;
 }
 </style>
