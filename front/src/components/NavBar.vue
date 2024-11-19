@@ -8,8 +8,8 @@
         <RouterLink :to="{ name: 'MovieList'}">영화 정보</RouterLink>
       </div>
       <div class="d-flex userpages col-6 justify-content-end align-items-center" v-if="isLogin">
-        <RouterLink :to="{ name: 'Profile', params: { userid: myid } }">마이페이지</RouterLink>
-        <button class="btn btn-link" @click="logOut">로그아웃</button>
+        <button @click="goMyProfile" class="btn btn-link">마이페이지</button>
+        <button @click="logOut" class="btn btn-link">로그아웃</button>
       </div>
       <div class="d-flex userpages col-6 justify-content-end" v-else>
         <RouterLink :to="{ name: 'Login' }">로그인</RouterLink>
@@ -22,14 +22,35 @@
 
 <script setup>
 import { useMovieStore } from '@/stores/counter';
+import axios from 'axios';
 import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
-const myid = 1
+const router = useRouter()
 const store = useMovieStore()
 const isLogin = computed (() => {
   return store.isLogin
 })
+
+const goProfile = function (userid) {
+  router.push({ name: 'Profile', params: { userid: userid } })
+}
+
+const goMyProfile = function () {
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/accounts/user/`,
+    headers: {
+      Authorization: `Token ${store.token}`,
+    },
+  })
+    .then((response) => {
+      goProfile(response.data.pk)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
 const logOut = store.logOut
 </script>

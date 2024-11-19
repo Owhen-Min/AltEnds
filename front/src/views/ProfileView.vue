@@ -1,13 +1,13 @@
 <template>
-  <article>
+  <article v-if="profile">
     <div class="container p-1 flex">
       <div class="row col-3">
         <div class="profile card">
-          <p>프로필사진</p>
+          <p>프로필사진 : {{ profile.profile_picture }}</p>
         </div>
         <div class="info card">
-          <p>닉네임</p>
-          <p>가입날짜</p>
+          <p>닉네임 : {{ profile.nickname }}</p>
+          <p>가입날짜 : {{ profile.join_date }}</p>
         </div>
       </div>
       <div class="row col-9">
@@ -15,7 +15,7 @@
           <p>좋아요 개수 : </p>
           <p>작성 게시글 목록 : </p>
           <p>작성 댓글 목록 : </p>
-          <p>코인 개수 : </p>
+          <p>코인 개수 : {{ profile.token }}</p>
         </div>
       </div>
     </div>
@@ -26,12 +26,25 @@
 
 <script setup>
 import { useMovieStore } from '@/stores/counter';
-import { ref } from 'vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
-const user_pk = route.params.pk
+const user_pk = route.params.userid
 const store = useMovieStore()
+const profile = ref(null)
+
+onMounted(() => {
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/accounts/${user_pk}/`
+  })
+    .then((response) => {
+      profile.value = response.data
+      console.log(profile.value)
+    })
+})
 </script>
 
 <style scoped>

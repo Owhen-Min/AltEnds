@@ -24,5 +24,5 @@ urlpatterns = [
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
     path('api/v1/movies/', include('moviearticles.urls')),
     path('api/v1/communities/', include('communityarticles.urls')),
-    path('accounts/<int:user_pk>', views.GetProfile)
+    path('accounts/<int:user_pk>/', views.GetProfile)
 ]
