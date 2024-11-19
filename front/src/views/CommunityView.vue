@@ -1,11 +1,9 @@
-vue
 <template>
   <div class="community-board">
     <header class="board-header d-flex justify-content-between align-items-center mb-4">
       <h2>커뮤니티 게시판</h2>
-      <RouterLink to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
+      <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
     </header>
-    </div>
     <div class="container justify-content-center p-1 flex">
       <div class="d-flex col-1 justify-content-center"></div>
       <div class="d-flex col-7 justify-content-center">
@@ -48,7 +46,7 @@ vue
 
     <footer class="board-footer d-flex justify-content-between mt-4">
       <RouterLink to="/" class="btn btn-light">이전 페이지로</RouterLink>
-      <RouterLink to="/community/create" class="btn btn-primary">글 작성하기</RouterLink>
+      <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
       <RouterLink to="/" class="btn btn-light">다음 페이지로</RouterLink>
     </footer>
   </div>
