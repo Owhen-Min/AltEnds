@@ -37,7 +37,7 @@ const router = createRouter({
     },
     // 4. 사용자 프로필 페이지
     {
-      path: '/profile',
+      path: '/profile/:userid',
       name: 'Profile',
       component: ProfileView
     },

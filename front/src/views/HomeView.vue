@@ -32,7 +32,7 @@
           <div class="card-body" id="user-management" v-if="isLogin">
             <h5>회원 정보</h5>
             <p>회원 정보를 간단하게 보여줍니다.</p>
-            <RouterLink :to="{ name: 'Profile' }">
+            <RouterLink :to="{ name: 'Profile', params: { userid: myid } }">
               <button class="btn btn-link">마이페이지</button>
             </RouterLink>
             <button class="btn btn-link" @click="logOut">로그아웃</button>
@@ -50,7 +50,7 @@
 
         <div class="card mb-4 p-3">
           <h5>사용자 랭킹</h5>
-          <div @click="goProfile()" v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
+          <div @click="goProfile(userid)" v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
             <p>{{ index + 1 }}위: {{ user.username }}</p>
             <p>받은 좋아요 수: {{ user.likes }}</p>
           </div>
@@ -73,6 +73,8 @@ const store = useMovieStore()
 const isLogin = computed (() => {
   return store.isLogin
 })
+const myid = 1
+const userid = 2
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
 
 const userRanking = ref([
@@ -101,7 +103,7 @@ const goEndingDetail = function (endingid) {
 }
 
 const goProfile = function (userid) {
-  router.push({ name: 'Profile' })
+  router.push({ name: 'Profile', params: { userid: userid } })
 }
 
 const logOut = store.logOut
