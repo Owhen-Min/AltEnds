@@ -101,7 +101,6 @@ const router = createRouter({
 
 router.beforeEach ((to, from) => {
   const store = useMovieStore()
-  console.log(to.name)
   if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
     window.alert('로그인이 필요합니다.')
     return { name : 'LoginView'}

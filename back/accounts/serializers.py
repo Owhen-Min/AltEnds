@@ -1,6 +1,8 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.serializers import ModelSerializer
+from .models import User
 
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20, required=True)
@@ -13,3 +15,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             user.first_name = first_name
             user.save()
         return user
+
+class UserProfileSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('pk', 'username', 'nickname')
