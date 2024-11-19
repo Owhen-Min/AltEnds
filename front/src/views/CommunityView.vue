@@ -28,10 +28,10 @@
         <p class="font-weight-bold">{{ post.author }}</p>
       </div>
       <div class="d-flex col-1 justify-content-center">
-        <p class="font-weight-bold">{{ post.view }}</p>
+        <p class="font-weight-bold"> 200 </p>
       </div>
       <div class="d-flex col-1 justify-content-center">
-        <p class="font-weight-bold">{{ post.likes }}</p>
+        <p class="font-weight-bold"> 500 </p>
       </div>
     </div>
     <div class="d-flex justify-content-end">
@@ -45,41 +45,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
+import { useMovieStore } from '@/stores/counter';
+import axios from 'axios'
 
 const router = useRouter()
-
-const posts = [{
-  id: 1,
-  title: '사실 윤상흠은 개쩌는 천재였고 컴퓨터의 억까로 인해서 슬퍼지게 된 사람이다!',
-  content: '내용1',
-  author: 'user1',
-  view: 20,
-  likes: 0
-},
-{
-  id: 2,
-  title: '아무말이나 열심히 해서 제목을 열심히 늘려보면 좀 글이 이뻐지지 않을까',
-  content: '내용2',
-  author: 'user2',
-  view: 30,
-  likes: 10
-},
-{
-  id: 3,
-  title: 'ㅇ',
-  content: '내용3',
-  author: 'user3',
-  view: 50,
-  likes: 20
-}
-]
+const posts = ref([])
+const store = useMovieStore()
 
 const goDetail = ((index) => {
   router.push({ name: 'CommunityDetail', params: { articleid: index }})
 })
+    console.log(`${store.API_URL}/communities/articles/`)
+
+onMounted(() => {
+  axios ({
+    method:'get',
+    url: `${store.API_URL}/api/v1/communities/articles/`,
+    headers: {
+      Authorization : `Token ${store.token}`
+    }
+  })
+  .then ((res) => {
+    posts.value = res.data
+  })
+  .catch ((err) => {
+    console.log(err)
+  })
+})
+
 
 </script>
 
