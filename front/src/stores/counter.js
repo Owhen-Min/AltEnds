@@ -84,5 +84,19 @@ export const useMovieStore = defineStore('movie', () => {
         console.log(error)
       })
   }
-  return { API_URL, token, isLogin, signUp, logIn, logOut, getProfile }
+
+  const likes = function (articleid) {
+    axios({
+      method: 'post',
+      url: `/articles/${articleid}/likes/`,
+    })
+      .then((response) => {
+        return response.data.is_liked
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  }
+  return { API_URL, token, isLogin, signUp, logIn, logOut, getProfile, likes }
 })

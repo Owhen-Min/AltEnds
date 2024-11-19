@@ -4,7 +4,9 @@
       <p>작성 시간 : {{ article.created_at }}</p>
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
-      <button @click=$router.go(-1) class="btn btn-warning col-12">이전으로</button>
+      <RouterLink :to="{ name: 'Community' }">
+        <button class="btn btn-warning col-12">이전으로</button>
+      </RouterLink>
       <button class="btn btn-primary col-3" @click="deleteArticle(article.id)">삭제</button>
       <br>
       
@@ -15,7 +17,7 @@
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 const route = useRoute()
 const router = useRouter()
 const article = ref(null)
