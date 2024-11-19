@@ -4,9 +4,7 @@
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
 
-      <RouterLink :to="{ name: 'Community' }" class="col-3 mx-2">
-          <button class="btn btn-warning col-12">이전으로</button>
-      </RouterLink>
+      <button class="btn btn-primary col-3" @click="deleteArticle(article.id)">삭제</button>
       <br>
       
   </div>
@@ -16,10 +14,20 @@
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute()
+const router = useRouter()
 const article = ref(null)
 const store = useMovieStore()
+const deleteArticle = ((articleid) =>{
+  axios({
+    method: 'delete',
+    url: `${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`
+  })
+  .then(
+    router.push({name:'Community'})
+  )
+})
 
 onMounted(() => {
   axios({
