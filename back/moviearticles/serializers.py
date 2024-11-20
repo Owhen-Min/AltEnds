@@ -15,7 +15,7 @@ class EndingListSerializer(serializers.ModelSerializer):
     user_nickname = serializers.CharField(source='user_id.nickname', read_only=True)
     class Meta:
         model = Ending
-        fields = ('id', 'prompt', 'user_nickname', )
+        fields = ('id', 'prompt', 'user_nickname', 'view')
 
 
 class EndingSerializer(serializers.ModelSerializer):

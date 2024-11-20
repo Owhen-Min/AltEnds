@@ -11,8 +11,8 @@
       <div class="row button-group">
         <RouterLink :to="{name:'Community'}" class="col-3 btn btn-warning">이전으로</RouterLink>
         <div class="col-3"></div>
-        <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
-        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="article.user===store.user.pk">삭제</button>
+        <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="store.isLogin&&article.user===store.user.pk">수정하기</button>
+        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="store.isLogin&&article.user===store.user.pk">삭제</button>
       </div>
     </div>
   </div>
@@ -23,7 +23,6 @@ import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import CommunityView from './CommunityView.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -51,9 +50,9 @@ const updateArticle = (articleId) => {
 
 const deleteArticle = (articleId) => {
   axios.delete(`${store.API_URL}/api/v1/communities/articles/${articleId}/`, {
-    headers: {
-      Authorization: `Token ${store.token}`,
-    },
+    // headers: {
+    //   Authorization: `Token ${store.token}`,
+    // },
   })
   .then(() => {
     router.push({ name: 'Community' });

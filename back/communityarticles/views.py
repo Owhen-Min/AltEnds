@@ -12,7 +12,7 @@ from .models import Article
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def article_list(request):
     if request.method == 'GET':
         articles = get_list_or_404(Article)
@@ -32,6 +32,8 @@ def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
 
     if request.method == 'GET':
+        article.view += 1
+        article.save()
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
 

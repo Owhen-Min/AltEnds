@@ -9,6 +9,8 @@ class Ending(models.Model):
     prompt = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    view = models.IntegerField(default=0)
+
 
 
 class Movie(models.Model):
