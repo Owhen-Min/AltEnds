@@ -52,8 +52,8 @@ const createArticle = async () => {
       headers: {
         Authorization: `Token ${store.token}`,
       },
-    });
-
+    })
+    console.log(response)
     router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
   } catch (error) {
     console.error('Error creating article:', error);

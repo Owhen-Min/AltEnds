@@ -8,9 +8,11 @@ vue
         <p>작성 시간: <em>{{ formatDate(article.created_at) }}</em></p>
       </div>
       <p class="article-content">{{ article.content }}</p>
-      <div class="button-group">
-        <button @click="goBack" class="btn btn-warning">이전으로</button>
-        <button @click="confirmDelete(article.id)" class="btn btn-danger">삭제</button>
+      <div class="row button-group">
+        <button @click="goBack" class="col-3 btn btn-warning">이전으로</button>
+        <div class="col-3"></div>
+        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="article.user===store.user.pk">삭제</button>
+        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
       </div>
     </div>
   </div>
@@ -101,7 +103,6 @@ onMounted(() => {
 
 .button-group {
   display: flex;
-  justify-content: space-between;
 }
 
 .btn {

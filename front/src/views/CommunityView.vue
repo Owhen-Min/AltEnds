@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
@@ -57,12 +57,13 @@ onMounted(() => {
       },
     })
     .then((res) => {
-      posts.value = res.data;
+      posts.value = res.data.sort((a, b) => b.id - a.id);
     })
     .catch((err) => {
       console.error('Error fetching posts:', err);
     });
 });
+
 </script>
 
 <style scoped>
