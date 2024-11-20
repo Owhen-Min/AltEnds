@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="article-container" v-if="article">
     <div class="article-card">
@@ -11,8 +10,8 @@ vue
       <div class="row button-group">
         <button @click="goBack" class="col-3 btn btn-warning">이전으로</button>
         <div class="col-3"></div>
+        <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
         <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="article.user===store.user.pk">삭제</button>
-        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
       </div>
     </div>
   </div>
@@ -42,6 +41,10 @@ const confirmDelete = (articleId) => {
   if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
     deleteArticle(articleId);
   }
+};
+
+const updateArticle = (articleId) => {
+  router.push({name: 'CommunityUpdate', params:{articleid : articleId}})
 };
 
 const deleteArticle = (articleId) => {

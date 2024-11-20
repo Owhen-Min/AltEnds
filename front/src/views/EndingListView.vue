@@ -37,11 +37,11 @@
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 
+const route = useRoute()
 const router = useRouter()
 const store = useMovieStore()
-// const endings = ref([])
 
 const endings = ref([
   { id: 1, title: '리얼', altEndTitle: '리얼 개웃김', params: '개그코드를 넣어줘', user_nickname: '메롱' },
@@ -57,19 +57,14 @@ const goDetail = ((endingid) => {
 })
 
 onMounted(() => {
-  axios
-    .get(`${store.API_URL}/api/v1/movies/altends/`, {
-      headers: {
-        Authorization: `Token ${store.token}`,
-      },
+  axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)
+    .then((res) => {
+      article.value = res.data;
     })
-    .then((response) => {
-      posts.value = response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching posts:', error)
-    })
-})
+    .catch((err) => {
+      console.error("Error fetching article:", err);
+    });
+});
 
 </script>
 
