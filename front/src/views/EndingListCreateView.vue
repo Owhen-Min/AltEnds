@@ -15,6 +15,8 @@
       </button>
     </form>
   </div>
+  {{ result}}
+
 </template>
 
 <script setup>
@@ -29,6 +31,7 @@ const promptError = ref('')
 const isSubmitting = ref(false)
 const router = useRouter()
 const route = useRoute()
+const result = ref(null)
 
 const endingid = route.params.movieid
 
@@ -49,6 +52,9 @@ const generateEnding = async () => {
       headers: {
         Authorization: `Token ${store.token}`,
       },
+    })
+    .then((response) => {
+      result.value = response.data.alt_ending
     });
 
     router.push({ name: 'EndingListDetail', params: { endingid: response.data.id } });
