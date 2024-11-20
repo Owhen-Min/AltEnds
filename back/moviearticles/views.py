@@ -16,7 +16,7 @@ from openai import OpenAI
 
 
 @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def ending_list(request):
     if request.method == 'GET':
         endings = get_list_or_404(Ending)
@@ -30,13 +30,18 @@ def ending_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def ending_detail(request, article_pk):
     ending = get_object_or_404(Ending, pk=article_pk)
 
     if request.method == 'GET':
         serializer = EndingSerializer(ending)
         return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        ending.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET','POST'])
 def movie_list(request):
