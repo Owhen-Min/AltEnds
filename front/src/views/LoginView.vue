@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="login-container">
     <h1 class="login-title">로그인</h1>
@@ -19,12 +18,10 @@ vue
     </form>
 
     <!-- Modal for error message -->
-    <Modal 
-      v-if="showModal.value"
+    <Modal
+      v-model:isVisible="store.showModal"
       :title="'로그인 실패'"
-      :message="errorMessage"
-      :isVisible="showModal"
-      @close="showModal = false"
+      :message="store.errorMessage"
     />
   </div>
 </template>
@@ -32,29 +29,20 @@ vue
 <script setup>
 import { ref } from 'vue';
 import { useMovieStore } from '@/stores/counter';
-import Modal from '@/components/Modal.vue'; // Be sure to adjust the path accordingly
+import Modal from '@/components/Modal.vue';
 
-const store = useMovieStore();
 
 const username = ref('');
 const password = ref('');
 const isLoading = ref(false);
-const showModal = ref(false);
-const errorMessage = ref('');
+const store = useMovieStore()
+
 
 const logIn = async () => {
   isLoading.value = true;
-  errorMessage.value = ''; // Reset error message
-
   try {
-    const payload = {
-      username: username.value,
-      password: password.value,
-    };
-    await store.logIn(payload);
-  } catch (error) {
-    errorMessage.value = '로그인 실패: 아이디나 패스워드를 확인하세요.';
-    showModal.value = true; // Show modal on error
+    const payload = { username: username.value, password: password.value };
+    store.logIn(payload); // Call the store's login method
   } finally {
     isLoading.value = false; // Reset loading state
   }

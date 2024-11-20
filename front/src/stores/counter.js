@@ -15,6 +15,8 @@ export const useMovieStore = defineStore('movie', () => {
     }
   })
   const router = useRouter()
+  const showModal = ref(false); // Modal visibility state
+  const errorMessage = ref(''); // Error message state
 
   const signUp = function (payload) {
     const { username, password1, password2, firstname, nickname, email } = payload
@@ -53,7 +55,8 @@ export const useMovieStore = defineStore('movie', () => {
         router.push({ name: 'Home' })
       })
       .catch((error) => {
-        console.log(error)
+        errorMessage.value = '로그인 실패: 아이디나 패스워드를 확인하세요.';
+        showModal.value = true;
       })
   }
 
@@ -98,5 +101,5 @@ export const useMovieStore = defineStore('movie', () => {
       })
 
   }
-  return { API_URL, token, isLogin, signUp, logIn, logOut, getProfile, likes }
+  return { API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, likes}
 })
