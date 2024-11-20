@@ -1,36 +1,129 @@
+vue
 <template>
-  <div>
-    <form @submit.prevent="logIn">
-      <label for="username">아이디</label>
-      <input type="text" id="username" v-model.trim="username"><br>
+  <div class="login-container">
+    <h1 class="login-title">로그인</h1>
+    <form @submit.prevent="logIn" class="login-form">
+      <div class="form-group">
+        <label for="username">아이디:</label>
+        <input type="text" id="username" v-model.trim="username" required placeholder="아이디를 입력하세요" />
+      </div>
 
-      <label for="password">패스워드</label>
-      <input type="password" id="password" v-model.trim="password"><br>
+      <div class="form-group">
+        <label for="password">패스워드:</label>
+        <input type="password" id="password" v-model.trim="password" required placeholder="패스워드를 입력하세요" />
+      </div>
 
-      <input type="submit" value="로그인">
+      <button type="submit" class="btn btn-primary" :disabled="isLoading">
+        {{ isLoading ? '로그인 중...' : '로그인' }}
+      </button>
     </form>
+
+    <!-- Modal for error message -->
+    <Modal 
+      v-if="showModal.value"
+      :title="'로그인 실패'"
+      :message="errorMessage"
+      :isVisible="showModal"
+      @close="showModal = false"
+    />
   </div>
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
 import { ref } from 'vue';
+import { useMovieStore } from '@/stores/counter';
+import Modal from '@/components/Modal.vue'; // Be sure to adjust the path accordingly
 
-const store = useMovieStore()
+const store = useMovieStore();
 
-const username = ref(null)
-const password = ref(null)
+const username = ref('');
+const password = ref('');
+const isLoading = ref(false);
+const showModal = ref(false);
+const errorMessage = ref('');
 
-const logIn = function () {
-  const payload = {
-    username: username.value,
-    password: password.value
+const logIn = async () => {
+  isLoading.value = true;
+  errorMessage.value = ''; // Reset error message
+
+  try {
+    const payload = {
+      username: username.value,
+      password: password.value,
+    };
+    await store.logIn(payload);
+  } catch (error) {
+    errorMessage.value = '로그인 실패: 아이디나 패스워드를 확인하세요.';
+    showModal.value = true; // Show modal on error
+  } finally {
+    isLoading.value = false; // Reset loading state
   }
-  store.logIn(payload)
-}
-
+};
 </script>
 
 <style lang="scss" scoped>
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.btn {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:disabled {
+    background-color: #007bff;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
 </style>
