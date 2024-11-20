@@ -1,4 +1,5 @@
 <template>
+  {{store.user_id}}
   <div class="container py-3">
     <div class="row gx-5">
       <div class="col-lg-9 col-md-8 col-sm-12">
@@ -31,8 +32,9 @@
         <div class="card mb-4">
           <div class="card-body" id="user-management" v-if="isLogin">
             <h5>회원 정보</h5>
-            <p>회원 정보를 간단하게 보여줍니다.</p>
-            <button @click="goMyProfile" class="btn btn-link">마이페이지</button>
+            <p><strong>{{store.user.nickname}}</strong>님 안녕하세요!</p>
+            <p>남은 토큰 : {{ store.user.token }}</p>
+            <button @click="goProfile(store.user.pk)" class="btn btn-link">마이페이지</button>
             <button class="btn btn-link" @click="logOut">로그아웃</button>
           </div>
           <div class="card-body" id="user-login" v-else>
@@ -73,7 +75,7 @@ const isLogin = computed (() => {
   return store.isLogin
 })
 
-const userid = 2
+const userid = window
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
 
 const userRanking = ref([
@@ -104,24 +106,9 @@ const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })
 }
 
-const goMyProfile = function () {
-  axios({
-    method: 'get',
-    url: `${store.API_URL}/accounts/user/`,
-    headers: {
-      Authorization: `Token ${store.token}`,
-    },
-  })
-    .then((response) => {
-      goProfile(response.data.pk)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
-
 const logOut = store.logOut
 </script>
+
 
 <style scoped>
 .container {

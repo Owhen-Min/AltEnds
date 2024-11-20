@@ -14,6 +14,7 @@ export const useMovieStore = defineStore('movie', () => {
       return true
     }
   })
+  const user = ref(null)
   const router = useRouter()
   const showModal = ref(false); // Modal visibility state
   const errorMessage = ref(''); // Error message state
@@ -52,12 +53,40 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         token.value = response.data.key
+      })
+      .then(() => {
+        axios({
+          method: 'get',
+          url: `${API_URL}/accounts/user/`,
+          headers: {
+            Authorization: `Token ${token.value}`,
+          },
+        })
+          .then((response) => {
+            axios({
+              method: 'get',
+              url: `${API_URL}/accounts/${response.data.pk}/`,
+              headers: {
+                Authorization: `Token ${token.value}`,
+              },
+            })
+            .then((response) => {
+              user.value = response.data
+            })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+      .then(() => {
         router.push({ name: 'Home' })
       })
       .catch((error) => {
         errorMessage.value = '로그인 실패: 아이디나 패스워드를 확인하세요.';
         showModal.value = true;
       })
+      
+      
   }
 
   const logOut = function () {
@@ -101,5 +130,5 @@ export const useMovieStore = defineStore('movie', () => {
       })
 
   }
-  return { API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, likes}
+  return { API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, likes, user}
 })
