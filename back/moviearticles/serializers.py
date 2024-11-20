@@ -3,9 +3,10 @@ from .models import Ending, Movie
 
 
 class EndingListSerializer(serializers.ModelSerializer):
+    user_nickname = serializers.CharField(source='user.nickname', read_only=True)
     class Meta:
         model = Ending
-        fields = ('id', 'title', 'content')
+        fields = ('id', 'title', 'user_nickname', )
 
 
 class EndingSerializer(serializers.ModelSerializer):

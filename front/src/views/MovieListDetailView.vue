@@ -20,7 +20,7 @@
                     <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
                     <!-- <RouterLink :to="{ name: 'MovieList' }" class="col-3 mx-2">
                     </RouterLink> -->
-                    <RouterLink :to="{ name: 'EndingListCreate', params: { endingid: movie.id } }" class="col-3 mx-2">
+                    <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-3 mx-2">
                         <button class="btn btn-primary col-12">영화 비틀러 가기</button>
                     </RouterLink>
                 </div>
