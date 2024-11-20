@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="article-container" v-if="article">
     <div class="article-card">
@@ -6,11 +5,14 @@ vue
       <div class="article-meta">
         <p>작성자: <strong>{{ article.user_nickname }}</strong></p>
         <p>작성 시간: <em>{{ formatDate(article.created_at) }}</em></p>
+        <p v-if="article.created_at!=article.updated_at">수정 시간: <em>{{ formatDate(article.updated_at) }}</em></p>
       </div>
       <p class="article-content">{{ article.content }}</p>
-      <div class="button-group">
-        <button @click="goBack" class="btn btn-warning">이전으로</button>
-        <button @click="confirmDelete(article.id)" class="btn btn-danger">삭제</button>
+      <div class="row button-group">
+        <RouterLink :to="{name:'Community'}" class="col-3 btn btn-warning">이전으로</RouterLink>
+        <div class="col-3"></div>
+        <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
+        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="article.user===store.user.pk">삭제</button>
       </div>
     </div>
   </div>
@@ -21,6 +23,7 @@ import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import CommunityView from './CommunityView.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -40,6 +43,10 @@ const confirmDelete = (articleId) => {
   if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
     deleteArticle(articleId);
   }
+};
+
+const updateArticle = (articleId) => {
+  router.push({name: 'CommunityUpdate', params:{articleid : articleId}})
 };
 
 const deleteArticle = (articleId) => {
@@ -101,7 +108,6 @@ onMounted(() => {
 
 .button-group {
   display: flex;
-  justify-content: space-between;
 }
 
 .btn {
@@ -126,4 +132,9 @@ onMounted(() => {
 .btn:hover {
   opacity: 0.9;
 }
+
+p {
+  margin-bottom: 5px;
+}
+
 </style>

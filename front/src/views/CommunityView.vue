@@ -27,14 +27,14 @@
     <!-- Board Footer -->
     <footer class="board-footer d-flex justify-content-between mt-4">
       <RouterLink to="/" class="btn btn-light">이전 페이지로</RouterLink>
-      <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary">글 작성하기</RouterLink>
+      <RouterLink :to="{ name: 'CommunityCreate' }" class="btn btn-primary" >글 작성하기</RouterLink>
       <RouterLink to="/" class="btn btn-light">다음 페이지로</RouterLink>
     </footer>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
@@ -45,7 +45,7 @@ const store = useMovieStore();
 
 // Navigate to post details
 const goDetail = (postId) => {
-  router.push({ name: 'CommunityDetail', params: { articleid: postId } });
+  router.replace({ name: 'CommunityDetail', params: { articleid: postId } });
 };
 
 // Fetch posts on component mount
@@ -57,12 +57,13 @@ onMounted(() => {
       },
     })
     .then((res) => {
-      posts.value = res.data;
+      posts.value = res.data.sort((a, b) => b.id - a.id);
     })
     .catch((err) => {
       console.error('Error fetching posts:', err);
     });
 });
+
 </script>
 
 <style scoped>

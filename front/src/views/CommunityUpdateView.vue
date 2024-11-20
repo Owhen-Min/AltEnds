@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1 class="title">커뮤니티 글 작성하기</h1>
-    <form @submit.prevent="createArticle" class="article-form">
+    <h1 class="title">커뮤니티 글 수정하기</h1>
+    <form @submit.prevent="updateArticle" class="article-form">
       <div class="form-group">
         <label for="title">제목:</label>
         <input type="text" id="title" v-model.trim="title" required placeholder="게시글 제목을 입력하세요" />
@@ -13,7 +13,7 @@
         <span v-if="contentError" class="error">{{ contentError }}</span>
       </div>
       <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-        {{ isSubmitting ? '작성 중...' : '글 작성하기' }}
+        {{ isSubmitting ? '작성 중...' : '글 수정하기' }}
       </button>
     </form>
   </div>
@@ -22,8 +22,8 @@
 <script setup>
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const store = useMovieStore();
 const title = ref('');
@@ -32,6 +32,7 @@ const titleError = ref('');
 const contentError = ref('');
 const isSubmitting = ref(false);
 const router = useRouter();
+const route = useRoute()
 
 const validateForm = () => {
   titleError.value = title.value ? '' : '제목은 필수입니다.';
@@ -39,28 +40,47 @@ const validateForm = () => {
   return !titleError.value && !contentError.value;
 };
 
-const createArticle = async () => {
+const updateArticle = async () => {
   if (!validateForm()) return;
 
   isSubmitting.value = true; // Indicate loading state
 
-  try {
-    const response = await axios.post(`${store.API_URL}/api/v1/communities/articles/`, {
+  axios ({
+    method : 'put',
+    url : `${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`,
+    data : {
       title: title.value,
       content: content.value,
-    }, {
-      headers: {
+    }, 
+    headers: {
         Authorization: `Token ${store.token}`,
       },
     })
-    console.log(response)
-    router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
-  } catch (error) {
-    console.error('Error creating article:', error);
-  } finally {
-    isSubmitting.value = false; // Reset loading state
-  }
+    .then((response) => {
+    router.replace({
+      name: 'CommunityDetail',
+      params: {
+        articleid: response.data.id
+      }
+    })
+  })
+    .catch ((error) => {
+    console.log('Error updating article:', error)
+    isSubmitting.value = false
+    })
 };
+
+onMounted(() => {
+  axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)
+    .then((res) => {
+      title.value = res.data.title;
+      content.value = res.data.content
+    })
+    .catch((err) => {
+      console.error("Error fetching article:", err);
+    });
+});
+
 </script>
 
 <style lang="scss" scoped>

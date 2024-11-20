@@ -13,6 +13,7 @@ import CommunityDetailView from '@/views/CommunityDetailView.vue'
 import CommunityCreateView from '@/views/CommunityCreateView.vue'
 import MovieListSelectView from '@/views/MovieListSelectView.vue'
 import { useMovieStore } from '@/stores/counter'
+import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
 
 
 const router = createRouter({
@@ -96,6 +97,12 @@ const router = createRouter({
       name: 'CommunityCreate',
       component: CommunityCreateView
     },
+    // 14. 커뮤니티 게시글 수정 페이지
+    {
+      path: '/community/:articleid/update',
+      name: 'CommunityUpdate',
+      component: CommunityUpdateView
+    }
   ],
 })
 
