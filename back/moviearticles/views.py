@@ -26,14 +26,14 @@ def ending_list(request):
     elif request.method == 'POST':
         serializer = EndingSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
+            serializer.save(user_id=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'DELETE'])
 @permission_classes([IsAuthenticated])
-def ending_detail(request, article_pk):
-    ending = get_object_or_404(Ending, pk=article_pk)
+def ending_detail(request, ending_pk):
+    ending = get_object_or_404(Ending, pk=ending_pk)
 
     if request.method == 'GET':
         serializer = EndingSerializer(ending)

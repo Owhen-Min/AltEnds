@@ -18,7 +18,7 @@
     <!-- Posts List -->
     <div v-for="ending in endings" :key="ending.id" class="post-item" @click="goDetail(ending.id)">
       <div class="col-1 text-center">{{ ending.id }}</div>
-      <div class="col-7 text-left">{{ ending.title }}</div>
+      <div class="col-7 text-left">{{ ending.prompt }}</div>
       <div class="col-2 text-center">{{ ending.user_nickname }}</div>
       <div class="col-1 text-center">{{ ending.views || 0 }}</div>
       <div class="col-1 text-center">{{ ending.likes || 0 }}</div>
@@ -41,16 +41,7 @@ import { RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter()
 const store = useMovieStore()
-// const endings = ref([])
-
-const endings = ref([
-  { id: 1, title: '리얼', altEndTitle: '리얼 개웃김', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-  { id: 2, title: '성냥팔이 소녀의 재림', altEndTitle: '성냥팔이 소녀의 재림 실화냐?', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-  { id: 3, title: '클레멘타인', altEndTitle: '클레멘타인의 모험', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-  { id: 4, title: '웃겨야 사는 영화', altEndTitle: '웃겨야 사는 영화인데 안웃김', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-  { id: 5, title: '영화 5', altEndTitle: '성냥팔이 소녀의 재림 실화냐?', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-  { id: 6, title: '영화 6', altEndTitle: '성냥팔이 소녀의 재림 실화냐?', params: '개그코드를 넣어줘', user_nickname: '메롱' },
-])
+const endings = ref([])
 
 const goDetail = ((endingid) => {
   router.push({ name: 'EndingListDetail', params: { endingid: endingid }})
@@ -64,7 +55,7 @@ onMounted(() => {
       },
     })
     .then((response) => {
-      posts.value = response.data
+      endings.value = response.data
     })
     .catch((error) => {
       console.error('Error fetching posts:', error)

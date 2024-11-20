@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:movie_pk>/', views.movie_detail),
     path('<int:movie_pk>/altends/', views.generate_alt_ending),
     path('altends/', views.ending_list),
+    path('altends/<int:ending_pk>/', views.ending_detail),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
