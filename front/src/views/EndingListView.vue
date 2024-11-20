@@ -20,7 +20,7 @@
       <div class="col-1 text-center">{{ ending.id }}</div>
       <div class="col-7 text-left">{{ ending.prompt }}</div>
       <div class="col-2 text-center">{{ ending.user_nickname }}</div>
-      <div class="col-1 text-center">{{ ending.views || 0 }}</div>
+      <div class="col-1 text-center">{{ ending.view }}</div>
       <div class="col-1 text-center">{{ ending.likes || 0 }}</div>
     </div>
 
@@ -50,9 +50,9 @@ const goDetail = ((endingid) => {
 onMounted(() => {
   axios
     .get(`${store.API_URL}/api/v1/movies/altends/`, {
-      headers: {
-        Authorization: `Token ${store.token}`,
-      },
+      // headers: {
+      //   Authorization: `Token ${store.token}`,
+      // },
     })
     .then((response) => {
       endings.value = response.data

@@ -15,8 +15,8 @@ from openai import OpenAI
 
 
 
+# @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
 def ending_list(request):
     if request.method == 'GET':
         endings = get_list_or_404(Ending)
@@ -36,6 +36,8 @@ def ending_detail(request, ending_pk):
     ending = get_object_or_404(Ending, pk=ending_pk)
 
     if request.method == 'GET':
+        ending.view += 1
+        ending.save()
         serializer = EndingSerializer(ending)
         return Response(serializer.data)
     

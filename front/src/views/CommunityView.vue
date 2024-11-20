@@ -20,7 +20,7 @@
       <div class="col-1 text-center">{{ post.id }}</div>
       <div class="col-7 text-left">{{ post.title }}</div>
       <div class="col-2 text-center">{{ post.user_nickname }}</div>
-      <div class="col-1 text-center">{{ post.views || 0 }}</div>
+      <div class="col-1 text-center">{{ post.view }}</div>
       <div class="col-1 text-center">{{ post.likes || 0 }}</div>
     </div>
 
@@ -52,9 +52,9 @@ const goDetail = (postId) => {
 onMounted(() => {
   axios
     .get(`${store.API_URL}/api/v1/communities/articles/`, {
-      headers: {
-        Authorization: `Token ${store.token}`,
-      },
+      // headers: {
+      //   Authorization: `Token ${store.token}`,
+      // },
     })
     .then((res) => {
       posts.value = res.data.sort((a, b) => b.id - a.id);

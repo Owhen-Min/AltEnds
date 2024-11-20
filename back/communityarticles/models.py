@@ -10,6 +10,7 @@ class Article(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    view = models.IntegerField(default=0)
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, default=None, related_name='like_articles'
     )
