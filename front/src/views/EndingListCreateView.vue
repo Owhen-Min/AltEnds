@@ -1,21 +1,35 @@
 <template>
   <div class="container">
     <h1 class="title">AltEnding</h1>
-    <form @submit.prevent="generateEnding" class="article-form">
-      <div class="form-group">
-        
-      </div>
+    <form @submit.prevent="generateEnding" class="article-form" v-if="!isPrompt">
       <div class="form-group">
         <label for="prompt">프롬프트 입력 : </label>
-        <textarea id="prompt" v-model.trim="prompt" required placeholder="게시글 내용을 입력하세요"></textarea>
+        <textarea id="prompt" v-model.trim="prompt" required placeholder="프롬프트를 입력하세요"></textarea>
         <span v-if="promptError" class="error">{{ promptError }}</span>
       </div>
       <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
         {{ isSubmitting ? '작성 중...' : '대체결말 생성하기' }}
       </button>
     </form>
+    <form @submit.prevent="generateEnding" class="article-form" v-else>
+      <div class="form-group">
+        <div v-for="(altending, index) in altendings">
+          <p>{{ index + 1 }} 번째 프롬프트</p>
+          <p>입력한 프롬프트 : {{ altending.prompt }}</p>
+          <p>{{ altending.content }}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="prompt">프롬프트 입력 : </label>
+        <textarea id="prompt" v-model.trim="prompt" required placeholder="프롬프트를 입력하세요"></textarea>
+        <span v-if="promptError" class="error">{{ promptError }}</span>
+      </div>
+      <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+        {{ isSubmitting ? '작성 중...' : '대체결말 다시 생성하기' }}
+      </button>
+    </form>
+    <button @click="createEnding(altendings[count - 1])">글 작성하기</button>
   </div>
-  {{ result}}
 
 </template>
 
@@ -31,9 +45,11 @@ const promptError = ref('')
 const isSubmitting = ref(false)
 const router = useRouter()
 const route = useRoute()
-const result = ref(null)
+const altendings = ref([])
+const isPrompt = ref(false)
+const count = ref(null)
 
-const endingid = route.params.movieid
+const movieid = route.params.movieid
 
 const validateForm = () => {
   promptError.value = prompt.value ? '' : '프롬프트는 필수입니다.'
@@ -46,7 +62,7 @@ const generateEnding = async () => {
   isSubmitting.value = true
   
   try {
-    const response = await axios.post(`${store.API_URL}/api/v1/movies/${endingid}/altends/`, {
+    const response = await axios.post(`${store.API_URL}/api/v1/movies/${movieid}/altends/`, {
       prompt: prompt.value,
     }, {
       headers: {
@@ -54,16 +70,41 @@ const generateEnding = async () => {
       },
     })
     .then((response) => {
-      result.value = response.data.alt_ending
+      altendings.value.push({prompt: prompt.value, content: response.data.alt_ending})
+      isPrompt.value = true
+      prompt.value = ''
+      count.value = altendings.value.length
     });
-
-    router.push({ name: 'EndingListDetail', params: { endingid: response.data.id } });
   } catch (error) {
     console.error('Error creating article:', error);
   } finally {
     isSubmitting.value = false; // Reset loading state
   }
 }
+
+const createEnding = function (altending) {
+  axios({
+    method: 'post',
+    url: `${store.API_URL}/api/v1/movies/altends/`,
+    data: {
+      movie_id: movieid,
+      prompt: altending.prompt,
+      content: altending.content,
+    },
+    headers: {
+        Authorization: `Token ${store.token}`,
+      },
+  })
+    .then((response) => {
+      console.log(response.data)
+      // router.push({ name: 'EndingListDetail', params: { endingid: response.data.id } });
+      router.push({ name: 'EndingList' })
+    })
+    .catch((error) => {
+      console.error('Error creating article:', error)
+    })
+}
+
 </script>
 
 <style lang="scss" scoped>
