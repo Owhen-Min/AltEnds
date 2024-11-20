@@ -5,10 +5,11 @@
       <div class="article-meta">
         <p>작성자: <strong>{{ article.user_nickname }}</strong></p>
         <p>작성 시간: <em>{{ formatDate(article.created_at) }}</em></p>
+        <p v-if="article.created_at!=article.updated_at">수정 시간: <em>{{ formatDate(article.updated_at) }}</em></p>
       </div>
       <p class="article-content">{{ article.content }}</p>
       <div class="row button-group">
-        <button @click="goBack" class="col-3 btn btn-warning">이전으로</button>
+        <RouterLink :to="{name:'Community'}" class="col-3 btn btn-warning">이전으로</RouterLink>
         <div class="col-3"></div>
         <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="article.user===store.user.pk">수정하기</button>
         <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="article.user===store.user.pk">삭제</button>
@@ -22,6 +23,7 @@ import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import CommunityView from './CommunityView.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -130,4 +132,9 @@ onMounted(() => {
 .btn:hover {
   opacity: 0.9;
 }
+
+p {
+  margin-bottom: 5px;
+}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">커뮤니티 글 수정하기</h1>
-    <form @submit.prevent="createArticle" class="article-form">
+    <form @submit.prevent="updateArticle" class="article-form">
       <div class="form-group">
         <label for="title">제목:</label>
         <input type="text" id="title" v-model.trim="title" required placeholder="게시글 제목을 입력하세요" />
@@ -40,27 +40,34 @@ const validateForm = () => {
   return !titleError.value && !contentError.value;
 };
 
-const createArticle = async () => {
+const updateArticle = async () => {
   if (!validateForm()) return;
 
   isSubmitting.value = true; // Indicate loading state
 
-  try {
-    const response = await axios.post(`${store.API_URL}/api/v1/communities/articles/`, {
+  axios ({
+    method : 'put',
+    url : `${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`,
+    data : {
       title: title.value,
       content: content.value,
-    }, {
-      headers: {
+    }, 
+    headers: {
         Authorization: `Token ${store.token}`,
       },
     })
-    console.log(response)
-    router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
-  } catch (error) {
-    console.error('Error creating article:', error);
-  } finally {
-    isSubmitting.value = false; // Reset loading state
-  }
+    .then((response) => {
+    router.replace({
+      name: 'CommunityDetail',
+      params: {
+        articleid: response.data.id
+      }
+    })
+  })
+    .catch ((error) => {
+    console.log('Error updating article:', error)
+    isSubmitting.value = false
+    })
 };
 
 onMounted(() => {
