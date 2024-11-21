@@ -9,8 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer
-from .models import Ending, Movie
+from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
+from .models import Ending, Movie, Comment
 from openai import OpenAI
 
 
@@ -64,6 +64,20 @@ def movie_detail(request, movie_pk):
     if request.method == 'GET':
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
+    
+@api_view(['GET', 'POST'])
+def comment_list(request, ending_pk):
+    if request.method == 'GET':
+        comments = get_list_or_404(Comment, ending_id=ending_pk)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        ending = get_object_or_404(Ending, pk=ending_pk)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user_id=request.user, ending_id=ending)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
 @api_view(['POST',])

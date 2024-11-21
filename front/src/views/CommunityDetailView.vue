@@ -14,11 +14,16 @@
         <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="store.isLogin&&article.user===store.user.pk">수정하기</button>
         <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="store.isLogin&&article.user===store.user.pk">삭제</button>
       </div>
+      <Comments
+        :pk="article.id"
+        nextUrl="communities/articles"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
+import Comments from '@/components/Comments.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
