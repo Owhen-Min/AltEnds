@@ -32,14 +32,15 @@
 </template>
 
 <script setup>
+import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 // Sample movie data for demonstration. Replace with actual data as needed.
-const router = useRouter()
 const route = useRoute()
 const movieid = route.params.movieid
+const store = useMovieStore()
 
 // const movie = ref({
 //     title: '영화 제목',
@@ -48,7 +49,8 @@ const movieid = route.params.movieid
 //     genre: '장르'
 // });
 const movie = ref(null)
-const API_URL = 'http://127.0.0.1:8000/api/v1/movies'
+const API_URL = store.API_URL + '/api/v1/movies'
+
 onMounted(() => {
     axios({
         method: 'get',
@@ -56,7 +58,6 @@ onMounted(() => {
     })
     .then((response) => {
         movie.value = response.data
-        console.log(movie.value)
     })
     .catch((error) => {
         console.log(error)
