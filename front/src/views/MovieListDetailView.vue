@@ -56,7 +56,6 @@ onMounted(() => {
     })
     .then((response) => {
         movie.value = response.data
-        console.log(movie.value)
     })
     .catch((error) => {
         console.log(error)

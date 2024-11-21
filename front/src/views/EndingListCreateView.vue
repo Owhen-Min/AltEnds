@@ -3,7 +3,7 @@
     <h1 class="title">AltEnding</h1>
     <form @submit.prevent="generateEnding" class="article-form" v-if="!isPrompt">
       <div class="form-group">
-        <label for="prompt">프롬프트 입력 : </label>
+        <label for="prompt">원하는 변경사항을 입력해주세요. </label>
         <textarea id="prompt" v-model.trim="prompt" required placeholder="프롬프트를 입력하세요"></textarea>
         <span v-if="promptError" class="error">{{ promptError }}</span>
       </div>
@@ -12,15 +12,17 @@
       </button>
     </form>
     <form @submit.prevent="generateEnding" class="article-form" v-else>
-      <div class="form-group">
-        <div v-for="(altending, index) in altendings">
-          <p>{{ index + 1 }} 번째 프롬프트</p>
-          <p>입력한 프롬프트 : {{ altending.prompt }}</p>
-          <p>{{ altending.content }}</p>
-        </div>
+      <div class="row">
+        <p>엔딩 목록</p>
+        <button @click="selectContent(index)" class="d-flex col-1 justify-content-center" v-for="index in altendings.length" :key="'content-'+index">
+          {{ index }}
+        </button>
+        <p v-if="altendings[selected-1]">프롬프트 : {{ altendings[selected-1].prompt }}</p>
+        <p v-if="altendings[selected-1]">대체 결말</p>
+        <p v-if="altendings[selected-1]">{{ altendings[selected-1].content }}</p>
       </div>
       <div class="form-group">
-        <label for="prompt">프롬프트 입력 : </label>
+        <label for="prompt">마음에 안드는 부분이 있다면 알려주세요. : </label>
         <textarea id="prompt" v-model.trim="prompt" required placeholder="프롬프트를 입력하세요"></textarea>
         <span v-if="promptError" class="error">{{ promptError }}</span>
       </div>
@@ -28,7 +30,7 @@
         {{ isSubmitting ? '작성 중...' : '대체결말 다시 생성하기' }}
       </button>
     </form>
-    <button @click="createEnding(altendings[count - 1])">글 작성하기</button>
+    <button @click="createEnding(altendings[count - 1])" v-if="!isPrompt" class="btn btn-warning">글 작성하기</button>
   </div>
 
 </template>
@@ -36,7 +38,7 @@
 <script setup>
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const store = useMovieStore()
@@ -45,9 +47,18 @@ const promptError = ref('')
 const isSubmitting = ref(false)
 const router = useRouter()
 const route = useRoute()
-const altendings = ref([])
+const altendings = ref([]);
 const isPrompt = ref(false)
-const count = ref(null)
+const selected = ref(null);
+const movie = ref(null)
+
+watch(altendings.value, (array) => {
+  selected.value = array.length
+})
+
+const selectContent = (index) => {
+  selected.value = index;
+};
 
 const movieid = route.params.movieid
 
@@ -56,31 +67,33 @@ const validateForm = () => {
   return !promptError.value
 }
 
-const generateEnding = async () => {
-  if (!validateForm()) return
-
+const generateEnding = (() => {
   isSubmitting.value = true
-  
-  try {
-    const response = await axios.post(`${store.API_URL}/api/v1/movies/${movieid}/altends/`, {
-      prompt: prompt.value,
-    }, {
-      headers: {
-        Authorization: `Token ${store.token}`,
-      },
-    })
-    .then((response) => {
-      altendings.value.push({prompt: prompt.value, content: response.data.alt_ending})
-      isPrompt.value = true
-      prompt.value = ''
-      count.value = altendings.value.length
-    });
-  } catch (error) {
-    console.error('Error creating article:', error);
-  } finally {
-    isSubmitting.value = false; // Reset loading state
+  if (!validateForm()) {
+    return
   }
-}
+  
+  axios({
+    method: 'post',
+    url: `${store.API_URL}/api/v1/movies/${movieid}/altends/`,
+    data: {
+      prompt : prompt.value,
+      content : altendings.value[selected-1]
+    },
+    headers: {
+      Authorization: `Token ${store.token}`,
+    },
+  })
+  .then((response) => {
+    prompt.value = '',
+    altendings.value.push({prompt: prompt.value, content: response.data.alt_ending})
+    isPrompt.value = true
+    isSubmitting.value = false // Reset loading state
+  })
+  .catch ((error) => {
+    console.error('Error creating article:', error);
+  })
+})
 
 const createEnding = function (altending) {
   axios({
@@ -96,14 +109,25 @@ const createEnding = function (altending) {
       },
   })
     .then((response) => {
-      console.log(response.data)
-      // router.push({ name: 'EndingListDetail', params: { endingid: response.data.id } });
       router.push({ name: 'EndingList' })
     })
     .catch((error) => {
       console.error('Error creating article:', error)
     })
 }
+
+onMounted(() => {
+    axios({
+        method: 'get',
+        url: `${API_URL}/${movieid}/`,
+    })
+    .then((response) => {
+        movie.value = response.data
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+})
 
 </script>
 
