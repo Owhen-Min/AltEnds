@@ -21,7 +21,7 @@
       <div class="col-7 text-left">{{ post.title }}</div>
       <div class="col-2 text-center">{{ post.user_nickname }}</div>
       <div class="col-1 text-center">{{ post.view }}</div>
-      <div class="col-1 text-center">{{ post.likes || 0 }}</div>
+      <div class="col-1 text-center">{{ post.like_users.length }}</div>
     </div>
 
     <!-- Board Footer -->

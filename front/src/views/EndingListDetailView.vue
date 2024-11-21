@@ -22,6 +22,10 @@
             </RouterLink>
           </div>
         </div>
+        <Like
+          :pk="altending.id"
+          nextUrl="movies/altends"
+        />
         <Comments
           :pk="altending.id"
           nextUrl="movies/altends"
@@ -34,12 +38,13 @@
 
 <script setup>
 import Comments from '@/components/Comments.vue';
+import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 
-const router = useRouter()
+
 const route = useRoute()
 const store = useMovieStore()
 

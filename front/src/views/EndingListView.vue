@@ -21,7 +21,7 @@
       <div class="col-7 text-left">{{ ending.prompt }}</div>
       <div class="col-2 text-center">{{ ending.user_nickname }}</div>
       <div class="col-1 text-center">{{ ending.view }}</div>
-      <div class="col-1 text-center">{{ ending.likes || 0 }}</div>
+      <div class="col-1 text-center">{{ ending.like_users.length }}</div>
     </div>
 
     <!-- Board Footer -->

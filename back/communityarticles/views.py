@@ -69,9 +69,11 @@ def likes(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.user in article.like_users.all():
         article.like_users.remove(request.user)
+        article.save()
         is_liked = False
     else:
         article.like_users.add(request.user)
+        article.save()
         is_liked = True
     context = {
         'is_liked': is_liked,

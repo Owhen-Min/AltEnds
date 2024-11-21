@@ -14,6 +14,10 @@
         <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="store.isLogin&&article.user===store.user.pk">수정하기</button>
         <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="store.isLogin&&article.user===store.user.pk">삭제</button>
       </div>
+      <Like
+        :pk="article.id"
+        nextUrl="communities/articles"
+      />
       <Comments
         :pk="article.id"
         nextUrl="communities/articles"
@@ -24,15 +28,17 @@
 
 <script setup>
 import Comments from '@/components/Comments.vue';
+import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
-const article = ref(null);
 const store = useMovieStore();
+const article = ref(null);
+
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -59,6 +65,8 @@ const deleteArticle = (articleId) => {
     console.error("Error deleting article:", error);
   });
 };
+
+
 
 onMounted(() => {
   axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)

@@ -113,3 +113,19 @@ def generate_alt_ending(request, movie_pk):
     
     # Return the GPT response
     return Response({'alt_ending': gpt_response})
+
+@api_view(['POST'])
+def likes(request, ending_pk):
+    ending = get_object_or_404(Ending, pk=ending_pk)
+    if request.user in ending.like_users.all():
+        ending.like_users.remove(request.user)
+        ending.save()
+        is_liked = False
+    else:
+        ending.like_users.add(request.user)
+        ending.save()
+        is_liked = True
+    context = {
+        'is_liked': is_liked,
+    }
+    return Response(context)
