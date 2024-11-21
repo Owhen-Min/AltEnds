@@ -66,7 +66,6 @@
 <script setup>
 import router from '@/router';
 import { useMovieStore } from '@/stores/counter';
-import axios from 'axios';
 import { computed, ref } from 'vue';
 
 const store = useMovieStore()

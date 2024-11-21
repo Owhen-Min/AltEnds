@@ -18,8 +18,6 @@
                 </p>
                 <div class="button-container d-flex justify-content-end">
                     <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
-                    <!-- <RouterLink :to="{ name: 'MovieList' }" class="col-3 mx-2">
-                    </RouterLink> -->
                     <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-3 mx-2">
                         <button class="btn btn-primary col-12">영화 비틀러 가기</button>
                     </RouterLink>
@@ -36,21 +34,13 @@ import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-
 // Sample movie data for demonstration. Replace with actual data as needed.
-const route = useRoute()
-const movieid = route.params.movieid
 const store = useMovieStore()
+const route = useRoute()
 
-// const movie = ref({
-//     title: '영화 제목',
-//     director: '감독 이름',
-//     openYear: 2023,
-//     genre: '장르'
-// });
+const movieid = route.params.movieid
 const movie = ref(null)
-const API_URL = store.API_URL + '/api/v1/movies'
-
+const API_URL = store.API_URL + '/movies'
 onMounted(() => {
     axios({
         method: 'get',

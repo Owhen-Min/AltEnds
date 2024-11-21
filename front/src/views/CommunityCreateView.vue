@@ -45,7 +45,7 @@ const createArticle = async () => {
   isSubmitting.value = true; // Indicate loading state
 
   try {
-    const response = await axios.post(`${store.API_URL}/api/v1/communities/articles/`, {
+    const response = await axios.post(`${store.API_URL}/communities/`, {
       title: title.value,
       content: content.value,
     }, {
@@ -53,7 +53,6 @@ const createArticle = async () => {
         Authorization: `Token ${store.token}`,
       },
     })
-    console.log(response)
     router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
   } catch (error) {
     console.error('Error creating article:', error);
