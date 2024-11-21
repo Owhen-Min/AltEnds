@@ -84,17 +84,16 @@ def comment_list(request, ending_pk):
 def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     user_prompt = request.data.get('prompt','')
+    prev_alt_ending = request.data.get('content','')
+    print(prev_alt_ending)
     client = OpenAI(api_key=settings.SECRET_KEY)
-
-    if not user_prompt:
-        return Response({'error': 'Prompt is required.'}, status=400)
-    
     movie_title = movie.title
     movie_plot = movie.plot
 
-    prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot with alternative ending by user input. return only plots without 잡말. If user input is irrelevant with movie, than return error message. PLEASE ANSWER IN KOREAN."
-    gpt_prompt = (f"{user_prompt}")
-    
+    if not prev_alt_ending:
+        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot of alternative ending by user input. Return plot only. If user input is irrelevant with movie, than return error message. PLEASE ANSWER IN KOREAN."        
+    else:
+        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nYour Client is not content with your output. Generate an alternative ending for the movie {movie_title} again. The alternative ending(your result) should include the feedback from your client. You will answer full plot of alternative ending. Return plot only. If user input is irrelevant with movie, than return error message. PLEASE ANSWER IN KOREAN. The alternative ending you created is below. If previous alternative ending has error message, then you can skip it.\n\n{prev_alt_ending}"        
     try:
         # Send the prompt to GPT
         response = client.chat.completions.create(

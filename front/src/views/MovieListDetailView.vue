@@ -37,14 +37,8 @@ import { useRoute } from 'vue-router';
 // Sample movie data for demonstration. Replace with actual data as needed.
 const store = useMovieStore()
 const route = useRoute()
-const movieid = route.params.movieid
 
-// const movie = ref({
-//     title: '영화 제목',
-//     director: '감독 이름',
-//     openYear: 2023,
-//     genre: '장르'
-// });
+const movieid = route.params.movieid
 const movie = ref(null)
 const API_URL = store.API_URL + '/movies'
 onMounted(() => {

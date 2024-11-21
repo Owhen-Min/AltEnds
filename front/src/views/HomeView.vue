@@ -80,7 +80,8 @@ const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인'
 const userRanking = ref([
   { username: '윤상흠', likes: 1000000 },
   { username: '민경현', likes: 999999 },
-  { username: '신기욱', likes: 999998 }
+  { username: '신기욱', likes: 999998 },
+  { username: '변희봉', likes: 777797 }
 ]);
 const altEndRanking = ref([
   {

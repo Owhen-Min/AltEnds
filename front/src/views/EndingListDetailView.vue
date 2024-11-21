@@ -3,7 +3,7 @@
       <div class="row gx-5 justify-content-evenly">
         <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
           <img 
-            :src="store.API_URL + '/api/v1/movies' + altending.movie_info.poster" 
+            :src="store.API_URL + '/movies' + altending.movie_info.poster" 
             alt="Movie Poster" 
             class="movie-poster"
           >
