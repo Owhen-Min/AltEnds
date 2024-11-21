@@ -131,4 +131,4 @@ export const useMovieStore = defineStore('movie', () => {
 
   }
   return { API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, likes, user}
-})
+}, {persist: true})
