@@ -110,11 +110,11 @@ router.beforeEach ((to, from) => {
   const store = useMovieStore()
   if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
     window.alert('로그인이 필요합니다.')
-    return { name : 'LoginView'}
+    return { name : 'Login'}
   }
   else if ((to.name === 'SignUp'|to.name==='Login') && store.isLogin){
     window.alert('이미 로그인 되어 있습니다.')
-    return { name : 'HomeView'}
+    return { name : 'Home'}
   }
 })
 
