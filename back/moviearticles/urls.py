@@ -11,4 +11,5 @@ urlpatterns = [
     path('altends/', views.ending_list),
     path('altends/<int:ending_pk>/', views.ending_detail),
     path('altends/<int:ending_pk>/comments/', views.comment_list),
+    path('altends/<int:ending_pk>/likes/', views.likes),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
