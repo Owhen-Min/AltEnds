@@ -42,19 +42,19 @@ import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 
 const route = useRoute()
 const store = useMovieStore()
-
 // Sample movie data for demonstration. Replace with actual data as needed.
 const altending = ref(null)
+const API_URL = store.API_URL + '/movies/altends'
 
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/api/v1/movies/altends/${route.params.endingid}/`,
+    url: `${API_URL}/${route.params.endingid}/`,
     headers: {
         Authorization: `Token ${store.token}`,
       },

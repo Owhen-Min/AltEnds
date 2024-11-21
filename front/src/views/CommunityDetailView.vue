@@ -16,11 +16,11 @@
       </div>
       <Like
         :pk="article.id"
-        nextUrl="communities/articles"
+        nextUrl="communities"
       />
       <Comments
         :pk="article.id"
-        nextUrl="communities/articles"
+        nextUrl="communities"
       />
     </div>
   </div>
@@ -31,7 +31,7 @@ import Comments from '@/components/Comments.vue';
 import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
@@ -56,7 +56,7 @@ const updateArticle = (articleId) => {
 };
 
 const deleteArticle = (articleId) => {
-  axios.delete(`${store.API_URL}/api/v1/communities/articles/${articleId}/`, {
+  axios.delete(`${store.API_URL}/communities/${articleId}/`, {
   })
   .then(() => {
     router.push({ name: 'Community' });
@@ -69,7 +69,7 @@ const deleteArticle = (articleId) => {
 
 
 onMounted(() => {
-  axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)
+  axios.get(`${store.API_URL}/communities/${route.params.articleid}/`)
     .then((res) => {
       article.value = res.data;
     })

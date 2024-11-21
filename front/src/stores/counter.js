@@ -5,7 +5,9 @@ import { useRouter } from 'vue-router'
 
 
 export const useMovieStore = defineStore('movie', () => {
-  const API_URL = 'http://127.0.0.1:8000'
+  const BASE_URL = 'http://127.0.0.1:8000'
+  const API_VER = '/api/v1'
+  const API_URL = BASE_URL + API_VER
   const token = ref(null)
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -117,18 +119,5 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
-  const likes = function (articleid) {
-    axios({
-      method: 'post',
-      url: `/articles/${articleid}/likes/`,
-    })
-      .then((response) => {
-        return response.data.is_liked
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-  }
-  return { API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, likes, user}
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, user}
 }, {persist: true})

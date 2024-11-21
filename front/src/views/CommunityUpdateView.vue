@@ -47,7 +47,7 @@ const updateArticle = async () => {
 
   axios ({
     method : 'put',
-    url : `${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`,
+    url : `${store.API_URL}/communities/${route.params.articleid}/`,
     data : {
       title: title.value,
       content: content.value,

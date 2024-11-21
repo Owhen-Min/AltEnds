@@ -23,12 +23,14 @@
 </template>
 
 <script setup>
+import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 // Sample movie data for demonstration
+const store = useMovieStore()
 const movies = ref(null)
-const API_URL = 'http://127.0.0.1:8000/api/v1/movies'
+const API_URL = store.API_URL + '/movies'
 
 const router = useRouter()
 
@@ -42,13 +44,10 @@ onMounted(() => {
     url: `${API_URL}/`
   })
     .then((response) => {
-      console.log('영화목록 가져오기 성공')
-      console.log(response.data)
       movies.value = response.data
       
     })
     .catch((error) => {
-      console.log('실패')
       console.log(error)
     })
 })

@@ -41,6 +41,7 @@ import { RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter()
 const store = useMovieStore()
+const API_URL = store.API_URL + '/movies/altends/'
 const endings = ref([])
 
 const goDetail = ((endingid) => {
@@ -49,10 +50,7 @@ const goDetail = ((endingid) => {
 
 onMounted(() => {
   axios
-    .get(`${store.API_URL}/api/v1/movies/altends/`, {
-      // headers: {
-      //   Authorization: `Token ${store.token}`,
-      // },
+    .get(API_URL, {
     })
     .then((response) => {
       endings.value = response.data

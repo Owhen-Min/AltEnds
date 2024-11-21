@@ -21,7 +21,7 @@ const isLiked = ref(false)
 const pushLikes = function() {
   axios({
     method: 'post',
-    url: `${store.API_URL}/api/v1/${props.nextUrl}/${props.pk}/likes/`,
+    url: `${store.API_URL}/${props.nextUrl}/${props.pk}/likes/`,
     headers: {
         Authorization: `Token ${store.token}`,
       },
