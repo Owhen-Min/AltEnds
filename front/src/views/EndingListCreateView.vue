@@ -6,7 +6,7 @@
     <div class="movie-info row" v-if="movie">
       <div class="poster col-3 align-items-center justify-content-center">
         <span>원본 영화 정보</span>
-        <img :src="store.API_URL + `/api/v1/movies` + movie.poster" :alt="movie.title" />
+        <img :src="store.API_URL + `/movies` + movie.poster" :alt="movie.title" />
         <p class="center">{{ movie.title }}</p>
       </div>
       <div class="details col-8">
@@ -111,7 +111,7 @@ const generateEnding = async () => {
   isSubmitting.value = true;
 
   try {
-    const { data } = await axios.post(`${store.API_URL}/api/v1/movies/${movieid}/altends/`, {
+    const { data } = await axios.post(`${store.API_URL}/movies/${movieid}/altends/`, {
       prompt: prompt.value,
       content: altendings.value[selected.value - 1]?.content || null,
     }, {
@@ -130,7 +130,7 @@ const generateEnding = async () => {
 
 const createEnding = async () => {
   try {
-    await axios.post(`${store.API_URL}/api/v1/movies/altends/`, {
+    await axios.post(`${store.API_URL}/movies/altends/`, {
       movie_id: movieid,
       prompt: altendings.value[selected.value - 1].prompt,
       content: altendings.value[selected.value - 1].content,
@@ -145,7 +145,7 @@ const createEnding = async () => {
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(`${store.API_URL}/api/v1/movies/${movieid}/`);
+    const { data } = await axios.get(`${store.API_URL}/movies/${movieid}/`);
     movie.value = data;
   } catch (error) {
     console.error('Error fetching movie:', error);

@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
@@ -51,7 +51,7 @@ const goDetail = (postId) => {
 // Fetch posts on component mount
 onMounted(() => {
   axios
-    .get(`${store.API_URL}/api/v1/communities/articles/`, {
+    .get(`${store.API_URL}/communities/`, {
       // headers: {
       //   Authorization: `Token ${store.token}`,
       // },

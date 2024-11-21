@@ -35,7 +35,7 @@ const props = defineProps({
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/api/v1/${props.nextUrl}/${props.pk}/comments/`,
+    url: `${store.API_URL}/${props.nextUrl}/${props.pk}/comments/`,
   })
     .then((response) => {
       comments.value = response.data
@@ -48,7 +48,7 @@ onMounted(() => {
 const createComment = function () {
   axios({
     method: 'post',
-    url: `${store.API_URL}/api/v1/${props.nextUrl}/${props.pk}/comments/`,
+    url: `${store.API_URL}/${props.nextUrl}/${props.pk}/comments/`,
     data: {
       content: content.value
     },
@@ -59,7 +59,7 @@ const createComment = function () {
     .then((response) => {
       axios({
         method: 'get',
-        url: `${store.API_URL}/api/v1/${props.nextUrl}/${props.pk}/comments/`,
+        url: `${store.API_URL}/${props.nextUrl}/${props.pk}/comments/`,
       })
         .then((response) => {
           comments.value = response.data
