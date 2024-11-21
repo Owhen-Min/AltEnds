@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ending, Movie
+from .models import Ending, Movie, Comment
 
 class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,3 +26,9 @@ class EndingSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('id', 'user_id',)
 
+class CommentSerializer(serializers.ModelSerializer):
+    user_nickname = serializers.CharField(source='user_id', read_only=True)
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ('id', 'ending_id', 'user_id', )

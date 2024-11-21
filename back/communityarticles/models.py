@@ -16,8 +16,11 @@ class Article(models.Model):
     )
 
 class Comment(models.Model):
-    content = models.TextField()
-    review = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user = models.ForeignKey(
+    article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comment_articles'
     )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    

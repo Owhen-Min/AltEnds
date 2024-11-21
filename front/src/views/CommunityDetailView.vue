@@ -14,11 +14,16 @@
         <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="store.isLogin&&article.user===store.user.pk">수정하기</button>
         <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="store.isLogin&&article.user===store.user.pk">삭제</button>
       </div>
+      <Comments
+        :pk="article.id"
+        nextUrl="communities/articles"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
+import Comments from '@/components/Comments.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
@@ -34,10 +39,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ko-KR', options);
 };
 
-const goBack = () => {
-  router.go(-1);
-};
-
 const confirmDelete = (articleId) => {
   if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
     deleteArticle(articleId);
@@ -50,9 +51,6 @@ const updateArticle = (articleId) => {
 
 const deleteArticle = (articleId) => {
   axios.delete(`${store.API_URL}/api/v1/communities/articles/${articleId}/`, {
-    // headers: {
-    //   Authorization: `Token ${store.token}`,
-    // },
   })
   .then(() => {
     router.push({ name: 'Community' });
