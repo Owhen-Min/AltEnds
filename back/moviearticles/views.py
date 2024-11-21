@@ -2,14 +2,15 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.conf import settings
+from django.db.models import Count
 
-# permission Decorators
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
+from accounts.serializers import UserProfileSerializer
 from .models import Ending, Movie, Comment
 from openai import OpenAI
 
@@ -128,3 +129,23 @@ def likes(request, ending_pk):
         'is_liked': is_liked,
     }
     return Response(context)
+
+@api_view(['GET'])
+def GetUserRanking(request):
+    user_ranking = (
+        Ending.objects.values("user_id__id",)
+        .annotate(total_likes=Count("like_users"))
+        .order_by("-total_likes")
+    )
+    print(user_ranking)
+    return Response(user_ranking)
+
+
+@api_view(['GET'])
+def GetEndingRanking(request):
+    most_liked_article = (
+        Ending.objects.annotate(like_count=Count("like_users"))
+        .order_by("-like_count")
+    )
+    serializer = EndingSerializer(most_liked_article, many=True)
+    return Response(serializer.data)
