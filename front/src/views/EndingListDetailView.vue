@@ -1,27 +1,31 @@
 <template>
   <div class="container card py-5" v-if="altending">
       <div class="row gx-5 justify-content-evenly">
-          <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
-            <img 
-              :src="store.API_URL + '/api/v1/movies' + altending.movie_info.poster" 
-              alt="Movie Poster" 
-              class="movie-poster"
-            >
-            <h1 class="movie-title">{{ altending.movie_info.title }}</h1>
-            <h4>감독: <span>{{ altending.movie_info.director }}</span></h4>
-            <h4>개봉연도: <span>{{ altending.movie_info.openYear }}</span></h4>
-            <h4>장르: <span>{{ altending.movie_info.genre }}</span></h4>
+        <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
+          <img 
+            :src="store.API_URL + '/api/v1/movies' + altending.movie_info.poster" 
+            alt="Movie Poster" 
+            class="movie-poster"
+          >
+          <h1 class="movie-title">{{ altending.movie_info.title }}</h1>
+          <h4>감독: <span>{{ altending.movie_info.director }}</span></h4>
+          <h4>개봉연도: <span>{{ altending.movie_info.openYear }}</span></h4>
+          <h4>장르: <span>{{ altending.movie_info.genre }}</span></h4>
+        </div>
+        <div class="col-lg-7 col-md-6 col-sm-12 card p-3">
+          <h1>대체결말</h1>
+          <p class="movie-summary">{{ altending.content }}</p>
+          <div class="button-container d-flex justify-content-end">
+            <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
+            <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: 1 } }" class="col-3 mx-2">
+                <button class="btn btn-primary col-12">영화 비틀러 가기</button>
+            </RouterLink>
           </div>
-          <div class="col-lg-7 col-md-6 col-sm-12 card p-3">
-              <h1>대체결말</h1>
-              <p class="movie-summary">{{ altending.content }}</p>
-              <div class="button-container d-flex justify-content-end">
-                <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
-                <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: 1 } }" class="col-3 mx-2">
-                    <button class="btn btn-primary col-12">영화 비틀러 가기</button>
-                </RouterLink>
-              </div>
-          </div>
+        </div>
+        <Comments
+          :pk="altending.id"
+          nextUrl="movies/altends"
+        />
       </div>
       <br>
       
@@ -29,6 +33,7 @@
 </template>
 
 <script setup>
+import Comments from '@/components/Comments.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
@@ -51,7 +56,6 @@ onMounted(() => {
   })
     .then((response) => {
       altending.value = response.data
-      console.log(altending.value.movie_info)
     })
     .catch((error) => {
       console.log(error)

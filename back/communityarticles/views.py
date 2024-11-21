@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .serializers import ArticleListSerializer, ArticleSerializer
-from .models import Article
+from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
+from .models import Article, Comment
 
 
 @api_view(['GET', 'POST'])
@@ -47,8 +47,23 @@ def article_detail(request, article_pk):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
 
+# @login_required
+@api_view(['GET', 'POST'])
+def comment_list(request, article_pk):
+    if request.method == 'GET':
+        comments = get_list_or_404(Comment, article_id=article_pk)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
     
-@login_required
+    elif request.method == 'POST':
+        article = get_object_or_404(Article, pk=article_pk)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user_id=request.user, article_id=article)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    
+# @login_required
 @api_view(['POST'])
 def likes(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
