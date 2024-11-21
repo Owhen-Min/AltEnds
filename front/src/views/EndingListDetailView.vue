@@ -56,7 +56,6 @@ onMounted(() => {
   })
     .then((response) => {
       altending.value = response.data
-      console.log(altending.value.movie_info)
     })
     .catch((error) => {
       console.log(error)

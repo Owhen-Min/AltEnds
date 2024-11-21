@@ -39,10 +39,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ko-KR', options);
 };
 
-const goBack = () => {
-  router.go(-1);
-};
-
 const confirmDelete = (articleId) => {
   if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
     deleteArticle(articleId);
@@ -55,9 +51,6 @@ const updateArticle = (articleId) => {
 
 const deleteArticle = (articleId) => {
   axios.delete(`${store.API_URL}/api/v1/communities/articles/${articleId}/`, {
-    // headers: {
-    //   Authorization: `Token ${store.token}`,
-    // },
   })
   .then(() => {
     router.push({ name: 'Community' });
