@@ -33,7 +33,8 @@ export const useMovieStore = defineStore('movie', () => {
       }
     })
       .then((response) => {
-        logIn({ username, password1 })
+        const password = password1
+        logIn({ username, password })
       })
       .catch((error) => {
         errorTitle.value = '회원가입 실패'
@@ -74,9 +75,6 @@ export const useMovieStore = defineStore('movie', () => {
             .then((response) => {
               user.value = response.data
             })
-          })
-          .catch((error) => {
-            console.log(error)
           })
       })
       .then(() => {
