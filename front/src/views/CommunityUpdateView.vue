@@ -65,19 +65,25 @@ const updateArticle = async () => {
     })
   })
     .catch ((error) => {
-    console.log('Error updating article:', error)
-    isSubmitting.value = false
+      store.errorTitle = '게시글 업데이트에 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
+  })
+    .finally(() => {
+      isSubmitting.value = false
     })
 };
 
 onMounted(() => {
-  axios.get(`${store.API_URL}/api/v1/communities/articles/${route.params.articleid}/`)
+  axios.get(`${store.API_URL}/communities/${route.params.articleid}/`)
     .then((res) => {
       title.value = res.data.title;
       content.value = res.data.content
     })
     .catch((err) => {
-      console.error("Error fetching article:", err);
+      store.errorTitle = '불러오려 한 게시글이 없습니다.'
+      store.showModal = true;
+      router.push({ name: 'Community' });
     });
 });
 

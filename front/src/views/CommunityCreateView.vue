@@ -55,11 +55,13 @@ const createArticle = async () => {
     })
     router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
   } catch (error) {
-    window.alert('게시글 작성에 실패하였습니다.')
-  } finally {
-    isSubmitting.value = false; // Reset loading state
+      store.errorTitle = '게시글 작성에 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
+    } finally {
+      isSubmitting.value = false; // Reset loading state
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

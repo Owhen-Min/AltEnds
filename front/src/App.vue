@@ -5,7 +5,7 @@
     <RouterView />
     <Modal
       v-model:isVisible="store.showModal"
-      :title="'로그인 실패'"
+      :title="store.errorTitle"
       :message="store.errorMessage"
     />
   </div>
