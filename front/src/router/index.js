@@ -14,6 +14,7 @@ import CommunityCreateView from '@/views/CommunityCreateView.vue'
 import MovieListSelectView from '@/views/MovieListSelectView.vue'
 import { useMovieStore } from '@/stores/counter'
 import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
+import ProfileChangeView from '@/views/ProfileChangeView.vue'
 
 
 const router = createRouter({
@@ -43,61 +44,67 @@ const router = createRouter({
       name: 'Profile',
       component: ProfileView
     },
-    // 5. 원본 영화 리스트 페이지
+    // 5. 사용자 프로필 변경 페이지
+    {
+      path: '/profile/:userid/change',
+      name: 'ProfileChange',
+      component: ProfileChangeView
+    },
+    // 6. 원본 영화 리스트 페이지
     {
       path: '/movielist',
       name: 'MovieList',
       component: MovieListView
     },
-    // 6. 원본 영화 선택 페이지
+    // 7. 원본 영화 선택 페이지
     {
       path: '/movieselect',
       name: 'MovieSelect',
       component: MovieListSelectView
     },
-    // 7. 원본 영화 상세 페이지
+    // 8. 원본 영화 상세 페이지
     {
       path: '/movielist/:movieid',
       name: 'MovieListDetail',
       component: MovieListDetailView
     },
-    // 8. 대체 결말 리스트 페이지
+    // 9. 대체 결말 리스트 페이지
     {
       path: '/ending',
       name: 'EndingList',
       component: EndingListView
     },
-    // 9. 대체 결말 상세 페이지
+    // 10. 대체 결말 상세 페이지
     {
       path: '/ending/:endingid',
       name: 'EndingListDetail',
       component: EndingListDetailView
     },
-    // 10. 대체 결말 생성 페이지
+    // 11. 대체 결말 생성 페이지
     {
       path: '/ending/create/:movieid',
       name: 'EndingListCreate',
       component: EndingListCreateView
     },
-    // 11. 커뮤니티 게시판 페이지
+    // 12. 커뮤니티 게시판 페이지
     {
       path: '/community',
       name: 'Community',
       component: CommunityView
     },
-    // 12. 커뮤니티 게시글 상세 페이지
+    // 13. 커뮤니티 게시글 상세 페이지
     {
       path: '/community/:articleid',
       name: 'CommunityDetail',
       component: CommunityDetailView
     },
-    // 13. 커뮤니티 게시글 작성 페이지
+    // 14. 커뮤니티 게시글 작성 페이지
     {
       path: '/community/create',
       name: 'CommunityCreate',
       component: CommunityCreateView
     },
-    // 14. 커뮤니티 게시글 수정 페이지
+    // 15. 커뮤니티 게시글 수정 페이지
     {
       path: '/community/:articleid/update',
       name: 'CommunityUpdate',

@@ -20,3 +20,4 @@ class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('pk', 'username', 'nickname', 'profile_picture', 'join_date', 'token')
+        read_only_fields = ('pk', 'username', 'join_data', )

@@ -3,7 +3,8 @@
     <div class="container p-1 flex">
       <div class="row col-3">
         <div class="profile card">
-          <p>프로필사진 : {{ profile.profile_picture }}</p>
+          <p>프로필사진</p>
+          <img :src="store.BASE_URL + profile.profile_picture" alt="">
         </div>
         <div class="info card">
           <p>닉네임 : {{ profile.nickname }}</p>
@@ -20,7 +21,9 @@
       </div>
     </div>
     <button @click="$router.go(-1)">이전으로</button>
-    <button>정보변경</button>
+    <RouterLink :to="{ name: 'ProfileChange', params: { userid: user_pk } }">
+      <button>정보변경</button>
+    </RouterLink>
   </article>
 </template>
 
@@ -28,7 +31,7 @@
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 const route = useRoute()
 const user_pk = route.params.userid
