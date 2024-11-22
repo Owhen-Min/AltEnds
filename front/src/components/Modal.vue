@@ -2,7 +2,7 @@
   <div class="d-flex modal-overlay align-items-between" @click="closeModal" v-if="isVisible">
     <div class="modal-content" @click.stop>
       <h2 class="modal-title">{{ title }}</h2>
-      <p v-html="message" class="modal-message" ></p>
+      <p v-html="message" class="modal-message"></p>
       <button class="btn btn-primary" @click="closeModal">확인</button>
     </div>
   </div>
@@ -13,10 +13,9 @@ import { useMovieStore } from '@/stores/counter';
 
 const store = useMovieStore()
 
-
 const props = defineProps({
   title: String,
-  messages: Array,
+  message: String,
   isVisible: Boolean,
 });
 
