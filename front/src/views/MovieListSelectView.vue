@@ -11,7 +11,7 @@
         @click="goDetail(movie.id)"
       >
         <img 
-          :src="API_URL + movie.poster" 
+          :src="store.BASE_URL + movie.poster" 
           alt="Movie Poster" 
           class="movie-poster"
         >

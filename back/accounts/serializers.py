@@ -20,8 +20,8 @@ class CustomRegisterSerializer(RegisterSerializer):
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('pk', 'first_name', 'nickname', 'profile_picture', 'join_date', 'token')
-
+        fields = ('pk', 'username', 'nickname', 'profile_picture', 'join_date', 'token')
+        read_only_fields = ('pk', 'username', 'join_data', )
 
 class UserRankingSerializer(ModelSerializer):
     total_likes = serializers.IntegerField()
