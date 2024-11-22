@@ -135,7 +135,7 @@ def GetUserRanking(request):
     user_ranking = (
         Ending.objects.values("user_id__id",)
         .annotate(total_likes=Count("like_users"))
-        .order_by("-total_likes")
+        .order_by("-total_likes")[:3]
     )
     User = get_user_model()
     user_dict = dict()
@@ -153,7 +153,16 @@ def GetUserRanking(request):
 def GetEndingRanking(request):
     most_liked_article = (
         Ending.objects.annotate(like_count=Count("like_users"))
-        .order_by("-like_count")
+        .order_by("-like_count")[:6]
     )
-    serializer = EndingSerializer(most_liked_article, many=True)
-    return Response(serializer.data)
+    ending_dict = dict()
+
+    for rank, article in enumerate(most_liked_article):
+        ending_dict[rank+1] = {
+            'movie': article.movie_id.title,
+            'prompt': article.prompt,
+            'like_count': article.like_count,
+            'ending_id': article.id
+        }
+    
+    return JsonResponse(ending_dict, safe=True)
