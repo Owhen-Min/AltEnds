@@ -124,7 +124,7 @@ const generateEnding = async () => {
   } catch (error) {
       store.errorTitle = '대체 결말을 만드는 데 실패하였습니다.'
       store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      showModal.value = true;
+      store.showModal = true;
   } finally {
     isSubmitting.value = false;
   }

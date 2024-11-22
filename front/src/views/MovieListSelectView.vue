@@ -48,7 +48,7 @@ onMounted(() => {
     .catch((error) => {
       store.errorTitle = '영화들을 가져오는 데 실패하였습니다.'
       store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      showModal.value = true;
+      store.showModal = true;
     })
 })
 

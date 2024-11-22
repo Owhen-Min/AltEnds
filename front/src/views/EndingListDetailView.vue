@@ -65,7 +65,7 @@ onMounted(() => {
     })
     .catch((error) => {
       store.errorTitle = '조회한 대체 결말이 없습니다.'
-      showModal.value = true;
+      store.showModal = true;
       router.push({ name: 'EndingList' })
     })
 })
