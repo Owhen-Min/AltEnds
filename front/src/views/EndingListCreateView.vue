@@ -52,7 +52,7 @@
         <h5>대체 결말</h5>
         <p>{{ altendings[selected - 1].content }}</p>
       </div>
-
+      
       <!-- Re-Prompt Form -->
       <form @submit.prevent="generateEnding" class="form">
         <div class="form-group">
@@ -74,10 +74,8 @@
 
       <SelectModal
         :isOpen="isModalOpen"
-        title="글 작성 확인"
-        message="작성할 프롬프트를 선택하세요"
         :options="altendings"
-        @confirm="handleModalConfirm"
+        :movieid="movieid"
         @cancel="handleModalCancel"
       />
 
@@ -146,23 +144,6 @@ const generateEnding = async () => {
   }
 };
 
-const createEnding = async () => {
-  try {
-    await axios.post(`${store.API_URL}/movies/altends/`, {
-      movie_id: movieid,
-      prompt: altendings.value[selected.value - 1].prompt,
-      content: altendings.value[selected.value - 1].content,
-    }, {
-      headers: { Authorization: `Token ${store.token}` },
-    });
-    router.push({ name: 'EndingList' });
-  } catch (error) {
-      store.errorTitle = '대체 결말을 업로드 하는 데 실패하였습니다.'
-      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      showModal.value = true;
-  }
-};
-
 onMounted(async () => {
   try {
     const { data } = await axios.get(`${store.API_URL}/movies/${movieid}/`);
@@ -180,25 +161,6 @@ const openModal = () => {
     return;
   }
   isModalOpen.value = true;
-};
-
-const handleModalConfirm = async (index) => {
-  isModalOpen.value = false;
-  selectedEndingIndex.value = index; // 선택한 인덱스 저장
-  const selectedEnding = altendings.value[selectedEndingIndex.value];
-
-  try {
-    await axios.post(`${store.API_URL}/movies/altends/`, {
-      movie_id: movieid,
-      prompt: selectedEnding.prompt,
-      content: selectedEnding.content,
-    }, {
-      headers: { Authorization: `Token ${store.token}` },
-    });
-    router.push({ name: 'EndingList' });
-  } catch (error) {
-    console.error('Error creating ending:', error);
-  }
 };
 
 const handleModalCancel = () => {
