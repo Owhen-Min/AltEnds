@@ -40,8 +40,10 @@
 import { ref, watch } from 'vue';
 import axios from 'axios';
 import { useMovieStore } from '@/stores/counter';
+import { useRouter } from 'vue-router';
 
 const store = useMovieStore();  
+const router = useRouter(); 
 
 const props = defineProps({
   isOpen: Boolean,
@@ -84,12 +86,12 @@ const createEnding = function () {
     })
     .then(response => {
       console.log(response);
-      router.push({ name: 'EndingDetail', params: { id: response.data.id } });
+      router.push({ name: 'EndingList'});
     })
       .catch((error)=> {
-      store.errorTitle = '대체 결말을 업로드 하는 데 실패하였습니다.'
-      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      showModal.value = true;
+        console.log(error);
+        store.errorTitle = '대체 결말을 업로드 하는 데 실패하였습니다.'
+        store.showModal = true;
     })
 };
 
