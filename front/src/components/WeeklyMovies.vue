@@ -46,6 +46,7 @@
 
 <script setup>
 import { useMovieStore } from "@/stores/counter";
+import { onMounted } from "vue";
 import { useRouter } from 'vue-router';
 
 const store = useMovieStore();
@@ -54,6 +55,10 @@ const weeklyMovies = store.weeklyMovie;
 
 const goDetail = ((movieid) => {
   router.push({ name: 'MovieListDetail', params: { movieid: movieid }})
+})
+
+onMounted(() => {
+  store.getMovies();
 })
 
 </script>

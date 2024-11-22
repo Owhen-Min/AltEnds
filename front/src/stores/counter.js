@@ -122,9 +122,6 @@ export const useMovieStore = defineStore('movie', () => {
     axios({
       method: 'get',
       url: `${API_URL}/movies/`,
-      headers: {
-        Authorization: `Token ${token.value}`,
-      },
     })
       .then((response) => {
         weeklyMovie.value = response.data
