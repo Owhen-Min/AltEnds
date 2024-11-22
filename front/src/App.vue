@@ -3,11 +3,20 @@
   <div class="container">
     <NavBar />
     <RouterView />
+    <Modal
+      v-model:isVisible="store.showModal"
+      :title="'로그인 실패'"
+      :message="store.errorMessage"
+    />
   </div>
 </template>
 <script setup>
 import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
+import Modal from './components/Modal.vue';
+import { useMovieStore } from './stores/counter';
+
+const store = useMovieStore();
 </script>
 
 <style scoped>

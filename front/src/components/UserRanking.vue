@@ -33,7 +33,6 @@ onMounted(() => {
     url: `${store.API_URL}/movies/ranking/user/`,
   })
   .then((res) => {
-    console.log(res);
     userRanking.value = res.data;
   })
 })

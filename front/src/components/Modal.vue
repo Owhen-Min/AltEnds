@@ -2,7 +2,9 @@
   <div class="modal-overlay" v-if="isVisible">
     <div class="modal-content">
       <h3 class="modal-title">{{ title }}</h3>
-      <p class="modal-message">{{ message }}</p>
+      <p class="modal-message" v-for="message in messages">
+        {{ message }}
+      </p>
       <button class="btn btn-primary" @click="closeModal">확인</button>
     </div>
   </div>
@@ -16,7 +18,7 @@ const store = useMovieStore()
 
 const props = defineProps({
   title: String,
-  message: String,
+  messages: Array,
   isVisible: Boolean,
 });
 

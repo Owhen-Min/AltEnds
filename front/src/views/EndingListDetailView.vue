@@ -42,10 +42,11 @@ import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 
 const route = useRoute()
+const router = useRouter()
 const store = useMovieStore()
 // Sample movie data for demonstration. Replace with actual data as needed.
 const altending = ref(null)
@@ -63,7 +64,8 @@ onMounted(() => {
       altending.value = response.data
     })
     .catch((error) => {
-      console.log(error)
+      window.alert('조회한 게시글이 없습니다.')
+      router.push({ name: 'EndingList' })
     })
 })
 </script>

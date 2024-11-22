@@ -15,7 +15,7 @@ from .models import Article, Comment
 # @permission_classes([IsAuthenticated])
 def article_list(request):
     if request.method == 'GET':
-        articles = get_list_or_404(Article)
+        articles = Article.objects.all()
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
 
@@ -51,7 +51,7 @@ def article_detail(request, article_pk):
 @api_view(['GET', 'POST'])
 def comment_list(request, article_pk):
     if request.method == 'GET':
-        comments = get_list_or_404(Comment, article_id=article_pk)
+        comments = Comment.objects.filter(article_id=article_pk)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     

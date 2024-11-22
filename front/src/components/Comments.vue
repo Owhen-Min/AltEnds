@@ -41,7 +41,7 @@ onMounted(() => {
       comments.value = response.data
     })
     .catch((error) => {
-      console.log(error)
+      window.alert(error)
     })
 })
 
@@ -65,14 +65,16 @@ const createComment = function () {
           comments.value = response.data
         })
         .catch((error) => {
-          console.log(error)
+          window.alert(error)
         })
       })
     .then(() => {
       content.value = null
     })
       .catch((error) => {
-        console.log(error)
+        store.errortitle.value = '댓글 작성에 실패하셨습니다.'
+        store.errorMessage.value = error;
+        store.showModal.value = true;
       })
 }
 </script>
