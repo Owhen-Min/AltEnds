@@ -1,8 +1,5 @@
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
-
 
 urlpatterns = [
     path('', views.movie_list),
@@ -14,4 +11,4 @@ urlpatterns = [
     path('altends/<int:ending_pk>/likes/', views.likes),
     path('ranking/user/', views.GetUserRanking),
     path('ranking/ending/', views.GetEndingRanking),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]

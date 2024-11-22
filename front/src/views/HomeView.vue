@@ -24,6 +24,7 @@
         <div class="card mb-4">
           <div class="card-body" id="user-management" v-if="isLogin">
             <h5>회원 정보</h5>
+            <img src="http://127.0.0.1:8000/media/static/baseprofile.jpeg/" alt="" class="col-5">
             <p><strong>{{store.user.nickname}}</strong>님 안녕하세요!</p>
             <p>남은 토큰 : {{ store.user.token }}</p>
             <button @click="goProfile(store.user.pk)" class="btn btn-link">마이페이지</button>
