@@ -17,6 +17,7 @@ export const useMovieStore = defineStore('movie', () => {
     }
   })
   const user = ref(null)
+  const weeklyMovie = ref([])
   const router = useRouter()
   const showModal = ref(false); // Modal visibility state
   const errorTitle = ref('')
@@ -117,5 +118,23 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
-  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errorTitle, errorMessage, logOut, getProfile, user}
+  const getMovies = function () {
+    axios({
+      method: 'get',
+      url: `${API_URL}/movies/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    })
+      .then((response) => {
+        weeklyMovie.value = response.data
+      })
+      .catch((error) => {
+        errorTitle.value = '주간영화 가져오기 실패'
+        errorMessage.value = Object.values(error.response.data).flat().join('<br>')
+        showModal.value = true;
+      })
+  }
+
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errorTitle, errorMessage, logOut, getProfile, user, getMovies, weeklyMovie }
 }, {persist: true})
