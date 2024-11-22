@@ -53,10 +53,12 @@ onMounted(() => {
     .get(API_URL, {
     })
     .then((response) => {
-      endings.value = response.data
+      endings.value = response.data.sort((a, b) => b.id - a.id);
     })
     .catch((error) => {
-      console.error('Error fetching posts:', error)
+      store.errorTitle = '대체 결말을 가져오는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      store.showModal = true;
     })
 })
 

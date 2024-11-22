@@ -51,16 +51,14 @@ const goDetail = (postId) => {
 // Fetch posts on component mount
 onMounted(() => {
   axios
-    .get(`${store.API_URL}/communities/`, {
-      // headers: {
-      //   Authorization: `Token ${store.token}`,
-      // },
-    })
+    .get(`${store.API_URL}/communities/`)
     .then((res) => {
       posts.value = res.data.sort((a, b) => b.id - a.id);
     })
     .catch((err) => {
-      console.error('Error fetching posts:', err);
+      store.errorTitle = '게시글을 불러오는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      store.showModal = true;
     });
 });
 

@@ -45,7 +45,11 @@ onMounted(() => {
   })
     .then((response) => {
       profile.value = response.data
-      console.log(profile.value)
+    })
+    .catch((error) => {
+      store.errorTitle = '프로필을 불러오는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      store.showModal = true;
     })
 })
 </script>

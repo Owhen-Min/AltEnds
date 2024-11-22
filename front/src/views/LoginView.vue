@@ -9,7 +9,7 @@
 
       <div class="form-group">
         <label for="password">패스워드:</label>
-        <input type="password" id="password" v-model.trim="password" required placeholder="패스워드를 입력하세요" />
+        <input type="password" id="password" v-model.trim="password" autocomplete="current-password" required placeholder="패스워드를 입력하세요" />
       </div>
 
       <button type="submit" class="btn btn-primary" :disabled="isLoading">

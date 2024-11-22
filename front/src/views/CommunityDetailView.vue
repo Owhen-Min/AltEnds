@@ -74,7 +74,8 @@ onMounted(() => {
       article.value = res.data;
     })
     .catch((err) => {
-      window.alert('조회한 게시글이 없습니다.')
+      store.errorTitle = '조회한 게시글이 없습니다.'
+      store.showModal = true;
       router.push({ name: 'Community' });
     });
 });

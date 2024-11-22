@@ -28,4 +28,3 @@ class UserRankingSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('pk', 'nickname', 'total_likes')
-
