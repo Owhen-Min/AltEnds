@@ -57,7 +57,7 @@ const createArticle = async () => {
   } catch (error) {
       store.errorTitle = '게시글 작성에 실패하였습니다.'
       store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      showModal.value = true;
+      store.showModal = true;
     } finally {
       isSubmitting.value = false; // Reset loading state
   }
