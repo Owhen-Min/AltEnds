@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
-from accounts.serializers import UserRankingSerializer
 from .models import Ending, Movie, Comment
 from openai import OpenAI
 from django.contrib.auth import get_user_model

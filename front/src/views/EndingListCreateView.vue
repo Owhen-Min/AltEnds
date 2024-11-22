@@ -50,7 +50,7 @@
         <h5>프롬프트</h5>
         <p>{{ altendings[selected - 1].prompt }}</p>
         <h5>대체 결말</h5>
-        <p>{{ altendings[selected - 1].content }}</p>
+        <p v-html="altendings[selected - 1].content" class="alt-ending"></p>
       </div>
       
       <!-- Re-Prompt Form -->
@@ -131,7 +131,7 @@ const generateEnding = async () => {
     }, {
       headers: { Authorization: `Token ${store.token}` },
     });
-
+    console.log(data.alt_ending)
     altendings.value.push({ prompt: prompt.value, content: data.alt_ending });
     prompt.value = '';
     isPrompt.value = true;
@@ -253,6 +253,10 @@ textarea {
 
 .alt-endings {
   text-align: center;
+}
+
+.alt-ending {
+  white-space: pre-line;
 }
 
 .ending-buttons {
