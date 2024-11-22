@@ -4,12 +4,12 @@
     <form @submit.prevent="createArticle" class="article-form">
       <div class="form-group">
         <label for="title">제목:</label>
-        <input type="text" id="title" v-model.trim="title" required placeholder="게시글 제목을 입력하세요" />
+        <input type="text" id="title" v-model.trim="title" placeholder="게시글 제목을 입력하세요" />
         <span v-if="titleError" class="error">{{ titleError }}</span>
       </div>
       <div class="form-group">
         <label for="content">내용:</label>
-        <textarea id="content" v-model.trim="content" required placeholder="게시글 내용을 입력하세요"></textarea>
+        <textarea id="content" v-model.trim="content" placeholder="게시글 내용을 입력하세요"></textarea>
         <span v-if="contentError" class="error">{{ contentError }}</span>
       </div>
       <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
@@ -55,11 +55,13 @@ const createArticle = async () => {
     })
     router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
   } catch (error) {
-    console.error('Error creating article:', error);
-  } finally {
-    isSubmitting.value = false; // Reset loading state
+      store.errorTitle = '게시글 작성에 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
+    } finally {
+      isSubmitting.value = false; // Reset loading state
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

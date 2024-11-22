@@ -9,7 +9,7 @@
 
       <div class="form-group">
         <label for="password">패스워드:</label>
-        <input type="password" id="password" v-model.trim="password" required placeholder="패스워드를 입력하세요" />
+        <input type="password" id="password" v-model.trim="password" autocomplete="current-password" required placeholder="패스워드를 입력하세요" />
       </div>
 
       <button type="submit" class="btn btn-primary" :disabled="isLoading">
@@ -17,19 +17,12 @@
       </button>
     </form>
 
-    <!-- Modal for error message -->
-    <Modal
-      v-model:isVisible="store.showModal"
-      :title="'로그인 실패'"
-      :message="store.errorMessage"
-    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useMovieStore } from '@/stores/counter';
-import Modal from '@/components/Modal.vue';
 
 
 const username = ref('');

@@ -62,7 +62,7 @@ const deleteArticle = (articleId) => {
     router.push({ name: 'Community' });
   })
   .catch((error) => {
-    console.error("Error deleting article:", error);
+    window.alert('삭제에 실패하였습니다.')
   });
 };
 
@@ -74,7 +74,9 @@ onMounted(() => {
       article.value = res.data;
     })
     .catch((err) => {
-      console.error("Error fetching article:", err);
+      store.errorTitle = '조회한 게시글이 없습니다.'
+      store.showModal = true;
+      router.push({ name: 'Community' });
     });
 });
 </script>

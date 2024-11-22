@@ -35,7 +35,6 @@ onMounted(() => {
     url: `${store.API_URL}/movies/ranking/ending/`,
   })
   .then((res) => {
-    console.log(res);
     altEndRanking.value = res.data;
   })
 })
@@ -48,6 +47,7 @@ onMounted(() => {
   border-radius: 5px; /* Rounded corners */
   margin-right: 10px; /* Space between ranking cards */
   border: solid black 1px;
+  cursor: pointer;
 }
 
 .card-header {

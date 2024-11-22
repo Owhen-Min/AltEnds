@@ -20,7 +20,7 @@ from django.contrib.auth import get_user_model
 @api_view(['GET', 'POST'])
 def ending_list(request):
     if request.method == 'GET':
-        endings = get_list_or_404(Ending)
+        endings = Ending.objects.all()
         serializer = EndingListSerializer(endings, many=True)
         return Response(serializer.data)
 
@@ -34,7 +34,7 @@ def ending_list(request):
 @api_view(['GET', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def ending_detail(request, ending_pk):
-    ending = get_object_or_404(Ending, pk=ending_pk)
+    ending = Ending.objects.get(pk=ending_pk)
 
     if request.method == 'GET':
         ending.view += 1
@@ -69,7 +69,7 @@ def movie_detail(request, movie_pk):
 @api_view(['GET', 'POST'])
 def comment_list(request, ending_pk):
     if request.method == 'GET':
-        comments = get_list_or_404(Comment, ending_id=ending_pk)
+        comments = Comment.objects.filter(ending_id=ending_pk)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
