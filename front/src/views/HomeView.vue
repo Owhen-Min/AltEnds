@@ -16,15 +16,7 @@
         </div>
 
         <div class="card mb-4">
-          <h2 class="card-header">대체 결말 랭킹</h2>
-          <div class="card-body">
-            <div class="row">
-              <div @click="goEndingDetail(1)" class="ranking-card col-4" v-for="altend in altEndRanking" :key="altend.movie">
-                <h5>영화: {{ altend.movie }}</h5>
-                <p>대체 결말: {{ altend.content }}</p>
-              </div>
-            </div>
-          </div>
+          <EndingRanking />
         </div>
       </div>
 
@@ -49,13 +41,7 @@
           </div>
         </div>
 
-        <div class="card mb-4 p-3">
-          <h5>사용자 랭킹</h5>
-          <div @click="goProfile(userid)" v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
-            <p>{{ index + 1 }}위: {{ user.username }}</p>
-            <p>받은 좋아요 수: {{ user.likes }}</p>
-          </div>
-        </div>
+        <UserRanking />
       </div>
     </div>
   </div>
@@ -69,39 +55,16 @@ import router from '@/router';
 import { useMovieStore } from '@/stores/counter';
 import { computed, ref } from 'vue';
 
+import UserRanking from '@/components/UserRanking.vue';
+import EndingRanking from '@/components/EndingRanking.vue';
+
 const store = useMovieStore()
 
 const isLogin = computed (() => {
   return store.isLogin
 })
 
-const userid = window
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
-
-const userRanking = ref([
-  { username: '윤상흠', likes: 1000000 },
-  { username: '민경현', likes: 999999 },
-  { username: '신기욱', likes: 999998 },
-  { username: '변희봉', likes: 777797 }
-]);
-const altEndRanking = ref([
-  {
-    movie: '리얼',
-    content: '대체 결말 내용 1...'
-  },
-  {
-    movie: '죽어야 사는 영화',
-    content: '대체 결말 내용 2...'
-  },
-  {
-    movie: '클레멘타인',
-    content: '대체 결말 내용 3...'
-  }
-])
-
-const goEndingDetail = function (endingid) {
-  router.push({ name: 'EndingListDetail', params: { endingid: endingid } })
-}
 
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })

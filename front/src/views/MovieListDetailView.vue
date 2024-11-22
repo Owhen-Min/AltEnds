@@ -5,7 +5,7 @@
     >
         <div class="row gx-5 justify-content-evenly">
             <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
-                <img :src="API_URL + movie.poster" alt="Movie Poster" class="movie-poster">
+                <img :src="store.BASE_URL + movie.poster" alt="Movie Poster" class="movie-poster">
                 <h1 class="movie-title">{{ movie.title }}</h1>
                 <h4>감독: <span>{{ movie.director }}</span></h4>
                 <h4>개봉연도: <span>{{ movie.openYear }}</span></h4>
@@ -16,11 +16,11 @@
                 <p class="movie-summary">
                     {{ movie.plot }}
                 </p>
-                <div class="button-container d-flex justify-content-end">
-                    <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
-                    <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-3 mx-2">
-                        <button class="btn btn-primary col-12">영화 비틀러 가기</button>
-                    </RouterLink>
+                <div class="button-container flex justify-content-end p-2">
+                    <button @click="$router.go(-1)" class="btn btn-warning col-5 mx-1">이전으로</button>
+                    <button class="btn btn-primary col-5 mx-1">
+                      <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-12">영화 비틀러 가기</RouterLink>
+                    </button>
                 </div>
             </div>
         </div>

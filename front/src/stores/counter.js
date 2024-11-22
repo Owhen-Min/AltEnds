@@ -19,7 +19,8 @@ export const useMovieStore = defineStore('movie', () => {
   const user = ref(null)
   const router = useRouter()
   const showModal = ref(false); // Modal visibility state
-  const errorMessage = ref(''); // Error message state
+  const errortitle = ref('')
+  const errorMessage = ref([]); // Error message state
 
   const signUp = function (payload) {
     const { username, password1, password2, firstname, nickname, email } = payload
@@ -32,14 +33,14 @@ export const useMovieStore = defineStore('movie', () => {
       }
     })
       .then((response) => {
-        const password = password1
-        // const payload = {
-        //   username, password
-        // }
-        logIn({ username, password })
+        console.log(1)
+        logIn({ username, password1 })
       })
       .catch((error) => {
-        console.log(error)
+        console.log(2)
+        errortitle.value = '회원가입 실패'
+        errorMessage.value = error.response;
+        showModal.value = true;
       })
   }
 
@@ -84,7 +85,8 @@ export const useMovieStore = defineStore('movie', () => {
         router.push({ name: 'Home' })
       })
       .catch((error) => {
-        errorMessage.value = '로그인 실패: 아이디나 패스워드를 확인하세요.';
+        errortitle.value = '로그인 실패'
+        errorMessage.value = ['아이디나 패스워드를 확인하세요.'];
         showModal.value = true;
       })
       
@@ -97,7 +99,7 @@ export const useMovieStore = defineStore('movie', () => {
       url: `${API_URL}/accounts/logout/`,
     })
       .then((response) => {
-        console.log(response.data)
+        window.alert('로그아웃 되셨습니다.')
         token.value = null,
         router.push({ name: 'Home' })
       })
@@ -119,5 +121,5 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
-  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errorMessage, logOut, getProfile, user}
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errortitle, errorMessage, logOut, getProfile, user}
 }, {persist: true})

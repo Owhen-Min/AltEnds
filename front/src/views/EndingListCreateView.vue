@@ -6,7 +6,7 @@
     <div class="movie-info row" v-if="movie">
       <div class="poster col-3 align-items-center justify-content-center">
         <span>원본 영화 정보</span>
-        <img :src="store.API_URL + `/movies` + movie.poster" :alt="movie.title" />
+        <img :src="store.BASE_URL + movie.poster" :alt="movie.title" />
         <p class="center">{{ movie.title }}</p>
       </div>
       <div class="details col-8">
@@ -70,17 +70,33 @@
         </button>
       </form>
 
-      <button @click="createEnding" class="btn btn-warning">글 작성하기</button>
+      <button @click="openModal" class="btn btn-warning">글 작성하기</button>
+
+      <SelectModal
+        :isOpen="isModalOpen"
+        title="글 작성 확인"
+        message="작성할 프롬프트를 선택하세요"
+        :options="altendings"
+        @confirm="handleModalConfirm"
+        @cancel="handleModalCancel"
+      />
+
+
+      <!-- <button @click="createEnding" class="btn btn-warning">글 작성하기</button> -->
     </div>
   </div>
 </template>
 
 <script setup>
+import SelectModal from '@/components/SelectModal.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+
+const isModalOpen = ref(false);
+const selectedEndingIndex = ref(null); // 선택한 인덱스
 const store = useMovieStore();
 const prompt = ref('');
 const promptError = ref('');
@@ -151,6 +167,39 @@ onMounted(async () => {
     console.error('Error fetching movie:', error);
   }
 });
+
+const openModal = () => {
+  if (!altendings.value.length) {
+    alert('먼저 프롬프트를 생성해주세요.');
+    return;
+  }
+  isModalOpen.value = true;
+};
+
+const handleModalConfirm = async (index) => {
+  isModalOpen.value = false;
+  selectedEndingIndex.value = index; // 선택한 인덱스 저장
+  const selectedEnding = altendings.value[selectedEndingIndex.value];
+
+  try {
+    await axios.post(`${store.API_URL}/movies/altends/`, {
+      movie_id: movieid,
+      prompt: selectedEnding.prompt,
+      content: selectedEnding.content,
+    }, {
+      headers: { Authorization: `Token ${store.token}` },
+    });
+    router.push({ name: 'EndingList' });
+  } catch (error) {
+    console.error('Error creating ending:', error);
+  }
+};
+
+const handleModalCancel = () => {
+  isModalOpen.value = false;
+};
+
+
 </script>
 
 <style scoped>

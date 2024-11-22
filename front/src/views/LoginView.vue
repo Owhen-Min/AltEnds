@@ -17,19 +17,12 @@
       </button>
     </form>
 
-    <!-- Modal for error message -->
-    <Modal
-      v-model:isVisible="store.showModal"
-      :title="'로그인 실패'"
-      :message="store.errorMessage"
-    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useMovieStore } from '@/stores/counter';
-import Modal from '@/components/Modal.vue';
 
 
 const username = ref('');
