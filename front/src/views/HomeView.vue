@@ -48,13 +48,7 @@
           </div>
         </div>
 
-        <div class="card mb-4 p-3">
-          <h5>사용자 랭킹</h5>
-          <div @click="goProfile(userid)" v-for="(user, index) in userRanking" :key="user.username" class="card mb-2 p-2">
-            <p>{{ index + 1 }}위: {{ user.username }}</p>
-            <p>받은 좋아요 수: {{ user.likes }}</p>
-          </div>
-        </div>
+        <UserRanking />
       </div>
     </div>
   </div>
@@ -67,7 +61,7 @@
 import router from '@/router';
 import { useMovieStore } from '@/stores/counter';
 import { computed, ref } from 'vue';
-
+import UserRanking from '@/components/UserRanking.vue';
 const store = useMovieStore()
 
 const isLogin = computed (() => {
