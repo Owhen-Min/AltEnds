@@ -1,18 +1,9 @@
 <template>
-  {{store.user_id}}
   <div class="container py-3">
     <div class="row gx-5">
       <div class="col-lg-9 col-md-8 col-sm-12">
         <div class="card mb-4">
-          <h2 class="card-header">이번 주 영화</h2>
-          <div class="card-body">
-            <div v-for="(movie, index) in movies" :key="index" class="movie-card">
-              <RouterLink :to="{ name: 'MovieListDetail', params: { movieid: 1 } }">
-                <h4>{{ movie }}</h4>
-              </RouterLink>
-              <hr />
-            </div>
-          </div>
+          <WeeklyMovies />
         </div>
 
         <div class="card mb-4">
@@ -57,6 +48,7 @@ import { computed, ref } from 'vue';
 
 import UserRanking from '@/components/UserRanking.vue';
 import EndingRanking from '@/components/EndingRanking.vue';
+import WeeklyMovies from '@/components/WeeklyMovies.vue';
 
 const store = useMovieStore()
 
@@ -64,7 +56,6 @@ const isLogin = computed (() => {
   return store.isLogin
 })
 
-const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
 
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })
