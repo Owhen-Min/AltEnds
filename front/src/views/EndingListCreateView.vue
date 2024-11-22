@@ -122,7 +122,9 @@ const generateEnding = async () => {
     prompt.value = '';
     isPrompt.value = true;
   } catch (error) {
-    console.error('Error generating ending:', error);
+      store.errorTitle = '대체 결말을 만드는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
   } finally {
     isSubmitting.value = false;
   }
@@ -139,7 +141,9 @@ const createEnding = async () => {
     });
     router.push({ name: 'EndingList' });
   } catch (error) {
-    console.error('Error creating ending:', error);
+      store.errorTitle = '대체 결말을 업로드 하는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
   }
 };
 
@@ -148,7 +152,9 @@ onMounted(async () => {
     const { data } = await axios.get(`${store.API_URL}/movies/${movieid}/`);
     movie.value = data;
   } catch (error) {
-    console.error('Error fetching movie:', error);
+    store.errorTitle = '영화를 가져오는 데 실패하였습니다.'
+    store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+    showModal.value = true;
   }
 });
 </script>

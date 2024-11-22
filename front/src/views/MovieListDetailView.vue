@@ -16,11 +16,11 @@
                 <p class="movie-summary">
                     {{ movie.plot }}
                 </p>
-                <div class="button-container d-flex justify-content-end">
-                    <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
-                    <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-3 mx-2">
-                        <button class="btn btn-primary col-12">영화 비틀러 가기</button>
-                    </RouterLink>
+                <div class="button-container flex justify-content-end p-2">
+                    <button @click="$router.go(-1)" class="btn btn-warning col-5 mx-1">이전으로</button>
+                    <button class="btn btn-primary col-5 mx-1">
+                      <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: movie.id } }" class="col-12">영화 비틀러 가기</RouterLink>
+                    </button>
                 </div>
             </div>
         </div>
@@ -50,7 +50,9 @@ onMounted(() => {
         movie.value = response.data
     })
     .catch((error) => {
-        console.log(error)
+      store.errorTitle = '영화들을 가져오는 데 실패하였습니다.'
+      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
+      showModal.value = true;
     })
 })
 
