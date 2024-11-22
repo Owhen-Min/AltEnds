@@ -1,25 +1,26 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework import status
-from django.conf import settings
-
-# permission Decorators
-from rest_framework.decorators import permission_classes
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.conf import settings
+from django.db.models import Count
+from django.http import JsonResponse
+
 
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
+from accounts.serializers import UserRankingSerializer
 from .models import Ending, Movie, Comment
 from openai import OpenAI
-
+from django.contrib.auth import get_user_model
 
 
 # @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def ending_list(request):
     if request.method == 'GET':
-        endings = get_list_or_404(Ending)
+        endings = Ending.objects.all()
         serializer = EndingListSerializer(endings, many=True)
         return Response(serializer.data)
 
@@ -33,7 +34,7 @@ def ending_list(request):
 @api_view(['GET', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def ending_detail(request, ending_pk):
-    ending = get_object_or_404(Ending, pk=ending_pk)
+    ending = Ending.objects.get(pk=ending_pk)
 
     if request.method == 'GET':
         ending.view += 1
@@ -68,7 +69,7 @@ def movie_detail(request, movie_pk):
 @api_view(['GET', 'POST'])
 def comment_list(request, ending_pk):
     if request.method == 'GET':
-        comments = get_list_or_404(Comment, ending_id=ending_pk)
+        comments = Comment.objects.filter(ending_id=ending_pk)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
@@ -85,7 +86,6 @@ def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     user_prompt = request.data.get('prompt','')
     prev_alt_ending = request.data.get('content','')
-    print(prev_alt_ending)
     client = OpenAI(api_key=settings.SECRET_KEY)
     movie_title = movie.title
     movie_plot = movie.plot
@@ -128,3 +128,40 @@ def likes(request, ending_pk):
         'is_liked': is_liked,
     }
     return Response(context)
+
+@api_view(['GET'])
+def GetUserRanking(request):
+    user_ranking = (
+        Ending.objects.values("user_id__id",)
+        .annotate(total_likes=Count("like_users"))
+        .order_by("-total_likes")[:3]
+    )
+    User = get_user_model()
+    user_dict = dict()
+    for rank, user in enumerate(user_ranking):
+        user_instance = get_object_or_404(User, pk=user['user_id__id'])
+        user_dict[rank+1] = {
+            'user_name': user_instance.nickname,
+            'total_likes': user['total_likes'],
+            'user_id': user['user_id__id']
+            }
+    return JsonResponse(user_dict, safe=True)
+
+
+@api_view(['GET'])
+def GetEndingRanking(request):
+    most_liked_article = (
+        Ending.objects.annotate(like_count=Count("like_users"))
+        .order_by("-like_count")[:6]
+    )
+    ending_dict = dict()
+
+    for rank, article in enumerate(most_liked_article):
+        ending_dict[rank+1] = {
+            'movie': article.movie_id.title,
+            'prompt': article.prompt,
+            'like_count': article.like_count,
+            'ending_id': article.id
+        }
+    
+    return JsonResponse(ending_dict, safe=True)
