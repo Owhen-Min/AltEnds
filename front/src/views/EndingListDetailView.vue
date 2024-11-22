@@ -3,7 +3,7 @@
       <div class="row gx-5 justify-content-evenly">
         <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
           <img 
-            :src="store.API_URL + '/movies' + altending.movie_info.poster" 
+            :src="store.BASE_URL + altending.movie_info.poster" 
             alt="Movie Poster" 
             class="movie-poster"
           >
@@ -17,7 +17,7 @@
           <p class="movie-summary">{{ altending.content }}</p>
           <div class="button-container d-flex justify-content-end">
             <button @click="$router.go(-1)" class="btn btn-warning col-12">이전으로</button>
-            <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: 1 } }" class="col-3 mx-2">
+            <RouterLink :to="{ name: 'EndingListCreate', params: { movieid: altending.movie_info.id } }" class="col-3 mx-2">
                 <button class="btn btn-primary col-12">영화 비틀러 가기</button>
             </RouterLink>
           </div>

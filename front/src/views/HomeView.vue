@@ -64,27 +64,7 @@ const isLogin = computed (() => {
   return store.isLogin
 })
 
-const userid = window
 const movies = ref(['리얼', '성냥팔이 소녀의 재림', '클레멘타인', '웃겨야 사는 영화']);
-
-const altEndRanking = ref([
-  {
-    movie: '리얼',
-    content: '대체 결말 내용 1...'
-  },
-  {
-    movie: '죽어야 사는 영화',
-    content: '대체 결말 내용 2...'
-  },
-  {
-    movie: '클레멘타인',
-    content: '대체 결말 내용 3...'
-  }
-])
-
-const goEndingDetail = function (endingid) {
-  router.push({ name: 'EndingListDetail', params: { endingid: endingid } })
-}
 
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })

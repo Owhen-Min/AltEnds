@@ -16,7 +16,7 @@ const store = useMovieStore()
 
 const props = defineProps({
   title: String,
-  message: String,
+  messages: Array,
   isVisible: Boolean,
 });
 

@@ -5,7 +5,7 @@
     >
         <div class="row gx-5 justify-content-evenly">
             <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
-                <img :src="API_URL + movie.poster" alt="Movie Poster" class="movie-poster">
+                <img :src="store.BASE_URL + movie.poster" alt="Movie Poster" class="movie-poster">
                 <h1 class="movie-title">{{ movie.title }}</h1>
                 <h4>감독: <span>{{ movie.director }}</span></h4>
                 <h4>개봉연도: <span>{{ movie.openYear }}</span></h4>

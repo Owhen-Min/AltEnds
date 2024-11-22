@@ -21,7 +21,6 @@ export const useMovieStore = defineStore('movie', () => {
   const showModal = ref(false); // Modal visibility state
   const errorTitle = ref('')
   const errorMessage = ref(''); // Error message state
-
   const signUp = function (payload) {
     const { username, password1, password2, firstname, nickname, email } = payload
 

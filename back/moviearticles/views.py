@@ -86,7 +86,6 @@ def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     user_prompt = request.data.get('prompt','')
     prev_alt_ending = request.data.get('content','')
-    print(prev_alt_ending)
     client = OpenAI(api_key=settings.SECRET_KEY)
     movie_title = movie.title
     movie_plot = movie.plot
