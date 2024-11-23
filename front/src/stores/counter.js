@@ -19,9 +19,31 @@ export const useMovieStore = defineStore('movie', () => {
   const user = ref(null)
   const weeklyMovie = ref([])
   const router = useRouter()
-  const showModal = ref(false); // Modal visibility state
-  const errorTitle = ref('')
-  const errorMessage = ref(''); // Error message state
+  const showModal = ref(false)
+  const modalConfig = ref({
+    title: '',
+    message: '',
+    type: 'error'
+  })
+
+  const showModalMessage = (title, message, type = 'error') => {
+    modalConfig.value = {
+      title,
+      message,
+      type
+    }
+    showModal.value = true
+  }
+
+  const closeModal = () => {
+    showModal.value = false
+    modalConfig.value = {
+      title: '',
+      message: '',
+      type: 'error'
+    }
+  }
+
   const signUp = function (payload) {
     const { username, password1, password2, firstname, nickname, email } = payload
 
@@ -33,19 +55,22 @@ export const useMovieStore = defineStore('movie', () => {
       }
     })
       .then((response) => {
-        logIn({ username, password1 })
+        const password = password1
+        logIn({ username, password })
       })
       .catch((error) => {
-        errorTitle.value = '회원가입 실패'
-        errorMessage.value = Object.values(error.response.data).flat().join('<br>')
-        showModal.value = true;
+        showModalMessage(
+          '회원가입 실패',
+          Object.values(error.response.data).flat().join('<br>'),
+          'error'
+        )
       })
   }
 
   const logIn = function (payload) {
     const { username, password } = payload
 
-    axios({
+    return axios({
       method: 'post',
       url: `${API_URL}/accounts/login/`, 
       data: {
@@ -54,41 +79,35 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         token.value = response.data.key
-      })
-      .then(() => {
-        axios({
+        return axios({
           method: 'get',
           url: `${API_URL}/accounts/user/`,
           headers: {
             Authorization: `Token ${token.value}`,
           },
         })
-          .then((response) => {
-            axios({
-              method: 'get',
-              url: `${API_URL}/accounts/${response.data.pk}/`,
-              headers: {
-                Authorization: `Token ${token.value}`,
-              },
-            })
-            .then((response) => {
-              user.value = response.data
-            })
-          })
-          .catch((error) => {
-            console.log(error)
-          })
       })
-      .then(() => {
+      .then((response) => {
+        return axios({
+          method: 'get',
+          url: `${API_URL}/accounts/${response.data.pk}/`,
+          headers: {
+            Authorization: `Token ${token.value}`,
+          },
+        })
+      })
+      .then((response) => {
+        user.value = response.data
         router.push({ name: 'Home' })
       })
       .catch((error) => {
-        errorTitle.value = '로그인 실패';
-        errorMessage.value = '아이디나 패스워드를 확인하세요.';
-        showModal.value = true;
+        showModalMessage(
+          '로그인 실패',
+          '아이디나 패스워드를 확인하세요.',
+          'error'
+        )
+        throw error;
       })
-      
-      
   }
 
   const logOut = function () {
@@ -127,11 +146,13 @@ export const useMovieStore = defineStore('movie', () => {
         weeklyMovie.value = response.data
       })
       .catch((error) => {
-        errorTitle.value = '주간영화 가져오기 실패'
-        errorMessage.value = Object.values(error.response.data).flat().join('<br>')
-        showModal.value = true;
+        showModalMessage(
+          '주간영화 가져오기 실패',
+          Object.values(error.response.data).flat().join('<br>'),
+          'error'
+        )
       })
   }
 
-  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, errorTitle, errorMessage, logOut, getProfile, user, getMovies, weeklyMovie }
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, modalConfig, showModalMessage, closeModal, logOut, getProfile, user, getMovies, weeklyMovie }
 }, {persist: true})

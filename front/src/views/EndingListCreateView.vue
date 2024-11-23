@@ -1,24 +1,21 @@
 <template>
-  <div class="container">
-    <h1 class="title">AltEnding</h1>
+  <div class="container-fluid bg-dark py-5">
+    <div class="container card bg-dark text-white py-5">
+      <h1 class="gradient-text text-center mb-5">비틀러</h1>
 
     <!-- Movie Information -->
-    <div class="movie-info row" v-if="movie">
-      <div class="poster col-3 align-items-center justify-content-center">
-        <span>원본 영화 정보</span>
-        <img :src="store.BASE_URL + movie.poster" :alt="movie.title" />
-        <p class="center">{{ movie.title }}</p>
-      </div>
-      <div class="details col-8">
-        <h6>시놉시스</h6>
-        <p>{{ movie.plot }}</p>
+    <div class="movie-info row justify-content-evenly" v-if="movie">
+      <img :src="store.BASE_URL + movie.poster" :alt="movie.title" class="movie-poster poster col-xl-3 col-lg-4 col-md-6 col-sm-12 text-center card p-2"/>
+      <div class="details col-lg-7 col-md-5 col-sm-12 card p-3">
+        <h6 class="gradient-text">원본 시놉시스</h6>
+        <p class="movie-summary text-white">{{ movie.plot }}</p>
       </div>
     </div>
 
     <!-- Prompt Form -->
     <form @submit.prevent="generateEnding" v-if="!isPrompt" class="form">
       <div class="form-group">
-        <label for="prompt">원하는 변경사항을 입력해주세요:</label>
+        <label for="prompt">원하는 변경사항을 입력해주세요</label><br><br>
         <textarea
           id="prompt"
           v-model.trim="prompt"
@@ -27,9 +24,11 @@
         ></textarea>
         <span v-if="promptError" class="error">{{ promptError }}</span>
       </div>
-      <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-        {{ isSubmitting ? '작성 중...' : '대체결말 생성하기' }}
-      </button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg btn-block mb-3" :disabled="isSubmitting">
+          {{ isSubmitting ? '작성 중...' : '대체결말 생성하기' }}
+        </button>
+      </div>
     </form>
 
     <!-- Alternative Endings -->
@@ -46,17 +45,26 @@
         </button>
       </div>
 
-      <div v-if="altendings[selected - 1]" class="ending-content">
-        <h5>프롬프트</h5>
-        <p>{{ altendings[selected - 1].prompt }}</p>
-        <h5>대체 결말</h5>
-        <p v-html="altendings[selected - 1].content" class="alt-ending"></p>
+      <div v-if="altendings[selected - 1]" class="ending-content card p-4">
+        <div class="prompt-section mb-4">
+          <h5 class="gradient-text-small mb-3">프롬프트</h5>
+          <div class="prompt-box">
+            <p class="mb-0">{{ altendings[selected - 1].prompt }}</p>
+          </div>
+        </div>
+        
+        <div class="ending-section">
+          <h5 class="gradient-text-small mb-3">대체 결말</h5>
+          <div class="ending-box">
+            <p v-html="altendings[selected - 1].content" class="alt-ending mb-0"></p>
+          </div>
+        </div>
       </div>
       
       <!-- Re-Prompt Form -->
       <form @submit.prevent="generateEnding" class="form">
         <div class="form-group">
-          <label for="re-prompt">마음에 안드는 부분이 있다면 알려주세요:</label>
+          <label for="re-prompt">마음에 안드는 부분이 있다면 알려주세요:</label><br>
           <textarea
             id="re-prompt"
             v-model.trim="prompt"
@@ -78,11 +86,9 @@
         :movieid="movieid"
         @cancel="handleModalCancel"
       />
-
-
-      <!-- <button @click="createEnding" class="btn btn-warning">글 작성하기</button> -->
+      </div>
     </div>
-  </div>
+  </div>    
 </template>
 
 <script setup>
@@ -94,7 +100,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 
 const isModalOpen = ref(false);
-const selectedEndingIndex = ref(null); // 선택한 인덱스
 const store = useMovieStore();
 const prompt = ref('');
 const promptError = ref('');
@@ -104,16 +109,17 @@ const selected = ref(null);
 const movie = ref(null);
 const altendings = ref([]);
 const route = useRoute();
-const router = useRouter();
 const movieid = route.params.movieid;
 
 const selectContent = (index) => {
   selected.value = index;
 };
 
-watch(altendings.value, (array) => {
-  selected.value = array.length
-})
+watch(altendings, (newValue) => {
+  if (newValue.length) {
+    selected.value = newValue.length
+  }
+}, { deep: true })
 
 const validateForm = () => {
   promptError.value = prompt.value ? '' : '프롬프트는 필수입니다.';
@@ -125,35 +131,32 @@ const generateEnding = async () => {
   isSubmitting.value = true;
 
   try {
-    const { data } = await axios.post(`${store.API_URL}/movies/${movieid}/altends/`, {
+    const response = await axios.post(`${store.API_URL}/movies/${movieid}/altends/`, {
       prompt: prompt.value,
       content: altendings.value[selected.value - 1]?.content || null,
     }, {
       headers: { Authorization: `Token ${store.token}` },
     });
-    console.log(data.alt_ending)
-    altendings.value.push({ prompt: prompt.value, content: data.alt_ending });
+    altendings.value.push({ prompt: prompt.value, content: response.data.alt_ending });
     prompt.value = '';
     isPrompt.value = true;
   } catch (error) {
-      store.errorTitle = '대체 결말을 만드는 데 실패하였습니다.'
-      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      store.showModal = true;
+      store.showModalMessage('대체 결말을 만드는 데 실패했습니다.', error)
   } finally {
     isSubmitting.value = false;
   }
 };
 
-onMounted(async () => {
+const fetchMovie = async () => {
   try {
-    const { data } = await axios.get(`${store.API_URL}/movies/${movieid}/`);
-    movie.value = data;
+    const response = await axios.get(`${store.API_URL}/movies/${movieid}/`);
+    movie.value = response.data;
   } catch (error) {
-    store.errorTitle = '영화를 가져오는 데 실패하였습니다.'
-    store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-    showModal.value = true;
+    store.showModalMessage('영화를 가져오는 데 실패했습니다.', error)
   }
-});
+};
+
+onMounted(fetchMovie);
 
 const openModal = () => {
   if (!altendings.value.length) {
@@ -172,18 +175,87 @@ const handleModalCancel = () => {
 
 <style scoped>
 .container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #222;
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 2rem;
+}
+
+.movie-poster {
+  max-width: auto;
+  height: 100%;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.movie-title {
+  margin: 15px 0;
+  color: lightslategray;
+}
+
+.movie-summary {
+  line-height: 1.6;
+  text-align: justify;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
+}
+
+textarea {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+.btn-warning {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.btn-warning:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #6c757d;
+}
+
+.btn-active {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border: none;
 }
 
 .movie-info {
@@ -207,48 +279,13 @@ const handleModalCancel = () => {
 
 .form-group {
   margin-bottom: 20px;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .error {
   color: red;
   font-size: 14px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.btn-warning:hover {
-  background-color: #ec971f;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-}
-
-.btn-secondary:hover {
-  background-color: #5a6268;
-}
-
-.btn-active {
-  background-color: #17a2b8;
 }
 
 .alt-endings {
@@ -264,5 +301,37 @@ textarea {
   gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+
+.ending-content {
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+.gradient-text-small {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.prompt-box, .ending-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.prompt-box p, .ending-box p {
+  color: #e0e0e0;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.ending-box {
+  background: rgba(255, 255, 255, 0.1);
 }
 </style>

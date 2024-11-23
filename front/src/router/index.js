@@ -115,12 +115,12 @@ const router = createRouter({
 
 router.beforeEach ((to, from) => {
   const store = useMovieStore()
-  if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
-    window.alert('로그인이 필요합니다.')
+  if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='EndingListDetail'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
+    store.showModalMessage('Error', '로그인이 필요합니다')
     return { name : 'Login'}
   }
   else if ((to.name === 'SignUp'|to.name==='Login') && store.isLogin){
-    window.alert('이미 로그인 되어 있습니다.')
+    store.showModalMessage('Error', '이미 로그인 되어 있습니다.')
     return { name : 'Home'}
   }
 })

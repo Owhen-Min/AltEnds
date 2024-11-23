@@ -1,39 +1,46 @@
 <template>
-  <div class="d-flex modal-overlay align-items-between" @click="closeModal" v-if="props.isOpen">
-    <div class="modal-content" @click.stop>
-      <h2 class="modal-title">제목으로 쓰일 프롬프트를 골라주세요.</h2>
-      <div class="ending-buttons row">
-        <button
-          v-for="index in props.options.length"
-          :key="'content-' + index"
-          @click="selectPromptOption(index)"
-          :class="['btn btn-primary', selectedPromptIndex === index ? 'btn-prompt-active' : 'btn-secondary'] "
-        >
-          프롬프트 {{ index }}
-        </button>
-        <p>{{ props.options[selectedPromptIndex - 1].prompt }}</p>
+  <div class="modal-overlay" @click="closeModal" v-if="props.isOpen">
+    <div class="modal-content card bg-dark text-white" @click.stop>
+      <h2 class="gradient-text mb-4">제목으로 쓰일 프롬프트를 골라주세요.</h2>
+      <div class="selection-container mb-4">
+        <div class="ending-buttons">
+          <button
+            v-for="index in props.options.length"
+            :key="'prompt-' + index"
+            @click="selectPromptOption(index)"
+            :class="['btn', selectedPromptIndex === index ? 'btn-active' : 'btn-secondary']"
+          >
+            프롬프트 {{ index }}
+          </button>
+        </div>
+        <div class="content-box mt-3">
+          <p>{{ props.options[selectedPromptIndex - 1].prompt }}</p>
+        </div>
       </div>
 
-      <h2 class="modal-title">결말을 골라주세요.</h2>
-      <div class="ending-buttons row">
-        <button
-          v-for="index in props.options.length"
-          :key="'content-' + index"
-          @click="selectEndingOption(index)"
-          :class="['btn', selectedEndingIndex === index ? 'btn-ending-active' : 'btn-secondary']"
-        >
-          엔딩 {{ index }}
-        </button>
-        <p v-if="selectedEndingIndex > 0" v-html="props.options[selectedEndingIndex - 1].content" class="modal-message"></p>
+      <h2 class="gradient-text mb-4">결말을 골라주세요.</h2>
+      <div class="selection-container">
+        <div class="ending-buttons">
+          <button
+            v-for="index in props.options.length"
+            :key="'ending-' + index"
+            @click="selectEndingOption(index)"
+            :class="['btn', selectedEndingIndex === index ? 'btn-active' : 'btn-secondary']"
+          >
+            엔딩 {{ index }}
+          </button>
+        </div>
+        <div class="content-box mt-3" v-if="selectedEndingIndex > 0">
+          <p class="alt-ending" v-html="props.options[selectedEndingIndex - 1].content"></p>
+        </div>
 
-        <div class="modal-actions row mx-2">
-          <button @click="createEnding" class="btn btn-primary col-6">확인</button>
-          <button @click="closeModal" class="btn btn-secondary col-6">취소</button>
+        <div class="modal-actions mt-4">
+          <button @click="createEnding" class="btn btn-primary me-2">확인</button>
+          <button @click="closeModal" class="btn btn-warning">취소</button>
         </div>
       </div>
     </div>
   </div>
-     
 </template>
 
 <script setup>
@@ -85,11 +92,9 @@ const createEnding = function () {
     headers: { Authorization: `Token ${store.token}` },
     })
     .then(response => {
-      console.log(response);
       router.push({ name: 'EndingList'});
     })
       .catch((error)=> {
-        console.log(error);
         store.errorTitle = '대체 결말을 업로드 하는 데 실패하였습니다.'
         store.showModal = true;
     })
@@ -100,42 +105,106 @@ const createEnding = function () {
 <style scoped>
 .modal-overlay {
   position: fixed;
-  top: -50vh; /* 상단 위치를 조정하여 중앙에 배치 */
-  left: -50vw;
-  width: 200%;
-  height: 200%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it appears above all other content */
-  max-width: none; /* 최대 너비 제한 제거 */
+  z-index: 1000;
 }
 
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: auto;
-  max-width: 500px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Subtle shadow */
-  animation: fadeIn 0.3s ease-out;
-  transition: fadeOut 0.3s ease-out;
+  position: fixed;
+  top: calc(90% - 200px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 70%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.modal-title {
-  margin-bottom: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.ending-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-active {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border: none;
+  color: white;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #6c757d;
+  color: white;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border: none;
+}
+
+.btn-warning {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
+  color: white;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
-/* Fade-in animation */
+.content-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  color: #e0e0e0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.selection-container {
+  margin-bottom: 1rem;
+  flex: 1;
+  height: 20%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-container.mb-4 {
+  flex: 0 0 auto;
+  max-height: 200px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -147,33 +216,15 @@ const createEnding = function () {
   }
 }
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 0;
-    transform: scale(1);
-  }
-}
-
-.btn-prompt-active {
-  background-color: #17a2b8;
-}
-
-.btn-ending-active {
-  background-color: #17a2b8;
-}
-
-.alt-endings {
-  text-align: center;
-}
-
-.ending-buttons {
+.modal-actions {
   display: flex;
-  gap: 10px;
   justify-content: center;
-  margin-bottom: 20px;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.alt-ending {
+  white-space: pre-line;
 }
 </style>

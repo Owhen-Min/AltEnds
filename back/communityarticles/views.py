@@ -30,7 +30,6 @@ def article_list(request):
 @api_view(['GET', 'DELETE', 'PUT'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-
     if request.method == 'GET':
         article.view += 1
         article.save()

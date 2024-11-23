@@ -1,61 +1,58 @@
 <template>
-  <div class="container py-3">
-    <div class="row gx-5">
-      <div class="col-lg-9 col-md-8 col-sm-12">
-        <div class="card mb-4">
-          <WeeklyMovies />
+  <div class="container-fluid bg-dark py-5">
+    <div class="container">
+      <div class="row gx-5">
+        <!-- 메인 컨텐츠 영역 -->
+        <div class="col-lg-9 col-md-8 col-sm-12">
+          <WeeklyMovies class="content-card mb-4"/>
+          <EndingRanking class="content-card mb-4"/>
         </div>
 
-        <div class="card mb-4">
-          <EndingRanking />
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-12">
-        <div class="card mb-4">
-          <div class="card-body" id="user-management" v-if="isLogin">
-            <h5>회원 정보</h5>
-            <img :src="store.BASE_URL + store.user.profile_picture" alt="" class="col-5">
-            <p><strong>{{store.user.nickname}}</strong>님 안녕하세요!</p>
-            <p>남은 토큰 : {{ store.user.token }}</p>
-            <button @click="goProfile(store.user.pk)" class="btn btn-link">마이페이지</button>
-            <button class="btn btn-link" @click="logOut">로그아웃</button>
+        <!-- 사이드바 영역 -->
+        <div class="col-lg-3 col-md-4 col-sm-12">
+          <!-- 유저 정보 카드 -->
+          <div class="content-card user-card mb-4">
+            <div class="card-body" id="user-management" v-if="isLogin">
+              <h4 class="gradient-text mb-4">회원 정보</h4>
+              <img 
+                :src="store.BASE_URL + store.user.profile_picture" 
+                alt="" 
+                class="profile-image mb-3"
+              >
+              <p class="user-name"><strong>{{store.user.nickname}}</strong>님 안녕하세요!</p>
+              <p class="token-info">남은 토큰 : <strong>{{ store.user.token }}</strong></p>
+              <div class="button-group">
+                <button @click="goProfile(store.user.pk)" class="btn btn-primary">마이 페이지</button>
+                <button class="btn btn-warning" @click="logOut">로그아웃</button>
+              </div>
+            </div>
+            <div class="card-body text-center" id="user-login" v-else>
+              <RouterLink :to="{ name: 'Login' }" class="btn btn-primary me-2">로그인</RouterLink>
+              <RouterLink :to="{ name: 'SignUp' }" class="btn btn-warning">회원가입</RouterLink>
+            </div>
           </div>
-          <div class="card-body" id="user-login" v-else>
-            <h5>로그인</h5>
-            <RouterLink :to="{ name: 'Login' }">
-              <button class="btn btn-link">로그인</button>
-            </RouterLink>
-            <RouterLink :to="{ name: 'SignUp' }">
-              <button class="btn btn-link">회원가입</button>
-            </RouterLink>
-          </div>
-        </div>
 
-        <UserRanking />
+          <!-- 랭킹 & 버튼 -->
+          <UserRanking class="content-card mb-4"/>
+          <EndingTwistButton class="col-12"/>
+        </div>
       </div>
     </div>
   </div>
-  <RouterLink :to="{ name: 'MovieSelect' }">
-    <button class="btn btn-link" >결말 비틀러 가기</button>
-  </RouterLink>
 </template>
 
 <script setup>
 import router from '@/router';
 import { useMovieStore } from '@/stores/counter';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 import UserRanking from '@/components/UserRanking.vue';
 import EndingRanking from '@/components/EndingRanking.vue';
 import WeeklyMovies from '@/components/WeeklyMovies.vue';
-
+import EndingTwistButton from '@/components/EndingTwistButton.vue';
 const store = useMovieStore()
 
-const isLogin = computed (() => {
-  return store.isLogin
-})
-
+const isLogin = computed(() => store.isLogin)
 
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })
@@ -64,36 +61,86 @@ const goProfile = function (userid) {
 const logOut = store.logOut
 </script>
 
-
 <style scoped>
-.container {
+.content-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.user-card {
+  text-align: center;
+  color: white;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 184, 140, 0.5);
+}
+
+.user-name {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.token-info {
+  color: #ffb88c;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
-.movie-card {
-  padding: 10px;
+.btn {
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s ease;
 }
 
-.card-header {
-  background-color: #f8f9fa; /* Light background for header */
-  font-weight: bold; /* Make header text bold */
+.btn:hover {
+  transform: scale(1.05);
 }
 
-.ranking-card {
-  background-color: #e9ecef; /* Light background for ranking cards */
-  padding: 10px;
-  border-radius: 5px; /* Rounded corners */
-  margin-bottom: 10px; /* Space between ranking cards */
-  border: solid black 1px;
+.btn-primary {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border: none;
 }
 
-.card-link {
-  text-decoration: none; /* Remove underline from links */
-  color: #007bff; /* Bootstrap primary color */
+.btn-warning {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
+  color: white;
 }
 
-.card-link:hover {
-  text-decoration: underline; /* Underline on hover */
+.btn-warning:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .content-card {
+    padding: 1rem;
+  }
+  
+  .profile-image {
+    width: 80px;
+    height: 80px;
+  }
 }
 </style>
