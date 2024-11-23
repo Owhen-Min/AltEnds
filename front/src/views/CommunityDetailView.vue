@@ -1,27 +1,62 @@
 <template>
-  <div class="article-container" v-if="article">
-    <div class="article-card">
-      <h2 class="article-title">{{ article.title }}</h2>
-      <div class="article-meta">
-        <p>작성자: <strong>{{ article.user_nickname }}</strong></p>
-        <p>작성 시간: <em>{{ formatDate(article.created_at) }}</em></p>
-        <p v-if="article.created_at!=article.updated_at">수정 시간: <em>{{ formatDate(article.updated_at) }}</em></p>
+  <div class="container-fluid bg-dark py-5">
+    <div class="container card bg-dark text-white py-5" v-if="article">
+      <!-- Article Content -->
+      <div class="row gx-5 justify-content-center">
+        <div class="col-lg-10 col-md-11 col-sm-12 article-content-wrapper">
+          <!-- Article Header -->
+          <div class="article-header card p-4 mb-4">
+            <h2 class="gradient-text mb-4">{{ article.title }}</h2>
+            <div class="article-meta d-flex justify-content-between align-items-center">
+              <div class="meta-left">
+                <div class="meta-item">
+                  <i class="bi bi-person-fill"></i>
+                  <span>작성자: <strong>{{ article.user_nickname }}</strong></span>
+                </div>
+              </div>
+              <div class="meta-right">
+                <div class="meta-item">
+                  <i class="bi bi-clock-fill"></i>
+                  <span><em>{{ formatDate(article.created_at) }}</em></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article Body -->
+          <div class="article-body card p-4 mb-4">
+            <p class="article-text">{{ article.content }}</p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons d-flex justify-content-between mb-4">
+            <RouterLink :to="{name:'Community'}" class="btn btn-warning">
+              이전으로
+            </RouterLink>
+            <div class="d-flex gap-3" v-if="store.isLogin && article.user === store.user.pk">
+              <button @click="updateArticle(article.id)" class="btn btn-primary">
+                수정하기
+              </button>
+              <button @click="deleteArticle(article.id)" class="btn btn-danger">
+                삭제
+              </button>
+            </div>
+          </div>
+
+          <!-- Like Component -->
+          <Like
+            :pk="article.id"
+            nextUrl="communities"
+            class="mb-4"
+          />
+
+          <!-- Comments Component -->
+          <Comments
+            :pk="article.id"
+            nextUrl="communities"
+          />
+        </div>
       </div>
-      <p class="article-content">{{ article.content }}</p>
-      <div class="row button-group">
-        <RouterLink :to="{name:'Community'}" class="col-3 btn btn-warning">이전으로</RouterLink>
-        <div class="col-3"></div>
-        <button @click="updateArticle(article.id)" class="col-3 btn btn-lg btn-primary" v-if="store.isLogin&&article.user===store.user.pk">수정하기</button>
-        <button @click="confirmDelete(article.id)" class="col-3 btn btn-lg btn-danger" v-if="store.isLogin&&article.user===store.user.pk">삭제</button>
-      </div>
-      <Like
-        :pk="article.id"
-        nextUrl="communities"
-      />
-      <Comments
-        :pk="article.id"
-        nextUrl="communities"
-      />
     </div>
   </div>
 </template>
@@ -45,12 +80,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ko-KR', options);
 };
 
-const confirmDelete = (articleId) => {
-  if (confirm('정말 이 게시글을 삭제하시겠습니까?')) {
-    deleteArticle(articleId);
-  }
-};
-
 const updateArticle = (articleId) => {
   router.push({name: 'CommunityUpdate', params:{articleid : articleId}})
 };
@@ -62,7 +91,7 @@ const deleteArticle = (articleId) => {
     router.push({ name: 'Community' });
   })
   .catch((error) => {
-    window.alert('삭제에 실패하였습니다.')
+    store.showModalMessage('삭제에 실패했습니다.', error)
   });
 };
 
@@ -74,74 +103,131 @@ onMounted(() => {
       article.value = res.data;
     })
     .catch((err) => {
-      store.errorTitle = '조회한 게시글이 없습니다.'
-      store.showModal = true;
+      store.showModalMessage('조회한 게시글이 없습니다.')
       router.push({ name: 'Community' });
     });
 });
 </script>
 
 <style scoped>
-.article-container {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+.container {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
-.article-card {
-  max-width: 600px;
-  width: 100%;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
-.article-title {
-  margin-bottom: 10px;
-  color: #333;
+.article-content-wrapper {
+  max-width: 1000px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.article-header {
+  border-left: 4px solid #ffb88c;
 }
 
 .article-meta {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.article-content {
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.button-group {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meta-item i {
+  color: #ffb88c;
+}
+
+.article-body {
+  min-height: 200px;
+}
+
+.article-text {
+  color: #e0e0e0;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  white-space: pre-line;
 }
 
 .btn {
-  padding: 10px 15px;
+  padding: 0.5rem 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btn-warning {
-  background-color: #ffc107;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
   color: white;
 }
 
 .btn-danger {
-  background-color: #dc3545;
-  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #dc3545;
+  color: #dc3545;
 }
 
-.btn:hover {
-  opacity: 0.9;
+.btn-warning:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-p {
-  margin-bottom: 5px;
+.btn-danger:hover {
+  background: rgba(220, 53, 69, 0.1);
 }
 
+.gap-3 {
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .article-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gradient-text {
+    font-size: 1.5rem;
+  }
+
+  .article-text {
+    font-size: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .action-buttons .d-flex {
+    justify-content: center;
+  }
+}
 </style>

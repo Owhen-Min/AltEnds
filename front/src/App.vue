@@ -19,5 +19,7 @@ const store = useMovieStore();
 </script>
 
 <style scoped>
-
+.container-fluid {
+  background-color: #212529;
+}
 </style>

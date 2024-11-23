@@ -3,23 +3,25 @@
     <h4 class="card-header">결말 랭킹</h4>
     <div class="row justify-content-around">
       <div
-        class="ranking-card col-5 col-lg-3 d-flex"
+        class="ranking-card col-5 col-lg-3"
         v-for="(ending, index) in topEndingRanking"
         :key="ending.ending_id"
         @click="goEndingDetail(ending.ending_id)"
       >
-        <div class="card-content d-flex flex-column">
-          <h5 class="rank d-flex justify-content-between align-items-center">
-            <span>{{ index }}위</span>
-            <span class="like-count">👍{{ ending.like_count }}</span>
-          </h5>
-          <p class="movie"><strong>{{ ending.movie }}</strong></p>
-          <p class="likes"></p>
-          <p class="prompt">{{ ending.prompt }}</p>
+        <div class="card-content">
+          <div class="rank-header">
+            <span class="rank">{{ index }}위</span>
+            <span class="like-count">👍 {{ ending.like_count }}</span>
+          </div>
+          <div class="movie-info">
+            <p class="movie"><strong>{{ ending.movie }}</strong></p>
+            <p class="prompt">{{ truncatePrompt(ending.prompt, 50) }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  {{ topEndingRanking }}
 </template>
 
 <script setup>
@@ -55,109 +57,84 @@ onMounted(() => {
       endingRanking.value = res.data;
     })
     .catch((error) => {
-      console.error('결말 랭킹을 불러오는 중 오류 발생:', error);
+      store.showModalMessage('결말 랭킹을 불러오는 데 실패했습니다.', error)
     });
 });
 </script>
 
 <style scoped>
-@import url('https://rsms.me/inter/inter-ui.css');
-
-::selection {
-  background: #2D2F36;
-}
-
-::-webkit-selection {
-  background: #2D2F36;
-}
-
-::-moz-selection {
-  background: #2D2F36;
-}
-
 .ending-ranking-section {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
 }
 
 .card-header {
-  background-color: #f8f9fa;
-  font-weight: bold;
+  background: none;
+  color: white;
+  font-weight: 700;
   text-align: center;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 0;
+  margin-bottom: 1.5rem;
 }
 
-.ranking-card {
-  background-color: #f1f1f2;
-  padding: 15px;
-  border: 1px solid #e2e2e5;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-  height: 200px;
+.rank-header {
   display: flex;
-  margin: 10px;
-}
-
-.ranking-card:hover {
-  background-color: #e2e2e5;
-  transform: scale(1.02);
-}
-
-.card-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .rank {
-  margin: 0;
-  color: #474A59;
+  color: #ffb88c;
+  font-size: 1rem;
   font-weight: 600;
+}
+
+.like-count {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+.movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .movie {
+  color: white;
+  font-size: 1rem;
   margin: 0;
-  color: #474A59;
-  font-size: 1.1em;
-}
-
-.likes {
-  margin: 0;
-  color: #474A59;
-  font-weight: 600;
 }
 
 .prompt {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
   margin: 0;
-  color: #474A59;
-  font-size: 0.95em;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* 원하는 줄 수 */
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-@media (max-width: 767px) {
-  .ending-ranking-section {
-    padding: 10px;
-  }
+.ranking-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+  min-height: 160px;
+}
 
-  .ranking-card {
-    padding: 10px;
-  }
-
-  .movie {
-    font-size: 1em;
-  }
-
-  .prompt {
-    font-size: 0.85em;
-  }
+.ranking-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-5px);
 }
 </style>

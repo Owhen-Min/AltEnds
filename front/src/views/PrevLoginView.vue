@@ -1,11 +1,10 @@
 <template>
-  <div class="page flex justify-center items-center">
-    <div class="login-container">
+  <div class="page flex justify-center items-center container-fluid">
+    <div class="container">
       <div class="left">
         <div class="login-title">Welcome!</div>
         <div class="eula">영화가 가진 다양한 <strong>가능성</strong>과 <br>이를 누릴 수 있는 <strong>커뮤니티</strong>를<br> <strong>즐겨보세요.</strong></div>
       </div>
-      <div class="gutter"></div>
       <div class="right">
         <svg viewBox="0 0 320 300">
           <defs>
@@ -25,33 +24,15 @@
         <form @submit.prevent="logIn" class="login-form">
           <div class="form-group">
             <label for="username">아이디:</label>
-            <input 
-              type="text" 
-              id="username" 
-              v-model.trim="username" 
-              required 
-              placeholder="아이디를 입력하세요" 
-              @click="onUsernameFocus" 
-              ref="usernameInput"
-              class="form-input" 
-            />
+            <input type="text" id="username" v-model.trim="username" required placeholder="아이디를 입력하세요" @click="onUsernameFocus" ref="usernameInput" />
           </div>
 
           <div class="form-group">
             <label for="password">패스워드:</label>
-            <input 
-              type="password" 
-              id="password" 
-              v-model.trim="password" 
-              required 
-              placeholder="패스워드를 입력하세요" 
-              @click="onPasswordFocus" 
-              ref="passwordInput"
-              class="form-input" 
-            />
+            <input type="password" id="password" v-model.trim="password" autocomplete="current-password" required placeholder="패스워드를 입력하세요" @click="onPasswordFocus" ref="passwordInput" />
           </div>
 
-          <button type="submit" class="btn-primary" :disabled="isLoading">
+          <button type="submit" class="btn btn-warning" :disabled="isLoading">
             {{ isLoading ? '로그인 중...' : '로그인' }}
           </button>
         </form>
@@ -162,32 +143,35 @@ body {
   padding: 20px;
 }
 .page {
-  min-height: 100vh;
-  background: rgba(33, 37, 41, 1);
-  color: #f2f2f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #a0a0a5; /* 배경색을 약간 더 어둡게 변경 */
+  flex-direction: column;
+  height: calc(95% - 40px);
+  position: absolute;
+  place-content: center;
+  width: calc(100% - 40px);
 }
-.login-container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px;
+@media (max-width: 767px) {
+  .page {
+    height: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+.container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  background: rgba(255, 255, 255, 0.05) !important;
-  backdrop-filter: blur(10px);
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  height: 320px;
+  margin: 0 auto;
+  width: 640px;
+}
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    height: 630px;
+    width: 320px;
+  }
 }
 .left {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 2rem;
+  background: white;
   height: calc(100% - 40px);
   top: 20px;
   position: relative;
@@ -200,36 +184,23 @@ body {
     width: calc(100% - 40px);
     max-height: 270px;
   }
-  .login-container {
-    margin: 20px;
-    padding: 20px;
-  }
 }
 .login-title {
-  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
   font-size: 50px;
+  font-weight: 900;
   margin: 50px 40px 20px;
+  color: #474A59;
 }
 .eula {
-  color: #e0e0e0;
+  color: #999;
   font-size: 16px;
   line-height: 1.5;
   margin: 40px;
   padding-bottom: 20px;
-
-  strong {
-    color: #ffb88c;
-  }
 }
 .right {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  background: #474A59;
+  box-shadow: 0px 0px 40px 16px rgba(0,0,0,0.22);
   color: #F1F1F2;
   position: relative;
   width: 50%;
@@ -253,84 +224,66 @@ path {
   stroke-dasharray: 240 1386;
 }
 .login-form {
-  padding: 40px;
-  position: relative;
-  width: 100%;
-  max-width: 400px;
+  margin: 40px;
+  position: absolute;
+  width: calc(100% - 80px);
 }
 .form-group {
-  margin-bottom: 20px;
-
-  label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #c2c2c5;
-  }
+  margin-bottom: 15px;
 }
-.form-input {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid #ffb88c;
-  border-radius: 8px;
-  font-size: 16px;
-  padding: 8px 12px;
+label {
+  color: #c2c2c5;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+input[type="text"],
+input[type="password"]{
+  background: transparent !important;
+  border: none;
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
   width: 100%;
   color: #f2f2f2;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 184, 140, 0.5);
-    border-color: #ff6b6b;
-  }
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
 }
-.btn-primary {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+
+
+.btn {
+  padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 16px;
-  font-weight: 600;
-  color: white;
   cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover:not(:disabled) {
-    transform: scale(1.05);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  background-color: #707075;
+  color: #f2f2f2;
+  transition: background-color 0.3s;
 }
-.gutter {
-  width: 1px;
-  height: 80%;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    #ffb88c,
-    #ff6b6b,
-    transparent
-  );
-  margin: 0 1rem;
+.btn:hover {
+  background-color: #0056b3;
 }
-@media (max-width: 767px) {
-  .login-container {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .gutter {
-    width: 80%;
-    height: 1px;
-    margin: 1rem 0;
-  }
+.btn:disabled {
+  background-color: #007bff;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn:focus {
+  color: #f2f2f2;
+}
+.btn:active {
+  color: #d0d0d2;
+}
+#submit {
+  color: #707075;
+  margin-top: 40px;
+  transition: color 300ms;
+}
+#submit:focus {
+  color: #f2f2f2;
+}
+#submit:active {
+  color: #d0d0d2;
 }
 </style>

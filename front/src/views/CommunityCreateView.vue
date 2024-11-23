@@ -1,21 +1,47 @@
 <template>
-  <div class="container">
-    <h1 class="title">커뮤니티 글 작성하기</h1>
-    <form @submit.prevent="createArticle" class="article-form">
-      <div class="form-group">
-        <label for="title">제목:</label>
-        <input type="text" id="title" v-model.trim="title" placeholder="게시글 제목을 입력하세요" />
-        <span v-if="titleError" class="error">{{ titleError }}</span>
+  <div class="container-fluid bg-dark py-5">
+    <div class="container card bg-dark text-white py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+          <h2 class="gradient-text text-center mb-4">커뮤니티 글 작성하기</h2>
+          
+          <form @submit.prevent="createArticle" class="article-form card p-4">
+            <div class="form-group mb-4">
+              <label for="title" class="form-label">제목</label>
+              <input 
+                type="text" 
+                id="title" 
+                v-model.trim="title" 
+                class="form-control" 
+                placeholder="게시글 제목을 입력하세요"
+              />
+              <span v-if="titleError" class="error">{{ titleError }}</span>
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="content" class="form-label">내용</label>
+              <textarea 
+                id="content" 
+                v-model.trim="content" 
+                class="form-control" 
+                placeholder="게시글 내용을 입력하세요"
+                rows="10"
+              ></textarea>
+              <span v-if="contentError" class="error">{{ contentError }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <RouterLink :to="{ name: 'Community' }" class="btn btn-warning">
+                이전으로
+              </RouterLink>
+              <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+                {{ isSubmitting ? '작성 중...' : '글 작성하기' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="content">내용:</label>
-        <textarea id="content" v-model.trim="content" placeholder="게시글 내용을 입력하세요"></textarea>
-        <span v-if="contentError" class="error">{{ contentError }}</span>
-      </div>
-      <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-        {{ isSubmitting ? '작성 중...' : '글 작성하기' }}
-      </button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -55,82 +81,98 @@ const createArticle = async () => {
     })
     router.push({ name: 'CommunityDetail', params: { articleid: response.data.id } });
   } catch (error) {
-      store.errorTitle = '게시글 작성에 실패하였습니다.'
-      store.errorMessage = Object.values(error.response.data).flat().join('<br>')
-      store.showModal = true;
-    } finally {
-      isSubmitting.value = false; // Reset loading state
+    store.showModalMessage('게시글 작성에 실패했습니다.', error)
+  } finally {
+    isSubmitting.value = false; // Reset loading state
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .article-form {
-  display: flex;
-  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.form-label {
+  color: #ffb88c;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-label {
-  margin-bottom: 5px;
-  font-weight: bold;
+.form-control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
 }
 
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffb88c;
+  box-shadow: none;
+  color: white;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 100px;
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .error {
-  color: red;
-  font-size: 14px;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
 
 .btn {
-  padding: 10px;
+  padding: 0.5rem 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #007bff;
+}
+
+.btn-warning {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
   color: white;
-  transition: background-color 0.3s;
+}
 
-  &:hover {
-    background-color: #0056b3;
-  }
+.btn-warning:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 
-  &:disabled {
-    background-color: #007bff;
-    opacity: 0.6;
-    cursor: not-allowed;
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .gradient-text {
+    font-size: 1.5rem;
   }
 }
 </style>

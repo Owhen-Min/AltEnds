@@ -39,40 +39,26 @@ onMounted(() => {
       userRanking.value = res.data;
     })
     .catch((error) => {
-      console.error('사용자 랭킹을 불러오는 중 오류 발생:', error);
+      store.showModalMessage('사용자 랭킹을 불러오는 데 실패했습니다.', error)
     });
 });
 </script>
 
 <style scoped>
-@import url('https://rsms.me/inter/inter-ui.css');
-
-::selection {
-  background: #2D2F36;
-}
-
-::-webkit-selection {
-  background: #2D2F36;
-}
-
-::-moz-selection {
-  background: #2D2F36;
-}
-
 .user-ranking-section {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
 }
 
 .card-header {
-  background-color: #f8f9fa;
-  font-weight: bold;
+  background: none;
+  color: white;
+  font-weight: 700;
   text-align: center;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 0;
+  margin-bottom: 1.5rem;
 }
 
 .ranking-list {
@@ -82,36 +68,27 @@ onMounted(() => {
 }
 
 .ranking-item {
-  display: flex; /* 플렉스 박스로 설정 */
-  flex-direction: row; /* 가로 방향 정렬 */
-  align-items: center; /* 수직 정렬 */
-  justify-content: space-between; /* 양 끝 정렬 */
-  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-  background-color: #f1f1f2;
-  padding: 10px;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: all 0.3s ease;
+  color: white;
 }
 
 .ranking-item:hover {
-  background-color: #e2e2e5;
-  transform: scale(1.02);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(5px);
+}
+
+.ranking-item h5 {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 .ranking-item p {
   margin: 0;
-  color: #474A59;
-  font-weight: 600;
-}
-
-@media (max-width: 767px) {
-  .user-ranking-section {
-    padding: 10px;
-  }
-
-  .ranking-item p {
-    font-size: 14px;
-  }
+  font-size: 0.9rem;
+  color: #ffb88c;
 }
 </style>
