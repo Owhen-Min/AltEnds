@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-3">
+  <div class="container-fluid py-3">
     <div class="row gx-5">
       <div class="col-lg-9 col-md-8 col-sm-12">
         <!-- 주간 영화 컴포넌트 -->
@@ -63,9 +63,18 @@ const logOut = store.logOut
 </script>
 
 <style scoped>
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  background-color: #a0a0a57e; /* 배경색을 어둡게 변경 */
+  padding: 20px; /* 패딩 추가 */
+}
+
 .container {
   display: flex;
   flex-direction: column;
+  background-color: #a0a0a57e; /* 배경색을 어둡게 변경 */
+  padding: 20px; /* 패딩 추가 */
 }
 
 .movie-section {
@@ -82,7 +91,7 @@ const logOut = store.logOut
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: #a0a0a5; /* 카드 배경색은 유지 */
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

@@ -14,7 +14,7 @@
         <button @click="goMyProfile" class="btn btn-link">마이 페이지</button>
         <button @click="store.logOut" class="btn btn-link">로그아웃</button>
       </div>
-      <div class="d-flex userpages col-sm-4 col-md-3 justify-content-between align-items-center" v-else>
+      <div class="d-flex userpages col-sm-4 col-md-3 justify-content-center align-items-center" v-else>
         <RouterLink :to="{ name: 'Login' }" class="btn btn-link">로그인</RouterLink>
         <RouterLink :to="{ name: 'SignUp' }" class="btn btn-link">회원가입</RouterLink>
       </div>
@@ -45,7 +45,7 @@ const goMyProfile = function () {
 .nav-bar {
   position: sticky; /* Makes the navbar stick to the top */
   top: 0; /* Position the navbar at the top */
-  background-color: #f8f9fa; /* Light background for visibility */
+  background-color: #e2e2e5; /* 회색 배경으로 변경 */
   padding: 1rem; /* Add some padding */
   z-index: 1000; /* Ensure it stays above other content */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */

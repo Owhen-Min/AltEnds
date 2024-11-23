@@ -143,9 +143,9 @@ body {
   padding: 20px;
 }
 .page {
-  background: #e2e2e5;
+  background: #a0a0a5; /* 배경색을 약간 더 어둡게 변경 */
   flex-direction: column;
-  height: calc(80% - 40px);
+  height: calc(95% - 40px);
   position: absolute;
   place-content: center;
   width: calc(100% - 40px);
