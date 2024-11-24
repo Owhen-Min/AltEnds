@@ -1,10 +1,8 @@
 <template>
   <div class="container-fluid bg-dark py-5">
     <div class="container card bg-dark text-white py-5" v-if="article">
-      <!-- Article Content -->
       <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-md-11 col-sm-12 article-content-wrapper">
-          <!-- Article Header -->
           <div class="article-header card p-4 mb-4">
             <h2 class="gradient-text mb-4">{{ article.title }}</h2>
             <div class="article-meta d-flex justify-content-between align-items-center">
@@ -28,7 +26,6 @@
             <p class="article-text">{{ article.content }}</p>
           </div>
 
-          <!-- Action Buttons -->
           <div class="action-buttons d-flex justify-content-between mb-4">
             <RouterLink :to="{name:'Community'}" class="btn btn-warning">
               이전으로

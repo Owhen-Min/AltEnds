@@ -8,7 +8,7 @@
       <img :src="store.BASE_URL + movie.poster" :alt="movie.title" class="movie-poster poster col-xl-3 col-lg-4 col-md-6 col-sm-12 text-center card p-2"/>
       <div class="details col-lg-7 col-md-5 col-sm-12 card p-3">
         <h6 class="gradient-text">원본 시놉시스</h6>
-        <p class="movie-summary text-white">{{ movie.plot }}</p>
+        <p class="movie-summary text-white">{{ movie.synopsis }}</p>
       </div>
     </div>
 
