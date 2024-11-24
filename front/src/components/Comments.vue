@@ -9,6 +9,9 @@
       >
         <p class="comment-author">{{ comment.user_nickname }}</p>
         <p class="comment-content">{{ comment.content }}</p>
+        <button @click="deleteComment(comment.id)" class="btn btn-danger">
+                삭제
+              </button>
       </div>
     </div>
     <form @submit.prevent="createComment" class="comment-form">
@@ -83,6 +86,29 @@ const createComment = function () {
         store.showModalMessage('댓글 작성에 실패했습니다.', error)
       })
 }
+
+const deleteComment = function (commentId) {
+  axios.delete(`${store.API_URL}/${props.nextUrl}/${commentId}/comments/delete/`, {
+  })
+    .then(() => {
+      store.showModalMessage('댓글이 성공적으로 삭제되었습니다.')
+      axios({
+        method: 'get',
+        url: `${store.API_URL}/${props.nextUrl}/${props.pk}/comments/`,
+      })
+        .then((response) => {
+          comments.value = response.data
+        })
+        .catch((error) => {
+          window.alert(error)
+        })
+    })
+    .catch((error) => {
+      store.showModalMessage('댓글 삭제에 실패했습니다.', error)
+    })
+}
+
+
 </script>
 
 <style scoped>
