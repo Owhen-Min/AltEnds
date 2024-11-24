@@ -46,6 +46,7 @@
           <!-- Like Component -->
           <Like
             :pk="article.id"
+            :isLiked="isLiked"
             nextUrl="communities"
             class="mb-4"
           />
@@ -66,13 +67,21 @@ import Comments from '@/components/Comments.vue';
 import Like from '@/components/Like.vue';
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
 const store = useMovieStore();
 const article = ref(null);
+const isLiked = ref(false)
+
+watch(() => article.value?.like_users, (newValue) => {
+  if (newValue) {
+    const likeUsers = Array.from(newValue)
+    isLiked.value = likeUsers.includes(store.user.pk)
+  }
+}, { immediate: true })
 
 
 const formatDate = (dateString) => {
