@@ -1,0 +1,292 @@
+[
+{
+    "model": "communityarticles.article",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "title": "나는 임자가 조아용",
+        "content": "럽야 쏘야~",
+        "created_at": "2024-11-22T10:46:28.947Z",
+        "updated_at": "2024-11-22T14:57:28.759Z",
+        "view": 3,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "title": "나두 임자가 좋아요~",
+        "content": "럽야쏘야",
+        "created_at": "2024-11-22T10:46:53.958Z",
+        "updated_at": "2024-11-24T05:19:09.326Z",
+        "view": 17,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 3,
+    "fields": {
+        "user": 2,
+        "title": "가나다라마바사",
+        "content": "아자차카타파하하하하",
+        "created_at": "2024-11-23T08:56:46.508Z",
+        "updated_at": "2024-11-23T08:57:12.888Z",
+        "view": 4,
+        "like_users": [
+            2
+        ]
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 5,
+    "fields": {
+        "user": 3,
+        "title": "24534",
+        "content": "12321",
+        "created_at": "2024-11-23T09:58:03.357Z",
+        "updated_at": "2024-11-24T08:22:31.857Z",
+        "view": 4,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 6,
+    "fields": {
+        "user": 12,
+        "title": "1234",
+        "content": "12314",
+        "created_at": "2024-11-24T08:21:00.256Z",
+        "updated_at": "2024-11-24T08:21:00.288Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 7,
+    "fields": {
+        "user": 12,
+        "title": "5678",
+        "content": "5678",
+        "created_at": "2024-11-24T08:22:36.674Z",
+        "updated_at": "2024-11-24T08:22:43.780Z",
+        "view": 2,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 8,
+    "fields": {
+        "user": 12,
+        "title": "1234",
+        "content": "1234",
+        "created_at": "2024-11-24T08:22:51.696Z",
+        "updated_at": "2024-11-24T08:22:51.730Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 9,
+    "fields": {
+        "user": 12,
+        "title": "142124",
+        "content": "123124",
+        "created_at": "2024-11-24T08:23:11.822Z",
+        "updated_at": "2024-11-24T08:23:11.849Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 10,
+    "fields": {
+        "user": 12,
+        "title": "이게 외 안됨?",
+        "content": "난 돼는대",
+        "created_at": "2024-11-24T08:24:00.330Z",
+        "updated_at": "2024-11-24T08:40:52.561Z",
+        "view": 7,
+        "like_users": [
+            12
+        ]
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 11,
+    "fields": {
+        "user": 12,
+        "title": "123",
+        "content": "123",
+        "created_at": "2024-11-24T08:35:28.039Z",
+        "updated_at": "2024-11-24T08:35:28.068Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 12,
+    "fields": {
+        "user": 12,
+        "title": "435",
+        "content": "234",
+        "created_at": "2024-11-24T08:35:32.128Z",
+        "updated_at": "2024-11-24T08:35:32.154Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 13,
+    "fields": {
+        "user": 12,
+        "title": "1235",
+        "content": "124124",
+        "created_at": "2024-11-24T08:35:35.991Z",
+        "updated_at": "2024-11-24T08:35:36.020Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 14,
+    "fields": {
+        "user": 12,
+        "title": "4234",
+        "content": "`23134",
+        "created_at": "2024-11-24T08:35:39.589Z",
+        "updated_at": "2024-11-24T08:35:39.616Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 15,
+    "fields": {
+        "user": 12,
+        "title": "456",
+        "content": "3463",
+        "created_at": "2024-11-24T08:35:43.769Z",
+        "updated_at": "2024-11-24T08:35:43.801Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 16,
+    "fields": {
+        "user": 12,
+        "title": "34634",
+        "content": "634636",
+        "created_at": "2024-11-24T08:35:47.188Z",
+        "updated_at": "2024-11-24T08:35:47.219Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 17,
+    "fields": {
+        "user": 12,
+        "title": "346346",
+        "content": "4363636",
+        "created_at": "2024-11-24T08:35:50.638Z",
+        "updated_at": "2024-11-24T08:35:50.666Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 18,
+    "fields": {
+        "user": 12,
+        "title": "45463643",
+        "content": "34636346",
+        "created_at": "2024-11-24T08:35:54.747Z",
+        "updated_at": "2024-11-24T08:35:54.778Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 19,
+    "fields": {
+        "user": 12,
+        "title": "6343643",
+        "content": "63463636",
+        "created_at": "2024-11-24T08:35:58.303Z",
+        "updated_at": "2024-11-24T08:35:58.334Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 20,
+    "fields": {
+        "user": 12,
+        "title": "346436",
+        "content": "346346436",
+        "created_at": "2024-11-24T08:36:02.225Z",
+        "updated_at": "2024-11-24T08:36:02.255Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 21,
+    "fields": {
+        "user": 12,
+        "title": "34634634",
+        "content": "346346346",
+        "created_at": "2024-11-24T08:36:05.795Z",
+        "updated_at": "2024-11-24T08:36:05.822Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 22,
+    "fields": {
+        "user": 12,
+        "title": "346346",
+        "content": "346346346",
+        "created_at": "2024-11-24T08:36:12.725Z",
+        "updated_at": "2024-11-24T08:36:12.753Z",
+        "view": 1,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 23,
+    "fields": {
+        "user": 12,
+        "title": "346346346",
+        "content": "3434634634634",
+        "created_at": "2024-11-24T08:36:16.580Z",
+        "updated_at": "2024-11-24T08:36:16.607Z",
+        "view": 1,
+        "like_users": []
+    }
+}
+]
