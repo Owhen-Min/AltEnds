@@ -5,16 +5,14 @@
             <div class="col-lg-3 col-md-6 col-sm-12 text-center card p-2">
                 <img :src="store.BASE_URL + movie.poster" alt="Movie Poster" class="movie-poster">
                 <div class="movie-details">
-                    <h3 class="text-warning mb-4">{{ movie.title }}</h3>
-                    <h6>감독: <span class="text-light">{{ movie.director }}</span></h6>
-                    <h6>개봉연도: <span class="text-light">{{ movie.openYear }}</span></h6>
-                    <h6>장르: <span class="text-light">{{ movie.genre }}</span></h6>
+                  <h3 class="text-warning mb-4">{{ movie.title }}</h3>
+                  <h6>개봉연도: <span class="text-light">{{ movie.openYear }}</span></h6>
                 </div>
             </div>
             <div class="col-lg-7 col-md-6 col-sm-12 card p-3">
-                <h1 class="text-white">영화 줄거리</h1>
+                <h1 class="text-white">영화 시놉시스</h1>
                 <p class="movie-summary">
-                    {{ movie.plot }}
+                    {{ movie.synopsis }}
                 </p>
                 <div class="button-container row justify-content-around p-2">
                     <button @click="$router.go(-1)" class="btn btn-warning col-sm-12 col-md-5 my-2">이전으로</button>
