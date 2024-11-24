@@ -90,6 +90,16 @@ def comment_delete(request, comment_pk):
 @api_view(['POST',])
 def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
+    # 현재 유저의 토큰정보 확인
+    user = request.user
+    if user.token <= 0:
+        raise PermissionDenied("사용 가능한 토큰이 부족합니다.")
+    
+    # 프롬프트 작성전 토큰 수 감소
+    user.token -= 1
+    user.save()
+
+    # 프롬프트 작성 시작
     user_prompt = request.data.get('prompt','')
     prev_alt_ending = request.data.get('content','')
     client = OpenAI(api_key=settings.SECRET_KEY)
@@ -101,7 +111,6 @@ def generate_alt_ending(request, movie_pk):
     else:
         prompt_for_gpt = f"Plot summary: {movie_plot}\n\nYour Client is not content with your output. Generate an alternative ending for the movie {movie_title} again. The alternative ending(your result) should include the feedback from your client. You will answer full plot of alternative ending. Return plot only. If user input is irrelevant with movie or previous alternative ending, than return error message. PLEASE ANSWER IN KOREAN. The alternative ending you created is below. If previous alternative ending has error message, then you can skip it.\n\n{prev_alt_ending}"        
     try:
-        # Send the prompt to GPT
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -121,7 +130,7 @@ def generate_alt_ending(request, movie_pk):
                  '''},
                 {"role": "user", "content": "모아나가 한국 울릉도에 있는 우산국의 족장의 딸이었다면?"},
                 {"role": "assistant", "content": '''
-모아나는 우산국 족장의 딸이다. 어느 날부터인가 바다의 환경이 안 좋아지기 시작하고, 바다에 사는 모든 생명체들이 위험에 빠지기 시작한다. 우산국의 사람들은 어떻게든 되겠지라며 무시하고 있었다. 그러나 모아나는 이런 상황을 받아들이지 않고, 우산국의 전설 속에 등장하는 바다의 수호신이자 그녀의 조상인 전설적인 인물 '이순신'을 찾기 위해 모험을 떠난다. 
+모아나는 우산국 족장의 딸이다. 어느 날부터인가 바다의 환경이 안 좋아지기 시작하고, 바다에 사는 모든 생명체들이 위험에 빠지기 시작한다. 우산국의 사람들은 어떻게든 되겠지라며 무시하고 있다. 그러나 모아나는 이런 상황을 받아들이지 않고, 우산국의 전설 속에 등장하는 바다의 수호신이자 그녀의 조상인 전설적인 인물 '이순신'을 찾기 위해 모험을 떠난다. 
                  
 바다를 항해하며, 그녀는 반신반인 같은 존재인 '이사부'를 우연히 만나게 된다. 처음에는 이사부가 그녀를 거부하지만, 모아나의 끈질긴 의지와 용기는 그를 감동시킨다.
 
@@ -133,7 +142,7 @@ def generate_alt_ending(request, movie_pk):
 
 모아나가 울릉도로 돌아가자 그녀의 사람들은 진정한 영웅으로서 그녀를 환영했으며, 그녀는 울릉도의 새로운 모험과 항해 문화를 이끌어가는 지도자가 된다. 바다를 향한 경외심과 조상의 전통을 계승하는 모아나의 모습은 우산국의 사람들이 다시 한 번 바다와 함께 꿈꿀 수 있는 새로운 시작이 된다.
 
-이렇게 모아나는 자신의 정체성을 찾고, 우산국의 전통과 바다의 힘을 재발견하여 새로운 시대를 열어가는 이야기가 펼쳐진다.
+이렇게 모아나는 자신의 정체성을 찾고, 우산국의 전통과 바다의 힘을 재발견하여 새로운 시대를 열어간다.
                 '''},
                 { "role": "system", 'content':prompt_for_gpt},
                 {"role": "user", "content": user_prompt},
