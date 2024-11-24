@@ -1,5 +1,5 @@
 <template>
-  <div class="ending-ranking-section">
+  <div class="ending-ranking-section" :class="$attrs.class">
     <h4 class="card-header">결말 랭킹</h4>
     <div class="row justify-content-around">
       <div
@@ -21,7 +21,6 @@
       </div>
     </div>
   </div>
-  {{ topEndingRanking }}
 </template>
 
 <script setup>
