@@ -18,10 +18,10 @@ class Ending(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
-    director = models.TextField()
     openYear = models.IntegerField()
-    genre = models.TextField()
+    synopsis = models.TextField()
     plot = models.TextField()
+    is_selected = models.BooleanField(default=True)
     poster = models.ImageField(upload_to='movies', height_field=None, width_field=None, max_length=None, blank=True)
 
 
