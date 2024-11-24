@@ -8,13 +8,25 @@
           <form @submit.prevent="createMovie" class="movie-form bg-dark card p-4">
             <div class="form-group mb-4">
               <label for="title" class="form-label">제목</label>
-              <input 
-                type="text" 
-                id="title" 
-                v-model.trim="title" 
-                class="form-control" 
-                placeholder="영화 제목을 입력하세요"
-              />
+              <div class="position-relative">
+                <input 
+                  type="text" 
+                  id="title" 
+                  v-model.trim="title" 
+                  @input="debouncedSearch"
+                  class="form-control" 
+                  placeholder="영화 제목을 입력하세요"
+                />
+                <div v-if="searchResults.length" class="dropdown-results">
+                  <div v-for="movie in searchResults" 
+                       :key="movie.id" 
+                       class="dropdown-item"
+                       @click="selectMovie(movie)">
+                    {{ movie.title }} ({{ movie.release_date.substring(0, 4) }})
+                    <div class="small text-muted">{{ movie.overview?.substring(0, 50) }}...</div>
+                  </div>
+                </div>
+              </div>
               <span v-if="titleError" class="error">{{ titleError }}</span>
             </div>
 
@@ -87,6 +99,9 @@
                 class="form-control" 
                 accept="image/*"
               />
+              <div v-if="posterPreview" class="mt-2">
+                <img :src="posterPreview" class="poster-preview" alt="Movie poster preview">
+              </div>
               <span v-if="posterError" class="error">{{ posterError }}</span>
             </div>
 
@@ -108,7 +123,7 @@
 <script setup>
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const store = useMovieStore();
@@ -134,8 +149,20 @@ const posterError = ref('');
 
 const isSubmitting = ref(false);
 
+// 검색 관련 상태
+const searchTitle = ref('');
+const searchResults = ref([]);
+
+let searchTimeout = null;
+
+const posterPreview = ref('');
+
 const handleFileUpload = (event) => {
-  poster.value = event.target.files[0];
+  const file = event.target.files[0];
+  if (file) {
+    poster.value = file;
+    posterPreview.value = URL.createObjectURL(file);
+  }
 };
 
 const validateForm = () => {
@@ -149,6 +176,65 @@ const validateForm = () => {
   return !titleError.value && !directorError.value && !openYearError.value && 
          !genreError.value && !synopsisError.value && !plotError.value;
 };
+
+const debouncedSearch = () => {
+  if (searchTimeout) clearTimeout(searchTimeout);
+  
+  if (title.value.length < 2) {
+    searchResults.value = [];
+    return;
+  }
+
+  searchTimeout = setTimeout(async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/search/movie`,
+        params: {
+          query: title.value,
+          language: 'ko-KR',
+          api_key: 'dde7dc64da0d0ca43e44ed462199a312'
+        }
+      });
+      
+      searchResults.value = response.data.results;
+    } catch (error) {
+      console.error('영화 검색 중 오류 발생:', error);
+      store.showModalMessage('영화 검색에 실패했습니다.', error);
+    }
+  }, 500);
+};
+
+const selectMovie = async (movie) => {
+  title.value = movie.title;
+  openYear.value = parseInt(movie.release_date.substring(0, 4));
+  synopsis.value = movie.overview;
+  
+  if (movie.poster_path) {
+    try {
+      const imageUrl = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
+      posterPreview.value = imageUrl;
+      
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `${movie.title}_poster.jpg`, { type: 'image/jpeg' });
+      poster.value = file;
+    } catch (error) {
+      console.error('포스터 이미지 가져오기 실패:', error);
+      store.showModalMessage('포스터 이미지를 가져오는데 실패했습니다.', error);
+    }
+  }
+
+  searchResults.value = [];
+};
+
+// 컴포넌트가 언마운트될 때 타임아웃 정리
+onUnmounted(() => {
+  if (searchTimeout) clearTimeout(searchTimeout);
+  if (posterPreview.value) {
+    URL.revokeObjectURL(posterPreview.value);
+  }
+});
 
 const createMovie = async () => {
   if (!validateForm()) return;
@@ -269,5 +355,47 @@ const createMovie = async () => {
   .gradient-text {
     font-size: 1.5rem;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.hover-bg-light:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.position-relative {
+  position: relative;
+}
+
+.dropdown-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #2c3e50;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.poster-preview {
+  max-width: 200px;
+  height: auto;
+  border-radius: 4px;
+  margin-top: 10px;
 }
 </style>
