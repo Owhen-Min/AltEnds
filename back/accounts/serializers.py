@@ -7,14 +7,19 @@ User = get_user_model()
 
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20, required=True)
+    
+    def validate_nickname(self, nickname):
+        if User.objects.filter(nickname=nickname).exists():
+            raise serializers.ValidationError("이미 사용 중인 닉네임입니다.")
+        return nickname
+    
     def save(self, request):
         user = super().save(request)
-        nickname = self.initial_data.get('nickname')
-        first_name = self.cleaned_data.get('firstname')
-        if nickname and first_name:
-            user.nickname = nickname
-            user.first_name = first_name
-            user.save()
+        nickname = self.data.get('nickname')
+        first_name = self.data.get('first_name')
+        user.nickname = nickname
+        user.first_name = first_name
+        user.save()
         return user
 
 class UserProfileSerializer(ModelSerializer):
