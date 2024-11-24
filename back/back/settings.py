@@ -56,6 +56,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    'EXCEPTION_HANDLER': 'accounts.exception_handlers.custom_exception_handler',
 }
 
 MIDDLEWARE = [
@@ -158,11 +159,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'accounts.User'
+
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
+
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+}
+
 ACCOUNT_FIRST_NAME_REQUIRED = False
 
 

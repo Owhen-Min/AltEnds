@@ -10,6 +10,5 @@ class User(AbstractUser):
     join_date = models.DateField(auto_now_add=True)
     token = models.IntegerField(default=100)
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)  

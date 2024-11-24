@@ -59,9 +59,13 @@ export const useMovieStore = defineStore('movie', () => {
         logIn({ username, password })
       })
       .catch((error) => {
+        const errorMessages = Object.entries(error.response.data)
+          .map(([field, messages]) => `<h4>- ${field}</h4> • ${messages.join('<br> • ')}`)
+          .join('<br><br>');
+        
         showModalMessage(
           '회원가입 실패',
-          Object.values(error.response.data).flat().join('<br>'),
+          errorMessages,
           'error'
         )
       })
