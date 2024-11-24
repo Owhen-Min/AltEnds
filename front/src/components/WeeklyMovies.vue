@@ -1,12 +1,12 @@
 <template>
   <div class="movie-section">
     <h2 class="card-header">주간 영화 목록</h2>
-    <div class="slick-carousel">
-      <div v-for="movie in weeklyMovies" :key="movie.id" class="movie-item">
+    <div class="slick-carousel"
+      @mousedown="handleMouseDown($event)"
+      @mousemove="handleMouseMove"
+      @click="handleClick($event)">
+      <div v-for="movie in weeklyMovies" :key="movie.id" class="movie-item" :data-movieid="movie.id">
         <img
-          @mousedown="handleMouseDown($event)"
-          @mousemove="handleMouseMove"
-          @click="handleClick($event, movie.id)"
           draggable="false"
           :src="store.BASE_URL + movie.poster"
           :alt="`${movie.title}의 포스터`"
@@ -41,9 +41,11 @@ const handleMouseMove = () => {
   isDragging = true;
 };
 
-const handleClick = (event, movieid) => {
+const handleClick = (event) => {
   const moveX = Math.abs(event.clientX - startX);
   if (!isDragging || moveX < 5) {
+    const movieItem = event.target.closest('.movie-item');
+    const movieid = movieItem.dataset.movieid;
     goDetail(movieid);
   }
 };
