@@ -125,10 +125,8 @@ const posterError = ref('');
 
 const isSubmitting = ref(false);
 
-// 검색 관련 상태
 const searchResults = ref([]);
 const isGeneratingPlot = ref(false);
-
 
 let searchTimeout = null;
 
@@ -154,6 +152,65 @@ const validateForm = () => {
 
   return !titleError.value && !openYearError.value && !synopsisError.value && !plotError.value;
 };
+
+const debouncedSearch = () => {
+  if (searchTimeout) clearTimeout(searchTimeout);
+  
+  if (title.value.length < 2) {
+    searchResults.value = [];
+    return;
+  }
+
+  searchTimeout = setTimeout(async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `https://api.themoviedb.org/3/search/movie`,
+        params: {
+          query: title.value,
+          language: 'ko-KR',
+          api_key: 'dde7dc64da0d0ca43e44ed462199a312'
+        }
+      });
+      
+      searchResults.value = response.data.results;
+    } catch (error) {
+      console.error('영화 검색 중 오류 발생:', error);
+      store.showModalMessage('영화 검색에 실패했습니다.', error);
+    }
+  }, 500);
+};
+
+const selectMovie = async (movie) => {
+  title.value = movie.title;
+  openYear.value = parseInt(movie.release_date.substring(0, 4));
+  synopsis.value = movie.overview;
+  
+  if (movie.poster_path) {
+    try {
+      const imageUrl = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
+      posterPreview.value = imageUrl;
+      
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `${movie.title}_poster.jpg`, { type: 'image/jpeg' });
+      poster.value = file;
+    } catch (error) {
+      console.error('포스터 이미지 가져오기 실패:', error);
+      store.showModalMessage('포스터 이미지를 가져오는데 실패했습니다.', error);
+    }
+  }
+
+  searchResults.value = [];
+};
+
+// 컴포넌트가 언마운트될 때 타임아웃 정리
+onUnmounted(() => {
+  if (searchTimeout) clearTimeout(searchTimeout);
+  if (posterPreview.value) {
+    URL.revokeObjectURL(posterPreview.value);
+  }
+});
 
 const createMovie = async () => {
   if (!validateForm()) return;

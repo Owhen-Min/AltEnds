@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
 from django.db.models import Count
 from django.http import JsonResponse
@@ -153,10 +154,10 @@ def generate_alt_ending(request, movie_pk):
         )
         gpt_response = response.choices[0].message.content
     except Exception as e:
-        return Response({'error': f"Failed to communicate with GPT: {str(e)}"}, status=500)
+        return Response({'error': f"Failed to communicate with GPT: {str(e)}", 'user_token': user.token}, status=500)
     
     # Return the GPT response
-    return Response({'alt_ending': gpt_response})
+    return Response({'alt_ending': gpt_response, 'user_token' : user.token})
 
 @api_view(['POST'])
 def likes(request, ending_pk):
