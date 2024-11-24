@@ -11,9 +11,6 @@
           :src="store.BASE_URL + movie.poster"
           :alt="`${movie.title}의 포스터`"
         />
-        <div class="movie-overlay">
-          <span class="view-details">상세보기</span>
-        </div>
       </div>
     </div>
   </div>
