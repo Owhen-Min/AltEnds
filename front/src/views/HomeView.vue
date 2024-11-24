@@ -5,7 +5,7 @@
         <!-- 메인 컨텐츠 영역 -->
         <div class="col-lg-9 col-md-8 col-sm-12">
           <WeeklyMovies class="content-card mb-4"/>
-          <EndingRanking class="content-card mb-4"/>
+          <EndingRanking class="content-card"/>
         </div>
 
         <!-- 사이드바 영역 -->

@@ -13,7 +13,7 @@
 <script setup>
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { ref, defineProps, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 const store = useMovieStore()
 const props = defineProps({
