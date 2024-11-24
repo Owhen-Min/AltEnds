@@ -12,6 +12,9 @@
       </div>
     </div>
 
+    <div class="token-info text-center mb-3">
+      <p>현재 토큰 수: <strong>{{ tokens }}</strong></p>
+    </div>
     <!-- Prompt Form -->
     <form @submit.prevent="generateEnding" v-if="!isPrompt" class="form">
       <div class="form-group">
@@ -110,6 +113,7 @@ const movie = ref(null);
 const altendings = ref([]);
 const route = useRoute();
 const movieid = route.params.movieid;
+const tokens = ref(store.user.token)
 
 const selectContent = (index) => {
   selected.value = index;
@@ -138,10 +142,17 @@ const generateEnding = async () => {
       headers: { Authorization: `Token ${store.token}` },
     });
     altendings.value.push({ prompt: prompt.value, content: response.data.alt_ending });
+    console.log(response.data)
+    tokens.value = response.data.user_token
     prompt.value = '';
     isPrompt.value = true;
   } catch (error) {
+    if (error.response?.status === 403) {
+      store.showModalMessage('사용 가능한 토큰이 부족합니다.')
+      promptError.value = '사용 가능한 토큰이 부족합니다.'
+    } else {
       store.showModalMessage('대체 결말을 만드는 데 실패했습니다.', error)
+    }
   } finally {
     isSubmitting.value = false;
   }
@@ -155,6 +166,7 @@ const fetchMovie = async () => {
     store.showModalMessage('영화를 가져오는 데 실패했습니다.', error)
   }
 };
+
 
 onMounted(fetchMovie);
 

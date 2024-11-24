@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
 from django.db.models import Count
 from django.http import JsonResponse
@@ -90,6 +91,16 @@ def comment_delete(request, comment_pk):
 @api_view(['POST',])
 def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
+    # 현재 유저의 토큰정보 확인
+    user = request.user
+    if user.token <= 0:
+        raise PermissionDenied("사용 가능한 토큰이 부족합니다.")
+    
+    # 프롬프트 작성전 토큰 수 감소
+    user.token -= 1
+    user.save()
+
+    # 프롬프트 작성 시작
     user_prompt = request.data.get('prompt','')
     prev_alt_ending = request.data.get('content','')
     client = OpenAI(api_key=settings.SECRET_KEY)
@@ -114,10 +125,10 @@ def generate_alt_ending(request, movie_pk):
         )
         gpt_response = response.choices[0].message.content
     except Exception as e:
-        return Response({'error': f"Failed to communicate with GPT: {str(e)}"}, status=500)
+        return Response({'error': f"Failed to communicate with GPT: {str(e)}", 'user_token': user.token}, status=500)
     
     # Return the GPT response
-    return Response({'alt_ending': gpt_response})
+    return Response({'alt_ending': gpt_response, 'user_token' : user.token})
 
 @api_view(['POST'])
 def likes(request, ending_pk):
