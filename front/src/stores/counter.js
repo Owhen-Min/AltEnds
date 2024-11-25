@@ -17,6 +17,7 @@ export const useMovieStore = defineStore('movie', () => {
     }
   })
   const user = ref(null)
+  const isAdmin = computed(() => user.value?.is_admin || false)
   const weeklyMovie = ref([])
   const router = useRouter()
   const showModal = ref(false)
@@ -158,5 +159,5 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
-  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, modalConfig, showModalMessage, closeModal, logOut, getProfile, user, getMovies, weeklyMovie }
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, modalConfig, showModalMessage, closeModal, logOut, getProfile, user, isAdmin, getMovies, weeklyMovie }
 }, {persist: true})

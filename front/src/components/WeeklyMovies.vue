@@ -23,8 +23,7 @@
 
 <script setup>
 import { useMovieStore } from "@/stores/counter";
-import { onMounted, nextTick, ref } from "vue";
-import { useRouter } from 'vue-router';
+import { onMounted, nextTick, ref, watch } from "vue";
 import $ from 'jquery';
 import MovieDetailModal from '@/components/MovieDetailModal.vue';
 
@@ -33,7 +32,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const store = useMovieStore();
-const weeklyMovies = store.weeklyMovie;
+const weeklyMovies = ref([]);
 const selectedMovie = ref(null);
 let isDragging = false;
 let startX = 0;
@@ -64,39 +63,83 @@ const goDetail = ((movieid) => {
   showModal.value = true;  // 모달 표시
 })
 
-onMounted(() => {
-  store.getMovies();
+// Slick carousel을 초기화하는 함수
+const initializeSlick = () => {
   nextTick(() => {
-    $('.slick-carousel').slick({
-      centerMode: true,
-      centerPadding: '60px',
-      autoplay: true,
-      autoplaySpeed: 2000,
-      slidesToShow: 4,
-      dots: true,
-      infinite: true,
-      responsive: [
-        {
-          breakpoint: 768,
-          settings: {
-            arrows: false,
-            centerMode: true,
-            centerPadding: '40px',
-            slidesToShow: 3
-          }
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            arrows: false,
-            centerMode: true,
-            centerPadding: '40px',
-            slidesToShow: 2
-          }
+    if ($('.slick-carousel').hasClass('slick-initialized')) {
+      $('.slick-carousel').slick('unslick');
+    }
+    
+    // jQuery의 이벤트 핸들러에 passive 옵션 추가
+    $.event.special.touchstart = {
+      setup: function(_, ns, handle) {
+        if (ns.includes('noPreventDefault')) {
+          this.addEventListener('touchstart', handle, { passive: true });
+        } else {
+          this.addEventListener('touchstart', handle, { passive: false });
         }
-      ]
-    });
+      }
+    };
+    
+    $.event.special.touchmove = {
+      setup: function(_, ns, handle) {
+        if (ns.includes('noPreventDefault')) {
+          this.addEventListener('touchmove', handle, { passive: true });
+        } else {
+          this.addEventListener('touchmove', handle, { passive: false });
+        }
+      }
+    };
+
+    if (weeklyMovies.value && weeklyMovies.value.length > 0) {
+      $('.slick-carousel').slick({
+        centerMode: true,
+        centerPadding: '60px',
+        autoplay: true,
+        autoplaySpeed: 2000,
+        slidesToShow: 4,
+        dots: true,
+        infinite: true,
+        touchThreshold: 10,  // 터치 감도 조정
+        swipeToSlide: true,  // 스와이프로 슬라이드 이동 활성화
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              arrows: false,
+              centerMode: true,
+              centerPadding: '40px',
+              slidesToShow: 3
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              arrows: false,
+              centerMode: true,
+              centerPadding: '40px',
+              slidesToShow: 2
+            }
+          }
+        ]
+      });
+    }
   });
+};
+
+// store의 weeklyMovie 변경 감시
+watch(
+  () => store.weeklyMovie,
+  (newMovies) => {
+    weeklyMovies.value = newMovies;
+    initializeSlick();
+  },
+  { deep: true, immediate: true }
+);
+
+onMounted(async () => {
+  await store.getMovies();
+  initializeSlick();
 });
 
 </script>
