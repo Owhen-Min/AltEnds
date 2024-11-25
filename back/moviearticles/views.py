@@ -27,7 +27,11 @@ def ending_list(request):
     elif request.method == 'POST':
         serializer = EndingSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user_id=request.user)
+            user = request.user
+            # 게시글 작성시 토큰 개수 증가
+            user.token += 3
+            user.save()
+            serializer.save(user_id=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -80,12 +84,19 @@ def comment_list(request, ending_pk):
             serializer.save(user_id=request.user, ending_id=ending)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-@api_view(['DELETE'])
+@api_view(['DELETE', 'PUT'])
 def comment_delete(request, comment_pk):
     if request.method == 'DELETE':
         comment = get_object_or_404(Comment, pk=comment_pk)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        serializer = CommentSerializer(instance = comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
     
 
 @api_view(['POST',])
