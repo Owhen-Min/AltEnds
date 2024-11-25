@@ -4,19 +4,43 @@
       <h3 class="display-4 text-center my-5 gradient-text">메인 페이지 영화 관리</h3>
       
       <div class="d-flex justify-content-end mb-4">
-        <button 
-          class="btn btn-primary"
-          @click="saveSelections"
-          :disabled="!hasChanges"
-        >
-          변경사항 저장
-        </button>
+        <div class="d-flex gap-2 align-items-center">
+          <div class="search-container">
+            <input 
+              type="text" 
+              v-model="searchQuery" 
+              class="form-control search-input bg-dark text-white" 
+              placeholder="영화 검색..."
+            >
+          </div>
+          <select 
+            v-model="sortOption" 
+            class="form-select sort-select small-select"
+            aria-label="정렬 옵션"
+          >
+            <option value="recent">최신순</option>
+            <option value="title">제목순</option>
+          </select>
+          <RouterLink 
+            :to="{ name: 'AdminMovieCreate' }" 
+            class="btn btn-success custom-btn"
+          >
+            새 영화 등록
+          </RouterLink>
+          <button 
+            class="btn btn-primary custom-btn"
+            @click="saveSelections"
+            :disabled="!hasChanges"
+          >
+            변경사항 저장
+          </button>
+        </div>
       </div>
 
       <div v-if="movies" class="row g-4">
         <div 
-          class="col-lg-3 col-md-4 col-sm-6" 
-          v-for="movie in movies" 
+          class="col-lg-2 col-md-3 col-sm-4" 
+          v-for="movie in sortedMovies" 
           :key="movie.id"
         >
           <div 
@@ -66,7 +90,7 @@
 <script setup>
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const store = useMovieStore()
@@ -80,6 +104,33 @@ const hasChanges = ref(false)
 
 const isDragging = ref(false)
 const lastSelectedMovie = ref(null)
+
+const sortOption = ref('recent')
+const searchQuery = ref('')
+
+// 정렬된 영화 목록
+const sortedMovies = computed(() => {
+  if (!movies.value) return [];
+  
+  let filtered = [...movies.value];
+  
+  // 검색어로 필터링
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase();
+    filtered = filtered.filter(movie => 
+      movie.title.toLowerCase().includes(query)
+    );
+  }
+  
+  // 정렬
+  switch (sortOption.value) {
+    case 'title':
+      return filtered.sort((a, b) => a.title.localeCompare(b.title));
+    case 'recent':
+    default:
+      return filtered.sort((a, b) => b.id - a.id);
+  }
+});
 
 const startDrag = () => {
   isDragging.value = true
@@ -240,5 +291,55 @@ onMounted(async () => {
   .gradient-text {
     font-size: 2rem;
   }
+}
+
+.sort-select {
+  color: white;
+  padding: 0rem 2rem 0rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ffb88c;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  font-size: 0.9rem;
+  height: 35px;
+  
+  /* 커스텀 화살표 스타일링 */
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 0.8em;
+}
+
+.sort-select:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sort-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 184, 140, 0.5);
+}
+
+.sort-select option {
+  background: #343a40;
+  color: white;
+}
+
+.small-select {
+  width: 100px;
+  height: 35px;
+  font-size: 0.9rem;
+  padding: 0.2rem 1.5rem 0.2rem 0.5rem;
+}
+
+.custom-btn {
+  min-width: 140px;
+  height: 45px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -25,7 +25,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('pk', 'username', 'nickname', 'profile_picture', 'join_date', 'token')
+        fields = ('pk', 'username', 'nickname', 'profile_picture', 'join_date', 'token', 'is_admin')
         read_only_fields = ('pk', 'username', 'join_data', )
 
 class UserRankingSerializer(ModelSerializer):

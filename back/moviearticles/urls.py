@@ -12,4 +12,5 @@ urlpatterns = [
     path('altends/<int:ending_pk>/likes/', views.likes),
     path('ranking/user/', views.GetUserRanking),
     path('ranking/ending/', views.GetEndingRanking),
+    path('select/', views.movie_select),
 ]
