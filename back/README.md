@@ -107,6 +107,14 @@ python manage.py runserver
 
 ## 3. 구성 요소 설명
 ---
+## 1) `accounts/views.py`
+
+### 1. `GetProfile` 함수
+- **기능**: 특정 사용자의 프로필 정보를 조회하거나 수정하는 API 엔드포인트입니다.
+- **사용 경로**: `GET /api/v1/accounts/<int:user_pk>/` (사용자 프로필 조회)  
+  `PUT /api/v1/accounts/<int:user_pk>/` (사용자 프로필 수정)
+
+
 
 ## 4. 환경 변수 설정
 ---
