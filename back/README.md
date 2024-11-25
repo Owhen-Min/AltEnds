@@ -105,10 +105,36 @@ python manage.py runserver
 
 서버가 실행되면 http://127.0.0.1:8000에서 프로젝트를 확인할 수 있습니다.
 
-## 3. 구성 요소 설명
+## 3. API Endpoints 구성 요소 설명
 ---
 
-## 4. 환경 변수 설정
----
+| **Domain**  | **Method** | **Feature**           | **URL**                                                      |
+| ----------- | ---------- | --------------------- | ------------------------------------------------------------ |
+| Movies      | GET        | 목록 조회                 | /api/v1/movies/                                              |
+| Movies      | GET        | 상세 정보 조회              | /api/v1/movies/<int:movie_pk>/                               |
+| Movies      | PUT        | 영화 선택/해제              | /api/v1/movies/select/                                       |
+| Movies      | GET        | 엔딩 목록 조회              | /api/v1/movies/altends/                                      |
+| Movies      | GET        | 엔딩 상세 정보 <br>및 삭제     | /api/v1/movies/altends/<int:ending_pk>/                      |
+| Movies      | DELETE     | 엔딩 상세 정보 <br>및 삭제     | /api/v1/movies/altends/<int:ending_pk>/                      |
+| Movies      | GET        | 댓글 목록 및 생성            | /api/v1/movies/altends<br>/<int:ending_pk>/comments/         |
+| Movies      | POST       | 댓글 목록 및 생성            | /api/v1/movies/altends<br>/<int:ending_pk>/comments/         |
+| Movies      | DELETE     | 댓글 삭제                 | /api/v1/movies/altends/<br><int:comment_pk>/comments/delete/ |
+| Movies      | POST       | 엔딩 좋아요<br>/좋아요 취소     | /api/v1/movies/altends/<int:ending_pk>/likes/                |
+| Movies      | GET        | 사용자 랭킹 조회             | /api/v1/movies/ranking/user/                                 |
+| Movies      | GET        | 엔딩 랭킹 조회              | /api/v1/movies/ranking/ending/                               |
+| Communities | GET        | 게시글 목록 조회             | /api/v1/communities/                                         |
+| Communities | POST       | 게시글 생성                | /api/v1/communities/                                         |
+| Communities | GET        | 게시글 상세 정보 조회, 수정 및 삭제 | /api/v1/communities/<int:article_pk>/                        |
+| Communities | PUT        | 게시글 상세 정보 조회, 수정 및 삭제 | /api/v1/communities/<int:article_pk>/                        |
+| Communities | DELETE     | 게시글 상세 정보 조회, 수정 및 삭제 | /api/v1/communities/<int:article_pk>/                        |
+| Communities | GET        | 댓글 목록 및 생성            | /api/v1/communities/<int:article_pk>/comments/               |
+| Communities | POST       | 댓글 목록 및 생성            | /api/v1/communities/<int:article_pk>/comments/               |
+| Communities | DELETE     | 댓글 삭제                 | /api/v1/communities/<int:comment_pk><br>/comments/delete/    |
+| Communities | POST       | 게시글 좋아요/좋아요 취소        | /api/v1/communities/<int:article_pk>/likes/                  |
+| Accounts    | GET        | 로그인, 로그아웃, 등록 등       | /api/v1/accounts/                                            |
+| Accounts    | POST       | 로그인, 로그아웃, 등록 등       | /api/v1/accounts/                                            |
+| Accounts    | GET        | 프로필 조회 및 수정           | /api/v1/accounts/<int:user_pk>/                              |
+| Accounts    | PUT        | 프로필 조회 및 수정           | /api/v1/accounts/<int:user_pk>/                              |
 
-## 5. 기타 참고 사항
+## 4. 기타 참고 사항
+---

@@ -1,29 +1,37 @@
-# front
+# FrontEnd
 
-This template should help get you started developing with Vue 3 in Vite.
+## 1. 프로젝트 소개
+---
+이 프로젝트는 영화 데이터 API와 대체 결말 생성 기능을 제공하는 웹 애플리케이션의 FrontEnd 부분입니다. 사용자는 다양한 영화에 대한 대체 결말을 생성하고, 커뮤니티에 공유할 수 있습니다.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+## 2. 기술 스택
+---
+- **Vue.js**: 프론트엔드 프레임워크
+- **Vue Router**: 페이지 라우팅
+- **Vuex**: 상태 관리
+- **Axios**: HTTP 요청 라이브러리
+- **CSS/SCSS**: 스타일링
+- **Webpack**: 모듈 번들러
+## 3. 설치 방법
+---
+### 프로젝트 디렉터리로 이동
+``` bash
+cd front
+```
+### 의존성 설치
+``` bash
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
+### 개발 서버 시작
+```bash
 npm run dev
 ```
+## 4. API와의 연동
+---
+이 프로젝트는 영화 데이터 및 대체 결말을 제공하는 API와 연동됩니다. 주요 API 엔드포인트는 다음과 같습니다:
+- 내용
+- 내용
+- 내용
 
-### Compile and Minify for Production
 
-```sh
-npm run build
-```
+
