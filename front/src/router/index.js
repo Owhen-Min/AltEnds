@@ -12,7 +12,7 @@ import CommunityView from '@/views/CommunityView.vue'
 import CommunityDetailView from '@/views/CommunityDetailView.vue'
 import CommunityCreateView from '@/views/CommunityCreateView.vue'
 import MovieListSelectView from '@/views/MovieListSelectView.vue'
-import MovieListCreateView from '@/views/MovieListCreateView.vue'
+// import MovieListCreateView from '@/views/MovieListCreateView.vue'
 import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
 import ProfileChangeView from '@/views/ProfileChangeView.vue'
 
@@ -112,11 +112,11 @@ const router = createRouter({
       component: CommunityUpdateView
     },
     // 16. 관리자용 영화 등록 페이지
-    {
-      path: '/admin/movie/create',
-      name: 'MovieListCreate',
-      component: MovieListCreateView
-    }
+    // {
+    //   path: '/admin/movie/create',
+    //   name: 'MovieListCreate',
+    //   component: MovieListCreateView
+    // }
   ],
 })
 
