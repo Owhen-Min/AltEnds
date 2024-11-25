@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid bg-dark py-5">
     <div class="container">
-      <h3 class="display-4 text-center mb-5 gradient-text">이번 주 영화 정보</h3>
+      <h3 class="display-4 text-center my-5 gradient-text">이번 주 영화 정보</h3>
       
       <div class="row g-4">
         <div 
