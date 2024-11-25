@@ -4,7 +4,7 @@
       <div class="row gx-5">
         <!-- 메인 컨텐츠 영역 -->
         <div class="col-lg-9 col-md-8 col-sm-12">
-          <WeeklyMovies class="content-card mb-4"/>
+          <WeeklyMovies/>
           <EndingRanking class="content-card"/>
         </div>
 

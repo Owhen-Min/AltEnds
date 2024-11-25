@@ -7,14 +7,16 @@
                 <img :src="store.BASE_URL + movie.poster" alt="Movie Poster" class="movie-poster mb-4">
                 <div class="movie-details">
                     <h2 class="movie-title">{{ movie.title }}</h2>
-                    <p class="text-muted mb-2">개봉연도: {{ movie.openYear }}</p>
+                    <p class="text-white mb-2">개봉연도: {{ movie.openYear }}</p>
                 </div>
             </div>
-            <div class="col-lg-7 col-md-6 col-sm-12 card p-4">
-                <h2 class="section-title mb-4">영화 시놉시스</h2>
-                <p class="movie-summary mb-4">
-                    {{ movie.synopsis }}
-                </p>
+            <div class="col-lg-6 col-md-6 col-sm-12 card p-4 d-flex flex-column justify-content-between">
+                <div>
+                    <h2 class="section-title mb-4">영화 시놉시스</h2>
+                    <p class="movie-summary mb-4">
+                        {{ movie.synopsis }}
+                    </p>
+                </div>
                 <div class="button-container row justify-content-around p-2">
                     <button @click.self="$emit('close')" class="btn btn-warning col-sm-12 col-md-5 my-2">이전으로</button>
                     <button class="btn btn-primary col-sm-12 col-md-5 my-2">
@@ -33,10 +35,8 @@
 import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { watch, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 const store = useMovieStore()
-const route = useRoute()
 
 const props = defineProps({
   movieid: {
@@ -82,7 +82,7 @@ watch(() => props.movieid, (newVal) => {
 }
 
 .modal-content {
-  width: 90%;
+  width: 70%;
   max-width: 1200px;
   margin: 2rem auto;
   animation: modal-fade 0.3s ease-in-out;
@@ -122,6 +122,7 @@ watch(() => props.movieid, (newVal) => {
     text-wrap: balance;
     text-align-last: left;
     text-indent: 1em;
+    font-size: 25px;
     color: white;
     line-break: anywhere;
 }

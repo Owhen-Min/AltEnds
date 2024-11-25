@@ -11,9 +11,10 @@ import CommunityView from '@/views/CommunityView.vue'
 import CommunityDetailView from '@/views/CommunityDetailView.vue'
 import CommunityCreateView from '@/views/CommunityCreateView.vue'
 import MovieListSelectView from '@/views/MovieListSelectView.vue'
-import MovieListCreateView from '@/views/MovieListCreateView.vue'
+import AdminMovieCreateView from '@/views/AdminMovieCreateView.vue'
 import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
 import ProfileChangeView from '@/views/ProfileChangeView.vue'
+import AdminMovieSelectView from '@/views/AdminMovieSelectView.vue'
 
 import { useMovieStore } from '@/stores/counter'
 
@@ -104,12 +105,27 @@ const router = createRouter({
       name: 'CommunityUpdate',
       component: CommunityUpdateView
     },
+    // 16. 관리자용 영화 선택 페이지
+    {
+      path: '/admin/movies',
+      name: 'AdminMovieSelect',
+      component: AdminMovieSelectView,
+      beforeEnter: (to, from, next) => {
+        const store = useMovieStore()
+        if (!store.user.is_admin) {
+          next({ name: 'Home' })
+          store.showModalMessage('접근 제한', '관리자만 접근 가능한 페이지입니다.')
+        } else {
+          next()
+        }
+      }
+    },
     // 15. 관리자용 영화 등록 페이지
     {
-      path: '/admin/movie/create',
-      name: 'MovieListCreate',
-      component: MovieListCreateView
-    }
+      path: '/admin/movies/create',
+      name: 'AdminMovieCreate',
+      component: AdminMovieCreateView
+    },
   ],
 })
 
