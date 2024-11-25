@@ -9,7 +9,7 @@
           v-for="movie in movies" 
           :key="movie.id"
         >
-          <div class="card h-100 bg-dark movie-card border-0" @click="goDetail(movie.id)">
+          <div class="card h-100 bg-dark movie-card border-0" @click="showMovieDetail(movie.id)">
             <div class="card-img-wrapper position-relative">
               <img 
                 :src="store.BASE_URL + movie.poster" 
@@ -29,6 +29,11 @@
         </div>
       </div>
     </div>
+    <MovieDetailModal 
+      v-if="showModal"
+      :movieid="selectedMovie"
+      @close="closeModal"
+    />
   </div>
 </template>
 
@@ -37,16 +42,29 @@ import { useMovieStore } from '@/stores/counter';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-// Sample movie data for demonstration
+import MovieDetailModal from '@/components/MovieDetailModal.vue';
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
 const store = useMovieStore()
 const movies = ref(null)
 const API_URL = store.API_URL + '/movies'
 
 const router = useRouter()
 
-const goDetail = ((movieid) => {
-  router.push({ name: 'MovieListDetail', params: { movieid: movieid }})
-})
+const selectedMovie = ref(null)
+const showModal = ref(false)
+
+const showMovieDetail = function (movieId) {
+  selectedMovie.value = movieId
+  showModal.value = true
+}
+
+const closeModal = function () {
+  showModal.value = false
+  selectedMovie.value = null
+}
 
 onMounted(() => {
   axios({
@@ -137,5 +155,41 @@ onMounted(() => {
   .gradient-text {
     font-size: 2rem;
   }
+}
+
+.modal-content {
+  background: rgba(33, 37, 41, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+.movie-poster {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.movie-title {
+  margin: 15px 0;
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ff6b6b;
+}
+
+.movie-synopsis {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
 }
 </style>

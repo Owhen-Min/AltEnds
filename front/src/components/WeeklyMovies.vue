@@ -14,23 +14,32 @@
       </div>
     </div>
   </div>
+  <MovieDetailModal 
+    v-if="showModal" 
+    :movieid="selectedMovie"
+    @close="showModal = false"
+  />
 </template>
 
 <script setup>
 import { useMovieStore } from "@/stores/counter";
-import { onMounted, nextTick } from "vue";
+import { onMounted, nextTick, ref } from "vue";
 import { useRouter } from 'vue-router';
 import $ from 'jquery';
+import MovieDetailModal from '@/components/MovieDetailModal.vue';
+
 import 'slick-carousel';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const store = useMovieStore();
-const router = useRouter();
 const weeklyMovies = store.weeklyMovie;
-
+const selectedMovie = ref(null);
 let isDragging = false;
 let startX = 0;
+
+// 모달 표시 여부를 제어하는 상태 추가
+const showModal = ref(false);
 
 const handleMouseDown = (event) => {
   isDragging = false;
@@ -51,7 +60,8 @@ const handleClick = (event) => {
 };
 
 const goDetail = ((movieid) => {
-  router.push({ name: 'MovieListDetail', params: { movieid: movieid }})
+  selectedMovie.value = movieid;
+  showModal.value = true;  // 모달 표시
 })
 
 onMounted(() => {
