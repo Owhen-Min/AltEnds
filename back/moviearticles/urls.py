@@ -8,7 +8,7 @@ urlpatterns = [
     path('altends/', views.ending_list),
     path('altends/<int:ending_pk>/', views.ending_detail),
     path('altends/<int:ending_pk>/comments/', views.comment_list),
-    path('altends/<int:comment_pk>/comments/delete/', views.comment_delete),
+    path('altends/<int:comment_pk>/comments/manage/', views.comment_manage),
     path('altends/<int:ending_pk>/likes/', views.likes),
     path('ranking/user/', views.GetUserRanking),
     path('ranking/ending/', views.GetEndingRanking),
