@@ -22,8 +22,12 @@ def article_list(request):
     elif request.method == 'POST':
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # serializer.save()
-            serializer.save(user=request.user)
+            # 현재 유저의 토큰정보 확인
+            user = request.user
+            # 게시글 작성시 토큰 개수 증가
+            user.token += 3
+            user.save()
+            serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -58,16 +62,28 @@ def comment_list(request, article_pk):
         article = get_object_or_404(Article, pk=article_pk)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user_id=request.user, article_id=article)
+            # 현재 유저의 토큰정보 확인
+            user = request.user
+            # 댓글 작성시 토큰 개수 증가
+            user.token += 1
+            user.save()
+            serializer.save(user_id=user, article_id=article)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 
-@api_view(['DELETE'])
+@api_view(['DELETE', 'PUT'])
 def comment_delete(request, comment_pk):
     if request.method == 'DELETE':
         comment = get_object_or_404(Comment, pk=comment_pk)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        serializer = CommentSerializer(instance = comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
 
     
 # @login_required

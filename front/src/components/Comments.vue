@@ -5,11 +5,14 @@
       <div 
         v-for="comment in comments"
         :key="comment.id"
-        class="comment-item"
+        class="d-flex comment-item pages col-12 justify-content-between align-items-center"
       >
-        <p class="comment-author">{{ comment.user_nickname }}</p>
-        <p class="comment-content">{{ comment.content }}</p>
-        <button @click="deleteComment(comment.id)" class="btn btn-danger">
+        <div class="col-8">
+          <p class="comment-author">{{ comment.user_nickname }}</p>
+          <p class="comment-content">{{ comment.content }}</p>
+        </div>
+        <p class="col-2 comment-date">{{ formatDate(comment.created_at) }}</p>
+        <button @click="deleteComment(comment.id)" class="btn btn-danger col-1" v-if="comment.user_id === store.user.pk">
                 삭제
               </button>
       </div>
@@ -108,7 +111,20 @@ const deleteComment = function (commentId) {
     })
 }
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
 
+  // 날짜 부분 포맷
+  const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  const formattedDate = date.toLocaleDateString('ko-KR', dateOptions);
+
+  // 시간 부분 포맷
+  const timeOptions = { hour: '2-digit', minute: '2-digit' };
+  const formattedTime = date.toLocaleTimeString('ko-KR', timeOptions);
+
+  // 년/월/일 후에 줄바꿈을 하고 시간/분 표시
+  return `${formattedDate}\n${formattedTime}`;
+};
 </script>
 
 <style scoped>
@@ -146,6 +162,11 @@ const deleteComment = function (commentId) {
   background: rgba(255, 255, 255, 0.05);
   padding: 20px;
   border-radius: 8px;
+}
+
+.comment-date {
+  font-size: small;
+  white-space: pre-line;
 }
 
 .form-group {
