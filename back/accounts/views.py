@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User
 from django.shortcuts import get_object_or_404
-from .serializers import UserProfileSerializer
+from .serializers import UserProfileSerializer, UserInfoSerializer
 
 @api_view(['GET', 'PUT'])
 def GetProfile(request, user_pk):
@@ -17,3 +17,10 @@ def GetProfile(request, user_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        
+@api_view(['GET'])
+def GetInfo(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    if request.method == 'GET':
+        serializer = UserInfoSerializer(user)
+        return Response(data=serializer.data)

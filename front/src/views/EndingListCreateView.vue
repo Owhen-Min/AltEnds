@@ -96,7 +96,7 @@
 
 <script setup>
 import SelectModal from '@/components/SelectModal.vue';
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -168,7 +168,10 @@ const fetchMovie = async () => {
 };
 
 
-onMounted(fetchMovie);
+onMounted(() => {
+  store.getMyProfile()
+  fetchMovie()
+});
 
 const openModal = () => {
   if (!altendings.value.length) {

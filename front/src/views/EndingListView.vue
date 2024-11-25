@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { onMounted, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';

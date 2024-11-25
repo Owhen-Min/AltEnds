@@ -17,7 +17,7 @@ import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
 import ProfileChangeView from '@/views/ProfileChangeView.vue'
 
 
-import { useMovieStore } from '@/stores/counter'
+import { useMovieStore } from '@/stores/movieStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

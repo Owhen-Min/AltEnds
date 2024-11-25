@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 
 const store = useMovieStore()
 </script>

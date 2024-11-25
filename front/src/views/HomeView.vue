@@ -43,17 +43,21 @@
 
 <script setup>
 import router from '@/router';
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import { computed } from 'vue';
 
 import UserRanking from '@/components/UserRanking.vue';
 import EndingRanking from '@/components/EndingRanking.vue';
 import WeeklyMovies from '@/components/WeeklyMovies.vue';
 import EndingTwistButton from '@/components/EndingTwistButton.vue';
+import { onMounted } from 'vue';
 const store = useMovieStore()
 
 const isLogin = computed(() => store.isLogin)
 
+onMounted(() => {
+  store.getMyProfile()
+})
 const goProfile = function (userid) {
   router.push({ name: 'Profile', params: { userid: userid } })
 }

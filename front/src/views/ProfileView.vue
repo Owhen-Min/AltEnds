@@ -44,22 +44,43 @@
         <!-- 오른쪽 메인 컨텐츠 -->
         <div class="col-lg-8 col-md-7">
           <div class="content-card">
+            <h3>AI게시판</h3>
             <div class="stats-grid">
               <!-- 통계 카드들 -->
               <div class="stat-card">
                 <i class="bi bi-heart-fill"></i>
                 <h4>받은 좋아요</h4>
-                <p class="gradient-text">{{ profile.total_likes || 0 }}</p>
+                <p class="gradient-text">{{ profile.ending_like_count }}</p>
               </div>
               <div class="stat-card">
                 <i class="bi bi-pencil-fill"></i>
                 <h4>작성 게시글</h4>
-                <p class="gradient-text">{{ profile.total_posts || 0 }}</p>
+                <p class="gradient-text">{{ profile.ending_count }}</p>
               </div>
               <div class="stat-card">
                 <i class="bi bi-chat-fill"></i>
                 <h4>작성 댓글</h4>
-                <p class="gradient-text">{{ profile.total_comments || 0 }}</p>
+                <p class="gradient-text">{{ profile.ending_comment_count }}</p>
+              </div>
+            </div>
+            <br>
+            <h3>커뮤니티</h3>
+            <div class="stats-grid">
+              <!-- 통계 카드들 -->
+              <div class="stat-card">
+                <i class="bi bi-heart-fill"></i>
+                <h4>받은 좋아요</h4>
+                <p class="gradient-text">{{ profile.article_like_count }}</p>
+              </div>
+              <div class="stat-card">
+                <i class="bi bi-pencil-fill"></i>
+                <h4>작성 게시글</h4>
+                <p class="gradient-text">{{ profile.article_count }}</p>
+              </div>
+              <div class="stat-card">
+                <i class="bi bi-chat-fill"></i>
+                <h4>작성 댓글</h4>
+                <p class="gradient-text">{{ profile.article_comment_count }}</p>
               </div>
             </div>
           </div>
@@ -70,7 +91,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -83,7 +104,7 @@ const profile = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/accounts/${user_pk}/`
+    url: `${store.API_URL}/accounts/info/${user_pk}/`
   })
     .then((response) => {
       profile.value = response.data

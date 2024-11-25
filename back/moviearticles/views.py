@@ -10,7 +10,7 @@ from django.http import JsonResponse
 
 from django.shortcuts import get_object_or_404
 
-from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
+from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, EndingCommentSerializer
 from .models import Ending, Movie, Comment
 from openai import OpenAI
 from django.contrib.auth import get_user_model
@@ -79,14 +79,19 @@ def movie_detail(request, movie_pk):
 def comment_list(request, ending_pk):
     if request.method == 'GET':
         comments = Comment.objects.filter(ending_id=ending_pk)
-        serializer = CommentSerializer(comments, many=True)
+        serializer = EndingCommentSerializer(comments, many=True)
         return Response(serializer.data)
     
     elif request.method == 'POST':
         ending = get_object_or_404(Ending, pk=ending_pk)
-        serializer = CommentSerializer(data=request.data)
+        serializer = EndingCommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user_id=request.user, ending_id=ending)
+            # 현재 유저의 토큰정보 확인
+            user = request.user
+            # 댓글 작성시 토큰 개수 증가
+            user.token += 1
+            user.save()
+            serializer.save(user_id=user, ending_id=ending)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
 @api_view(['DELETE', 'PUT'])
@@ -98,7 +103,7 @@ def comment_manage(request, comment_pk):
     
     elif request.method == 'PUT':
         comment = get_object_or_404(Comment, pk=comment_pk)
-        serializer = CommentSerializer(instance = comment, data=request.data)
+        serializer = EndingCommentSerializer(instance = comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
@@ -109,11 +114,11 @@ def generate_alt_ending(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     # 현재 유저의 토큰정보 확인
     user = request.user
-    if user.token <= 0:
+    if user.token <= 4:
         raise PermissionDenied("사용 가능한 토큰이 부족합니다.")
     
     # 프롬프트 작성전 토큰 수 감소
-    user.token -= 1
+    user.token -= 5
     user.save()
 
     # 프롬프트 작성 시작
