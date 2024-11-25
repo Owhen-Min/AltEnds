@@ -8,7 +8,13 @@
         <RouterLink :to="{ name: 'EndingList' }" class="nav-link col-3">AI 게시판</RouterLink>
         <RouterLink :to="{ name: 'Community' }" class="nav-link col-2">커뮤니티</RouterLink>
         <RouterLink :to="{ name: 'MovieList'}" class="nav-link col-2">영화정보</RouterLink>
-        <!-- <RouterLink :to="{ name: 'MovieListCreate'}" class="nav-link col-2">영화등록</RouterLink> -->
+        <RouterLink 
+          v-if="store.user.is_admin" 
+          :to="{ name: 'AdminMovieSelect' }" 
+          class="nav-link"
+        >
+          영화관리
+        </RouterLink>
       </div>
       <div class="d-none d-md-block col-md-1 col-lg-2"></div>
       <div class="d-flex userpages col-sm-4 col-md-3 justify-content-center align-items-center" v-if="isLogin">
