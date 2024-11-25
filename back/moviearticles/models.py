@@ -28,7 +28,7 @@ class Movie(models.Model):
 class Comment(models.Model):
     id = models.IntegerField(primary_key=True)
     ending_id= models.ForeignKey("Ending", on_delete=models.CASCADE)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comment_endings')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
@@ -159,5 +159,23 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
-  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, modalConfig, showModalMessage, closeModal, logOut, getProfile, user, isAdmin, getMovies, weeklyMovie }
+  const getMyProfile = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/accounts/${user.value.pk}/`)
+      user.value = response.data
+    } catch (error) {
+      console.error('user 정보 갱신 실패: ', error)
+    }
+  }
+  // watch(user, (newValue, oldValue) => {
+  //   // 여기 추가
+  //   console.log(newValue !== oldValue)
+
+  //   if (newValue !== oldValue) {
+  //     getMyProfile()
+  //   }
+  // })
+
+
+  return { BASE_URL, API_VER, API_URL, token, isLogin, signUp, logIn, showModal, modalConfig, showModalMessage, closeModal, logOut, getProfile, getMyProfile, user, isAdmin, getMovies, weeklyMovie }
 }, {persist: true})

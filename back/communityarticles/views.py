@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
+from .serializers import ArticleListSerializer, ArticleSerializer, ArticleCommentSerializer
 from .models import Article, Comment
 
 
@@ -55,12 +55,12 @@ def article_detail(request, article_pk):
 def comment_list(request, article_pk):
     if request.method == 'GET':
         comments = Comment.objects.filter(article_id=article_pk)
-        serializer = CommentSerializer(comments, many=True)
+        serializer = ArticleCommentSerializer(comments, many=True)
         return Response(serializer.data)
     
     elif request.method == 'POST':
         article = get_object_or_404(Article, pk=article_pk)
-        serializer = CommentSerializer(data=request.data)
+        serializer = ArticleCommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             # 현재 유저의 토큰정보 확인
             user = request.user
@@ -80,7 +80,7 @@ def comment_manage(request, comment_pk):
     
     elif request.method == 'PUT':
         comment = get_object_or_404(Comment, pk=comment_pk)
-        serializer = CommentSerializer(instance = comment, data=request.data)
+        serializer = ArticleCommentSerializer(instance = comment, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)

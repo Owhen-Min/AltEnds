@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -27,7 +27,7 @@ const store = useMovieStore()
 const nickname = ref('')
 const picture = ref(null)
 const profileChange = function () {
-  const formData = new FormData
+  const formData = new FormData()
   // 닉네임 추가
   if (!nickname.value && !picture.value?.files?.length) {
     store.showModalMessage('둘 중에 하나는 입력해주세요')

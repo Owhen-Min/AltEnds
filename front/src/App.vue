@@ -13,7 +13,7 @@
 import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import Modal from './components/Modal.vue';
-import { useMovieStore } from './stores/counter';
+import { useMovieStore } from './stores/movieStore';
 
 const store = useMovieStore();
 </script>

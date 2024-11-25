@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';

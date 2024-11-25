@@ -27,7 +27,7 @@ class EndingSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'user_id',)
         
 
-class CommentSerializer(serializers.ModelSerializer):
+class EndingCommentSerializer(serializers.ModelSerializer):
     user_nickname = serializers.CharField(source='user_id', read_only=True)
     class Meta:
         model = Comment

@@ -68,7 +68,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 
 const router = useRouter();

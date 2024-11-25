@@ -3,7 +3,7 @@
     <h3 class="comments-title">댓글</h3>
     <div class="comments-list">
       <div 
-        v-for="comment in comments"
+        v-for="comment in paginatedComments"
         :key="comment.id"
         class="d-flex comment-item pages col-12 justify-content-between align-items-center"
       >
@@ -54,17 +54,44 @@
       <button type="submit" class="submit-button">댓글 작성</button>
     </form>
   </div>
+  <!-- Pagination Footer -->
+  <footer class="board-footer d-flex justify-content-between align-items-center mt-4">
+    <button 
+      class="btn btn-warning" 
+      @click="goToPage('prev')"
+      :disabled="currentPage === 1"
+    >
+      이전 페이지로
+    </button>
+    
+    <div class="page-info">
+      {{ currentPage }} / {{ totalPages }}
+    </div>
+    
+    <button 
+      class="btn btn-warning" 
+      @click="goToPage('next')"
+      :disabled="currentPage === totalPages"
+    >
+      다음 페이지로
+    </button>
+  </footer>
 </template>
 
 <script setup>
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 const store = useMovieStore()
 
+const router = useRouter();
+const currentPage = ref(1);
+const itemsPerPage = 10;
+
 const content = ref(null)
-const comments = ref(null)
+const comments = ref([])
 const props = defineProps({
   pk: Number,
   nextUrl: String,
@@ -101,6 +128,7 @@ const createComment = function () {
     .then((response) => {
       comments.value.push(response.data)
       content.value = null
+      store.getMyProfile()
     })
     .catch((error) => {
       store.showModalMessage('댓글 작성에 실패했습니다.', error)
@@ -150,6 +178,31 @@ const formatDate = (dateString) => {
   const formattedTime = date.toLocaleTimeString('ko-KR', timeOptions);
   return `${formattedDate}\n${formattedTime}`;
 };
+
+
+
+// 페이지네이션된 게시글
+const paginatedComments = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return comments.value.slice(start, end);
+});
+
+// 전체 페이지 수
+const totalPages = computed(() => 
+  Math.ceil(comments.value.length / itemsPerPage)
+);
+
+
+// 페이지 이동
+const goToPage = (direction) => {
+  if (direction === 'prev' && currentPage.value > 1) {
+    currentPage.value--;
+  } else if (direction === 'next' && currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
 </script>
 
 <style scoped>

@@ -62,7 +62,7 @@
 <script setup>
 import Comments from '@/components/Comments.vue';
 import Like from '@/components/Like.vue';
-import { useMovieStore } from '@/stores/counter';
+import { useMovieStore } from '@/stores/movieStore';
 import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';

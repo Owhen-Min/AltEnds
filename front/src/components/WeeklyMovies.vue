@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { useMovieStore } from "@/stores/counter";
+import { useMovieStore } from "@/stores/movieStore";
 import { onMounted, nextTick, ref, watch } from "vue";
 import $ from 'jquery';
 import MovieDetailModal from '@/components/MovieDetailModal.vue';
