@@ -41,4 +41,15 @@ const store = useMovieStore();
 .container-fluid {
     background-color: #212529;
   }
+
+body {
+  background-color: #212529 !important;
+  margin: 0;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+  background-color: #212529;
+}
 </style>

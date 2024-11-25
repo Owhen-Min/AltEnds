@@ -111,7 +111,7 @@ const router = createRouter({
     {
       path: '/admin/movies/create',
       name: 'AdminMovieCreate',
-      component: AdminMovieCreateView
+      component: AdminMovieCreateView,
       beforeEnter: (to, from, next) => {
         const store = useMovieStore()
         if (!store.user.is_admin) {

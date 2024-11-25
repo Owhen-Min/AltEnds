@@ -64,6 +64,9 @@
                 rows="5"
                 :disabled="isGeneratingPlot"
               ></textarea>
+              <div v-if="isGeneratingPlot" class="text-warning mt-2">
+                <small>줄거리를 생성하는 중입니다...</small>
+              </div>
               <span v-if="plotError" class="error">{{ plotError }}</span>
             </div>
 
@@ -83,11 +86,11 @@
             </div>
 
             <div class="d-flex justify-content-between">
-              <RouterLink :to="{ name: 'MovieList' }" class="btn btn-warning">
+              <RouterLink :to="{ name: 'AdminMovieSelect' }" class="btn btn-warning">
                 이전으로
               </RouterLink>
-              <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-                {{ isSubmitting ? '등록 중...' : '영화 등록하기' }}
+              <button type="submit" class="btn btn-primary" :disabled="isGeneratingPlot || isSubmitting">
+                {{ isGeneratingPlot || isSubmitting ? '등록 중...' : '영화 등록하기' }}
               </button>
             </div>
           </form>
@@ -183,7 +186,7 @@ const createMovie = async () => {
       }
     });
     
-    router.push({ name: 'MovieList' });
+    router.push({ name: 'AdminMovieSelect' });
   } catch (error) {
     store.showModalMessage('영화 등록에 실패했습니다.', error);
   } finally {
@@ -292,31 +295,33 @@ ${credits.crew.filter(c => ['Director', 'Writer', 'Screenplay'].includes(c.job))
 Keywords:
 ${details.keywords?.keywords?.map(k => k.name).join(', ')}
 
-Please write a plot of the movie based on the above information, concisely.`;
+Please write a plot of the movie based on the above information, concisely. Never make up any information.`;
 };
 
 // GPT API 호출 함수
 const generatePlot = async () => {
-  const prompt = createMoviePrompt();
-  if (!prompt) {
-    store.showModalMessage('영화 정보가 충분하지 않습니다.', '영화를 먼저 선택해주세요.');
-    return;
-  }
-
-  isGeneratingPlot.value = true;
   try {
-    plot.value = prompt;
+    isGeneratingPlot.value = true;
+    plot.value = ''; // 기존 내용 초기화
+
+    const prompt = createMoviePrompt();
+    
+    if (!prompt) {
+      store.showModalMessage('영화 정보가 충분하지 않습니다.', '영화를 먼저 선택해주세요.');
+      return;
+    }
+
     const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-        { role: "system", content: "You are a Movie Review Youtuber. You will going to explain the plot of the movie concisely. Synopsis, which is given, is just for reference. Give me the whole story of the movie including the ending. No need for any explanation." },
-        {
-            role: "user",
-            content: prompt,
-        },
-        {
-          role: "assistant",
-          content: `The fate of Middle-earth hangs in the balance as the forces of good and evil prepare for a climactic battle. Frodo Baggins, accompanied by his steadfast friend Samwise Gamgee and the treacherous creature Gollum, continues their perilous quest to destroy the One Ring in the fires of Mount Doom, deep within the dark land of Mordor. 
+      model: "gpt-4o-mini",
+      messages: [
+          { role: "system", content: "You are a Movie Review Youtuber. You will going to explain the plot of the movie concisely. Synopsis, which is given, is just for reference. Give me the whole story of the movie including the ending. Detail is important. No need for any explanation for conclusion." },
+          {
+              role: "user",
+              content: prompt,
+          },
+          {
+            role: "assistant",
+            content: `The fate of Middle-earth hangs in the balance as the forces of good and evil prepare for a climactic battle. Frodo Baggins, accompanied by his steadfast friend Samwise Gamgee and the treacherous creature Gollum, continues their perilous quest to destroy the One Ring in the fires of Mount Doom, deep within the dark land of Mordor. 
 
 Meanwhile, Aragorn, the rightful heir to the throne of men, grapples with his destiny as he rallies the kingdoms of Gondor and Rohan to unite against Sauron's overwhelming army of orcs and wraiths. He gains the support of the noble Éowyn and the brave Merry, who join in the fight despite the odds against them.
 
@@ -327,9 +332,10 @@ Ultimately, Frodo reaches Mount Doom but struggles with the Ring's corrupting po
 As the dark forces scatter, the surviving heroes celebrate their hard-won victory, but the toll of the journey is heavy. Aragorn is crowned King of Gondor, uniting the realms of men, while Frodo and Sam return to the Shire, changed by their experiences. However, Frodo is left with lasting scars and finds it hard to fully reintegrate into his previous life.
 
 Frodo departing Middle-earth for the Undying Lands with Gandalf, Bilbo, and the Elves, seeking peace after the burdens he carried. Sam returns home, cherishing the memory of their journey, and starts a family, ensuring that hope and new beginnings take root in a world forever changed by their bravery.`
-        }
-    ],
+          }
+      ],
     });
+    
     plot.value = completion.choices[0].message.content;
   } catch (error) {
     store.showModalMessage('줄거리 생성에 실패했습니다.', error);

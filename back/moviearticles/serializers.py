@@ -4,7 +4,7 @@ from .models import Ending, Movie, Comment
 class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'poster')
+        fields = ('id', 'title', 'poster',)
         
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +25,7 @@ class EndingSerializer(serializers.ModelSerializer):
         model = Ending
         fields = '__all__'
         read_only_fields = ('id', 'user_id',)
+        
 
 class CommentSerializer(serializers.ModelSerializer):
     user_nickname = serializers.CharField(source='user_id', read_only=True)

@@ -8,7 +8,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 
 
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404
 
 from .serializers import EndingListSerializer, EndingSerializer, MovieListSerializer, MovieSerializer, CommentSerializer
 from .models import Ending, Movie, Comment
@@ -49,10 +49,15 @@ def ending_detail(request, ending_pk):
 @api_view(['GET','POST'])
 def movie_list(request):
     if request.method == 'GET':
-        movies = get_list_or_404(Movie)
+        movies = Movie.objects.filter(is_selected=True)
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        if not request.user.is_admin:
+            error_data = {
+                'Access Denied': ['관리자만 접근 가능합니다.']
+            }
+            return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
         serializer = MovieSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -211,3 +216,24 @@ def GetEndingRanking(request):
         }
     
     return JsonResponse(ending_dict, safe=True)
+
+@api_view(['GET', 'PUT'])
+def movie_select(request):
+    if not request.user.is_admin:
+        error_data = {
+            'Access Denied': ['관리자만 접근 가능합니다.']
+        }
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'GET':
+        movies = Movie.objects.all()
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        selected_movies = request.data.get('selected_movies', [])
+        # 모든 영화의 선택 상태를 먼저 False로 설정
+        Movie.objects.all().update(is_selected=False)
+        # 선택된 영화들만 True로 업데이트
+        Movie.objects.filter(id__in=selected_movies).update(is_selected=True)
+        return Response({'message': '영화 선택이 업데이트되었습니다.'}, status=status.HTTP_200_OK)
