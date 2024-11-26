@@ -11,7 +11,7 @@
         <div class="card-content">
           <div class="rank-header">
             <span class="rank">{{ index }}위</span>
-            <span class="like-count">👍 {{ ending.like_count }}</span>
+            <span class="like-count">💗 {{ ending.like_count }}</span>
           </div>
           <div class="movie-info">
             <p class="movie"><strong>{{ ending.movie }}</strong></p>

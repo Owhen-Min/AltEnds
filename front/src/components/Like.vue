@@ -4,7 +4,7 @@
       @click="pushLikes" 
       :class="['like-button', isLiked ? 'liked' : '']"
     >
-      {{ isLiked ? '❤' : '🤍' }}
+      {{ isLiked ? '💗' : '🤍' }}
     </button>
   </div>
 </template>
@@ -65,6 +65,5 @@ const pushLikes = function() {
 
 .like-button.liked {
   background: rgba(255, 255, 255, 0.1);
-  border: 2px solid #ffb88c;
 }
 </style>

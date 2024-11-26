@@ -9,7 +9,7 @@
         @click="goProfile(user.user_id)"
       >
         <h5 class="col-8">{{ index }}위: <strong>{{ user.user_name }}</strong></h5>
-        <p class="col-4">👍 {{ user.total_likes }}</p>
+        <p class="col-4">💗 {{ user.total_likes }}</p>
       </div>
     </div>
   </div>

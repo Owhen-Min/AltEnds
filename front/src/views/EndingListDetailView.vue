@@ -200,7 +200,7 @@ const openMovieDetail = (movieId) => {
 .article-text {
   color: #e0e0e0;
   line-height: 1.8;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   white-space: pre-line;
 }
 
