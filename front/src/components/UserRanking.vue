@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import { useMovieStore } from '@/stores/movieStore';
 import { useRouter } from 'vue-router';
@@ -33,7 +33,7 @@ const goProfile = (userid) => {
   router.push({ name: 'Profile', params: { userid: userid } });
 };
 
-onMounted(() => {
+const fetchRanking = () => {
   axios({
     method: 'GET',
     url: `${store.API_URL}/movies/ranking/user/`,
@@ -44,6 +44,15 @@ onMounted(() => {
     .catch((error) => {
       store.showModalMessage('사용자 랭킹을 불러오는 데 실패했습니다.', error)
     });
+};
+
+onMounted(() => {
+  fetchRanking();
+  const interval = setInterval(fetchRanking, 60000);
+  
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
 });
 </script>
 

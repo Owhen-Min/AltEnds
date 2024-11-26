@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="card-body text-center" id="user-login" v-else>
-              <RouterLink :to="{ name: 'Login' }" class="btn btn-primary me-2">로그인</RouterLink>
+              <RouterLink :to="{ name: 'Login' }" class="btn btn-primary">로그인</RouterLink> <br>
               <RouterLink :to="{ name: 'SignUp' }" class="btn btn-warning">회원가입</RouterLink>
             </div>
           </div>
@@ -126,6 +126,8 @@ const logOut = store.logOut
 .btn-primary {
   background: linear-gradient(45deg, #ff6b6b, #ffb88c);
   border: none;
+  padding: 8px 33px;
+  margin-bottom: 10px;
 }
 
 .btn-warning {

@@ -15,8 +15,8 @@ import AdminMovieCreateView from '@/views/AdminMovieCreateView.vue'
 import AdminMovieSelectView from '@/views/AdminMovieSelectView.vue'
 import CommunityUpdateView from '@/views/CommunityUpdateView.vue'
 import ProfileChangeView from '@/views/ProfileChangeView.vue'
-import IntroductionView from '@/views/IntroductionView.vue'
-
+import WelcomeView from '@/views/WelcomeView.vue'
+import InstructionView from '@/views/InstructionView.vue'
 import { useMovieStore } from '@/stores/movieStore'
 
 const router = createRouter({
@@ -25,95 +25,101 @@ const router = createRouter({
     // 1. 소개 페이지
     {
       path: '/',
-      name: 'Introduction',
-      component: IntroductionView,
+      name: 'Welcome',
+      component: WelcomeView,
     },
-    // 2. 메인 페이지
+    // 2. 이용방법 페이지
+    {
+      path: '/instruction',
+      name: 'Instruction',
+      component: InstructionView,
+    },
+    // 3. 메인 페이지
     {
       path: '/home',
       name: 'Home',
       component: HomeView,
     },
-    // 3. 로그인 페이지
+    // 4. 로그인 페이지
     {
       path: '/login',
       name: 'Login',
       component: LoginView
     },
-    // 4. 회원가입 페이지
+    // 5. 회원가입 페이지
     {
       path: '/signup',
       name: 'SignUp',
       component: SignUpView
     },
-    // 5. 사용자 프로필 페이지
+    // 6. 사용자 프로필 페이지
     {
       path: '/profile/:userid',
       name: 'Profile',
       component: ProfileView
     },
-    // 6. 사용자 프로필 변경 페이지
+    // 7. 사용자 프로필 변경 페이지
     {
       path: '/profile/:userid/change',
       name: 'ProfileChange',
       component: ProfileChangeView
     },
-    // 7. 원본 영화 리스트 페이지
+    // 8. 원본 영화 리스트 페이지
     {
       path: '/movielist',
       name: 'MovieList',
       component: MovieListView
     },
-    // 8. 원본 영화 선택 페이지
+    // 9. 원본 영화 선택 페이지
     {
       path: '/movieselect',
       name: 'MovieSelect',
       component: MovieListSelectView
     },
-    // 9. 대체 결말 리스트 페이지
+    // 10. 대체 결말 리스트 페이지
     {
       path: '/ending',
       name: 'EndingList',
       component: EndingListView
     },
-    // 10. 대체 결말 상세 페이지
+    // 11. 대체 결말 상세 페이지
     {
       path: '/ending/:endingid',
       name: 'EndingListDetail',
       component: EndingListDetailView
     },
-    // 11. 대체 결말 생성 페이지
+    // 12. 대체 결말 생성 페이지
     {
       path: '/ending/create/:movieid',
       name: 'EndingListCreate',
       component: EndingListCreateView
     },
-    // 12. 커뮤니티 게시판 페이지
+    // 13. 커뮤니티 게시판 페이지
     {
       path: '/community',
       name: 'Community',
       component: CommunityView
     },
-    // 13. 커뮤니티 게시글 상세 페이지
+    // 14. 커뮤니티 게시글 상세 페이지
     {
       path: '/community/:articleid',
       name: 'CommunityDetail',
       component: CommunityDetailView
     },
-    // 14. 커뮤니티 게시글 작성 페이지
+    // 15. 커뮤니티 게시글 작성 페이지
     {
       path: '/community/create',
       name: 'CommunityCreate',
       component: CommunityCreateView
     },
-    // 15. 커뮤니티 게시글 수정 페이지
+    // 16. 커뮤니티 게시글 수정 페이지
     {
       path: '/community/:articleid/update',
       name: 'CommunityUpdate',
       component: CommunityUpdateView
     },
 
-    // 16. 관리자용 영화 등록 페이지
+    // 17. 관리자용 영화 등록 페이지
     {
       path: '/admin/movies/create',
       name: 'AdminMovieCreate',
@@ -128,7 +134,7 @@ const router = createRouter({
         }
       }
     },
-    // 17. 관리자용 영화 선택 페이지
+    // 18. 관리자용 영화 선택 페이지
     {
       path: '/admin/movies',
       name: 'AdminMovieSelect',
@@ -148,7 +154,7 @@ const router = createRouter({
 
 router.beforeEach ((to, from) => {
   const store = useMovieStore()
-  if (to.name === 'Introduction' && store.isLogin) return { name : 'Home'}
+  if (to.name === 'Welcome' && store.isLogin) return { name : 'Home'}
   if ((to.name==='CommunityCreate'|to.name==='EndingListCreate'|to.name==='EndingListDetail'|to.name==='MovieSelect'|to.name==='Profile') && !store.isLogin) {
     store.showModalMessage('Error', '로그인이 필요합니다')
     return { name : 'Login'}

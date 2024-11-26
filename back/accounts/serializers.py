@@ -32,10 +32,13 @@ class UserProfileSerializer(ModelSerializer):
         read_only_fields = ('pk', 'username', 'join_date', )
 
 class UserRankingSerializer(ModelSerializer):
-    total_likes = serializers.IntegerField()
+    total_likes = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = ('pk', 'profile_picture', 'nickname', 'total_likes')
+
+    def get_total_likes(self, obj):
+        return max(0, obj.like_articles.count() - obj.dislike_articles.count())
 
 
 class UserInfoSerializer(serializers.ModelSerializer):

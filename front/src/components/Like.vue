@@ -34,9 +34,9 @@ const isLiked = ref(false)
 const isDisliked = ref(false)
 const nextUrl = ref(false)
 
-watch(() => props.isLiked, (newValue) => {
-  isLiked.value = newValue
-  isDisliked.value = newValue
+watch([() => props.isLiked, () => props.isDisliked], ([newIsLiked, newIsDisliked] ) => {
+  isLiked.value = newIsLiked
+  isDisliked.value = newIsDisliked
   nextUrl.value = props.nextUrl
 }, { immediate: true })
 

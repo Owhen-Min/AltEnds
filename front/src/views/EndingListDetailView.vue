@@ -3,6 +3,23 @@
     <div class="container card bg-dark text-white py-5" v-if="altending">
       <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-md-11 col-sm-12 article-content-wrapper">
+          <div class="article-header card p-4 mb-4">
+            <h2 class="gradient-text mb-4">{{ altending.prompt }}</h2>
+            <div class="article-meta d-flex justify-content-between align-items-center">
+              <div class="meta-left">
+                <div class="meta-item">
+                  <i class="bi bi-person-fill"></i>
+                  <span @click="goProfile(altending.user_id)" class="cursor-pointer"><img :src="store.BASE_URL + altending.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ altending.user_nickname }}</strong></span>
+                </div>
+              </div>
+              <div class="meta-right">
+                <div class="meta-item">
+                  <i class="bi bi-clock-fill"></i>
+                  <span><em>{{ formatDate(altending.created_at) }}</em></span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="movie-poster-section card p-4 mb-4">
             <div class="d-flex align-items-start gap-4">
               <div class="poster-wrapper">
@@ -20,61 +37,42 @@
             </div>
           </div>
 
-          <div class="article-header card p-4 mb-4">
-            <h2 class="gradient-text mb-4">{{ altending.prompt }}</h2>
-            <div class="article-meta d-flex justify-content-between align-items-center">
-              <div class="meta-left">
-                <div class="meta-item">
-                  <i class="bi bi-person-fill"></i>
-                  <span><img :src="store.BASE_URL + altending.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ altending.user_nickname }}</strong></span>
-                </div>
-              </div>
-              <div class="meta-right">
-                <div class="meta-item">
-                  <i class="bi bi-clock-fill"></i>
-                  <span><em>{{ formatDate(altending.created_at) }}</em></span>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="article-body card p-4 mb-4">
             <p class="article-text">{{ altending.content }}</p>
           </div>
-
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <Like
-              :pk="altending.id"
-              :isLiked="isLiked"
-              nextUrl="movies/altends"
-            />
-            <div class="action-buttons d-flex gap-2">
-              <button 
-                v-if="store.isLogin && altending.user_id === store.user.pk"
-                @click="deleteAltEnding(altending.id)" 
-                class="btn btn-danger"
-              >
+          <div class="row justify-content-between">
+            <div class="col-2 justify-content-between align-items-center mb-4" v-if="store.isLogin && altending.user_id === store.user.pk">
+              <button @click="deleteAltEnding(altending.id)" class="btn btn-danger">
                 삭제
               </button>
-              <button @click="$router.go(-1)" class="btn btn-warning">이전으로</button>
+            </div>
+            <div class="col-4 justify-content-between align-items-center mb-4" v-else>
+              <Like
+              :pk="altending.id"
+              :isLiked="isLiked"
+              :isDisliked="isDisliked"
+                nextUrl="movies/altends"
+              />
+            </div>
+            <div class="col-6 d-flex justify-content-between align-items-center mb-4">
+              <button @click="$router.go(-1)" class="col-5 btn btn-warning">이전으로</button>
               <RouterLink 
                 :to="{ name: 'EndingListCreate', params: { movieid: altending.movie_info.id } }" 
-                class="btn btn-primary"
+                class="col-5 btn btn-primary"
               >
                 나도 비틀러 가기
               </RouterLink>
             </div>
           </div>
-
-          <Comments 
-            :pk="altending.id" 
-            nextUrl="movies/altends"
-          />
-        </div>
+            <Comments 
+              :pk="altending.id" 
+              nextUrl="movies/altends"
+            />
+          </div>
+          </div>
       </div>
     </div>
-  </div>
-  <p class="text-white">{{ altending }}</p>
 </template>
 
 <script setup>
@@ -90,14 +88,23 @@ const router = useRouter()
 const store = useMovieStore()
 const altending = ref(null)
 const isLiked = ref(false)
+const isDisliked = ref(false)
 const API_URL = store.API_URL + '/movies/altends'
 
-watch(() => altending.value?.like_users, (newValue) => {
-  if (newValue) {
-    const likeUsers = Array.from(newValue)
-    isLiked.value = likeUsers.includes(store.user.pk)
-  }
-}, { immediate: true })
+watch(
+  () => altending.value,
+  (newAltending) => {
+    if (newAltending !== null) {
+      if (newAltending.like_users.includes(store.user.pk)){
+        isLiked.value = true  
+      } 
+      if (newAltending.dislike_users.includes(store.user.pk)){
+        isDisliked.value = true
+      }
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 const fetchAltEnding = async () => {
   try {
@@ -137,6 +144,10 @@ const deleteAltEnding = async (endingId) => {
   } catch (error) {
     store.showModalMessage('삭제에 실패했습니다.')
   }
+}
+
+const goProfile = (userid) => {
+  router.push({ name: 'Profile', params: { userid } })
 }
 
 </script>
@@ -385,5 +396,9 @@ const deleteAltEnding = async (endingId) => {
     max-height: none;
     font-size: 1rem;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>
