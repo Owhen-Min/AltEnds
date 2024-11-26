@@ -6,6 +6,7 @@ ChatGPT를 활용하여 추천 영화의 대체 결말을 생성하고, 사용�
 ---
 ### [BackEnd](./back/README.md)
 ### [FrontEnd](./front/README.md)
+### [API명세서](./back/API_Documentation)
 ---
 # 목차 (Index)
 
@@ -277,7 +278,7 @@ AltEnds
   - OpenAI의 ChatGPT API를 통해 영화의 대체 결말 생성  
 - **특징**:  
   - 사용자 선택에 기반한 영화 결말 창작  
-  - 간단한 입력값으로 높은 품질의 결과 제공  
+  - 간단한 입력값으로 높은 품질의 결과 제공
 
 ---
 
