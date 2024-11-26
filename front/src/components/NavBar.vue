@@ -5,9 +5,9 @@
         <RouterLink :to="{ name: 'Home' }" class="logo-link">
           <img src="http://127.0.0.1:8000/media/static/logo3.png/" alt="홈" class="col-5 Logo">
         </RouterLink>
-        <RouterLink :to="{ name: 'EndingList' }" class="nav-link col-2">AI 게시판</RouterLink>
-        <RouterLink :to="{ name: 'Community' }" class="nav-link col-2">커뮤니티</RouterLink>
-        <RouterLink :to="{ name: 'MovieList'}" class="nav-link col-2">영화정보</RouterLink>
+        <RouterLink :to="{ name: 'EndingList' }" class="nav-link col-3">AI 게시판</RouterLink>
+        <RouterLink :to="{ name: 'Community' }" class="nav-link col-3">커뮤니티</RouterLink>
+        <RouterLink :to="{ name: 'MovieList'}" class="nav-link col-3">영화정보</RouterLink>
         <RouterLink 
           v-if="store.user.is_admin" 
           :to="{ name: 'AdminMovieSelect' }" 
