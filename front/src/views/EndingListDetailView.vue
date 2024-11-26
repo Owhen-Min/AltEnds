@@ -3,23 +3,6 @@
     <div class="container card bg-dark text-white py-5" v-if="altending">
       <div class="row gx-5 justify-content-center">
         <div class="col-lg-10 col-md-11 col-sm-12 article-content-wrapper">
-          <div class="movie-poster-section card p-4 mb-4">
-            <div class="d-flex align-items-start gap-4">
-              <div class="poster-wrapper">
-                <img 
-                  :src="store.BASE_URL + altending.movie_info.poster" 
-                  :alt="altending.movie_info.title"
-                  class="movie-poster"
-                >
-              </div>
-              <div class="movie-info flex-grow-1">
-                <h3 class="movie-title">{{ altending.movie_info.title }}</h3>
-                <p class="movie-year">{{ altending.movie_info.openYear }}</p>
-                <p class="movie-synopsis mt-3">{{ altending.movie_info.synopsis }}</p>
-              </div>
-            </div>
-          </div>
-
           <div class="article-header card p-4 mb-4">
             <h2 class="gradient-text mb-4">{{ altending.prompt }}</h2>
             <div class="article-meta d-flex justify-content-between align-items-center">
@@ -37,36 +20,52 @@
               </div>
             </div>
           </div>
+          <div class="movie-poster-section card p-4 mb-4">
+            <div class="d-flex align-items-start gap-4">
+              <div class="poster-wrapper">
+                <img 
+                  :src="store.BASE_URL + altending.movie_info.poster" 
+                  :alt="altending.movie_info.title"
+                  class="movie-poster"
+                >
+              </div>
+              <div class="movie-info flex-grow-1">
+                <h3 class="movie-title">{{ altending.movie_info.title }}</h3>
+                <p class="movie-year">{{ altending.movie_info.openYear }}</p>
+                <p class="movie-synopsis mt-3">{{ altending.movie_info.synopsis }}</p>
+              </div>
+            </div>
+          </div>
+
 
           <div class="article-body card p-4 mb-4">
             <p class="article-text">{{ altending.content }}</p>
           </div>
-
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <Like
+          <div class="row justify-content-between">
+            <div class="col-2 justify-content-between align-items-center mb-4" v-if="store.isLogin && altending.user_id === store.user.pk">
+              <button @click="deleteAltEnding(altending.id)" class="btn btn-danger">
+                삭제
+              </button>
+            </div>
+            <div class="col-2 justify-content-between align-items-center mb-4" v-else>
+              <Like
               :pk="altending.id"
               :isLiked="isLiked"
               :isDisliked="isDisliked"
-              nextUrl="movies/altends"
-            />
-            <div class="action-buttons d-flex gap-2">
-              <button 
-                v-if="store.isLogin && altending.user_id === store.user.pk"
-                @click="deleteAltEnding(altending.id)" 
-                class="btn btn-danger"
-              >
-                삭제
-              </button>
-              <button @click="$router.go(-1)" class="btn btn-warning">이전으로</button>
+                nextUrl="movies/altends"
+              />
+            </div>
+            <div class="col-6 d-flex justify-content-between align-items-center mb-4">
+              <button @click="$router.go(-1)" class="col-5 btn btn-warning">이전으로</button>
               <RouterLink 
                 :to="{ name: 'EndingListCreate', params: { movieid: altending.movie_info.id } }" 
-                class="btn btn-primary"
+                class="col-5 btn btn-primary"
               >
                 나도 비틀러 가기
               </RouterLink>
             </div>
           </div>
-
+        </div>
           <Comments 
             :pk="altending.id" 
             nextUrl="movies/altends"
@@ -74,7 +73,6 @@
         </div>
       </div>
     </div>
-  </div>
 
 </template>
 

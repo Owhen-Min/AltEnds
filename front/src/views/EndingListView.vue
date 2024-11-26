@@ -20,8 +20,8 @@
       <!-- Table Header -->
       <div class="d-flex table-header rounded">
         <div class="col-1 text-center font-weight-bold">번호</div>
-        <div class="col-7 text-center font-weight-bold">제목 </div>
-        <div class="col-2 text-center font-weight-bold">작성자</div>
+        <div class="col-6 text-center font-weight-bold">제목 </div>
+        <div class="col-3 text-center font-weight-bold">작성자</div>
         <div class="col-1 text-center font-weight-bold">조회수</div>
         <div class="col-1 text-center font-weight-bold">좋아요</div>
       </div>

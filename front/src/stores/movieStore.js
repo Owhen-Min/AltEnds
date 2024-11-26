@@ -162,8 +162,10 @@ export const useMovieStore = defineStore('movie', () => {
 
   const getMyProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/accounts/${user.value.pk}/`)
-      user.value = response.data
+      if (user.value !== null) {
+        const response = await axios.get(`${API_URL}/accounts/${user.value.pk}/`)
+        user.value = response.data
+      }
     } catch (error) {
       console.error('user 정보 갱신 실패: ', error)
     }

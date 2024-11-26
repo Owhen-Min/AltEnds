@@ -3,12 +3,12 @@
     <h2 class="card-header">
       <span class="header-text">주간 영화 목록</span>
     </h2>
-    <div class="slick-carousel"
-      @mousedown="handleMouseDown($event)"
-      @mousemove="handleMouseMove"
-      @click="handleClick($event)">
+    <div class="slick-carousel">
       <div v-for="movie in weeklyMovies" :key="movie.id" class="movie-item" :data-movieid="movie.id">
-        <div class="movie-card">
+        <div class="movie-card"
+        @mousedown="handleMouseDown($event)"
+          @mousemove="handleMouseMove"
+          @click="handleClick($event)">
           <img
             draggable="false"
             :src="store.BASE_URL + movie.poster"

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid bg-dark py-5">
     <div class="container card bg-dark text-white py-5">
-      <h1 class="gradient-text text-center mb-5">비틀러</h1>
+      <h1 class="gradient-text text-center mb-5">영화 비틀러 가기</h1>
 
     <!-- Movie Information -->
     <div class="movie-info row justify-content-evenly" v-if="movie">
@@ -142,7 +142,6 @@ const generateEnding = async () => {
       headers: { Authorization: `Token ${store.token}` },
     });
     altendings.value.push({ prompt: prompt.value, content: response.data.alt_ending });
-    console.log(response.data)
     tokens.value = response.data.user_token
     prompt.value = '';
     isPrompt.value = true;
