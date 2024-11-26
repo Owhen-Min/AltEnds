@@ -31,7 +31,7 @@
                 이전으로
               </button>
               <RouterLink 
-                v-if="profile.pk === store.user?.pk"
+                v-if="profile.id === store.user?.pk"
                 :to="{ name: 'ProfileChange', params: { userid: user_pk } }"
                 class="btn btn-primary"
               >
@@ -57,10 +57,26 @@
                 <h4>작성 게시글</h4>
                 <p class="gradient-text">{{ profile.ending_count }}</p>
               </div>
-              <div class="stat-card">
-                <i class="bi bi-chat-fill"></i>
-                <h4>작성 댓글</h4>
-                <p class="gradient-text">{{ profile.ending_comment_count }}</p>
+            </div>
+            <br>
+            <div class="stats-grid">
+              <!-- 최근 대체 결말 섹션 수정 -->
+              <div class="stat-card recent-content">
+                <i class="bi bi-book-fill"></i>
+                <h4>최근 대체 결말</h4>
+                <ul class="recent-list">
+                  <li v-for="ending in profile.recent_endings" :key="ending.id">
+                    <div class="recent-item">
+                      <RouterLink 
+                        :to="{ name: 'EndingListDetail', params: { endingid: ending.id }}"
+                        class="recent-link"
+                      >
+                        <span class="text-truncate">{{ ending.prompt }}</span>
+                      </RouterLink>
+                      <span class="recent-date">{{ formatDate(ending.created_at) }}</span>
+                    </div>
+                  </li>              
+                </ul>
               </div>
             </div>
             <br>
@@ -77,10 +93,26 @@
                 <h4>작성 게시글</h4>
                 <p class="gradient-text">{{ profile.article_count }}</p>
               </div>
-              <div class="stat-card">
-                <i class="bi bi-chat-fill"></i>
-                <h4>작성 댓글</h4>
-                <p class="gradient-text">{{ profile.article_comment_count }}</p>
+            </div>
+            <br>
+            <div class="stats-grid">
+              <!-- 최근 게시글 섹션 수정 -->
+              <div class="stat-card recent-content">
+                <i class="bi bi-file-text-fill"></i>
+                <h4>최근 게시글</h4>
+                <ul class="recent-list">
+                  <li v-for="article in profile.recent_articles" :key="article.id">
+                    <div class="recent-item">
+                      <RouterLink 
+                        :to="{ name: 'CommunityDetail', params: { articleid: article.id }}"
+                        class="recent-link"
+                      >
+                        <span class="text-truncate">{{ article.title }}</span>
+                      </RouterLink>
+                      <span class="recent-date">{{ formatDate(article.created_at) }}</span>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -254,5 +286,81 @@ const formatDate = (dateString) => {
   .stats-grid {
     grid-template-columns: 1fr;
   }
+
+  .recent-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .recent-link {
+    width: 100%;
+  }
+
+  .recent-date {
+    font-size: 0.8rem;
+    margin-left: 0.2rem;
+  }
+
+  .text-truncate {
+    max-width: 100%;
+  }
+}
+
+.recent-content {
+  text-align: left;
+  width: 100%;
+}
+
+.recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.recent-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recent-list li:last-child {
+  border-bottom: none;
+}
+
+.recent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.recent-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  flex: 1;
+  min-width: 0; /* 텍스트 오버플로우를 위해 필요 */
+}
+
+.text-truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-date {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap; /* 날짜가 줄바꿈되지 않도록 설정 */
+  flex-shrink: 0; /* 날짜 영역이 줄어들지 않도록 설정 */
+}
+
+.recent-link:hover {
+  color: #ffb88c;
+}
+
+.container-fluid {
+  margin-top: 100px;
 }
 </style>
