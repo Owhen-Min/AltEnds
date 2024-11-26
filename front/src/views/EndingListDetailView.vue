@@ -46,6 +46,7 @@
             <Like
               :pk="altending.id"
               :isLiked="isLiked"
+              :isDisliked="isDisliked"
               nextUrl="movies/altends"
             />
             <div class="action-buttons d-flex gap-2">
@@ -74,7 +75,7 @@
       </div>
     </div>
   </div>
-  <p class="text-white">{{ altending }}</p>
+
 </template>
 
 <script setup>
@@ -90,14 +91,24 @@ const router = useRouter()
 const store = useMovieStore()
 const altending = ref(null)
 const isLiked = ref(false)
+const isDisliked = ref(false)
 const API_URL = store.API_URL + '/movies/altends'
 
-watch(() => altending.value?.like_users, (newValue) => {
-  if (newValue) {
-    const likeUsers = Array.from(newValue)
-    isLiked.value = likeUsers.includes(store.user.pk)
-  }
-}, { immediate: true })
+watch(
+  () => altending.value,
+  (newAltending) => {
+    if (newAltending !== null) {
+      if (newAltending.like_users.includes(store.user.pk)){
+        isLiked.value = true  
+      } 
+      console.log(newAltending.dislike_users.includes(store.user.pk))
+      if (newAltending.dislike_users.includes(store.user.pk)){
+        isDisliked.value = true
+      }
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 const fetchAltEnding = async () => {
   try {
