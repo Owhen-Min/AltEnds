@@ -1,23 +1,16 @@
 <template>
   <div class="movie-section">
-    <h2 class="card-header">
-      <span class="header-text">이번 주 영화</span>
-    </h2>
+    <h2 class="card-header">주간 영화 목록</h2>
     <div class="slick-carousel"
       @mousedown="handleMouseDown($event)"
       @mousemove="handleMouseMove"
       @click="handleClick($event)">
       <div v-for="movie in weeklyMovies" :key="movie.id" class="movie-item" :data-movieid="movie.id">
-        <div class="movie-card">
-          <img
-            draggable="false"
-            :src="store.BASE_URL + movie.poster"
-            :alt="`${movie.title}의 포스터`"
-          />
-          <div class="movie-overlay">
-            <span class="view-details">상세보기</span>
-          </div>
-        </div>
+        <img
+          draggable="false"
+          :src="store.BASE_URL + movie.poster"
+          :alt="`${movie.title}의 포스터`"
+        />
       </div>
     </div>
   </div>
@@ -160,26 +153,17 @@ onMounted(async () => {
 }
 
 .card-header {
-  position: relative;
-  text-align: center;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.header-text {
-  font-size: 2.5rem;
+  color: #fff;
+  font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
+  text-align: center;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, #ff6b6b, #ffb88c);
+  border-radius: 12px;
+  text-transform: uppercase;
   letter-spacing: 2px;
-}
-
-@media (max-width: 768px) {
-  .header-text {
-    font-size: 2rem;
-  }
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
 }
 
 .movie-card {
@@ -187,13 +171,24 @@ onMounted(async () => {
   overflow: hidden;
   border-radius: 12px;
   transition: transform 0.3s ease;
-  aspect-ratio: 2/3;
-  width: 100%;
-  margin: 0 auto;
 }
 
 .movie-card:hover {
   transform: translateY(-10px);
+}
+
+.movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .movie-card:hover .movie-overlay {
@@ -219,8 +214,7 @@ onMounted(async () => {
 
 img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   border-radius: 12px;
   transition: transform 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -265,46 +259,5 @@ img {
     font-size: 1.5rem;
     padding: 1rem;
   }
-}
-
-.movie-item .movie-card {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.movie-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.movie-card:hover .movie-overlay {
-  opacity: 1;
-}
-
-.view-details {
-  color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: 2px solid white;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-}
-
-.view-details:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
 }
 </style>
