@@ -139,9 +139,21 @@ const createComment = function () {
     },
   })
     .then((response) => {
-      comments.value.push(response.data)
+      axios({
+        method: 'get',
+        url: `${store.API_URL}/${props.nextUrl}/${props.pk}/comments/`,
+      })
+        .then((response) => {
+          comments.value = response.data.map(comment => ({
+            ...comment,
+            isEditing: false,
+            editContent: comment.content,
+          }))
+        })
+        .catch((error) => {
+          store.showModalMessage('댓글 불러오기에 실패했습니다.', error)
+        })
       content.value = null
-      store.getMyProfile()
     })
     .catch((error) => {
       store.showModalMessage('댓글 작성에 실패했습니다.', error)
