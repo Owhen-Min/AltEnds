@@ -39,7 +39,6 @@ def ending_list(request):
 @permission_classes([IsAuthenticated])
 def ending_detail(request, ending_pk):
     ending = Ending.objects.get(pk=ending_pk)
-
     if request.method == 'GET':
         ending.view += 1
         ending.save()
