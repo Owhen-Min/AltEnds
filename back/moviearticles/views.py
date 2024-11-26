@@ -207,10 +207,12 @@ def GetUserRanking(request):
     user_dict = dict()
     for rank, user in enumerate(user_ranking):
         user_instance = get_object_or_404(User, pk=user['user_id__id'])
+        print(user_instance)
         user_dict[rank+1] = {
             'user_name': user_instance.nickname,
             'total_likes': user['total_likes'],
-            'user_id': user['user_id__id']
+            'user_id': user['user_id__id'],
+            'profile_picture': user_instance.profile_picture.url
             }
     return JsonResponse(user_dict, safe=True)
 

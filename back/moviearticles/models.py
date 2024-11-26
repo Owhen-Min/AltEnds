@@ -13,6 +13,9 @@ class Ending(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, default=None, related_name='like_endings'
     )
+    dislike_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, default=None, related_name='dislike_endings'
+    )
 
 
 

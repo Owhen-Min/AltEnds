@@ -3,13 +3,16 @@
     <h4 class="card-header">사용자 랭킹</h4>
     <div class="ranking-list">
       <div
-        class="ranking-item flex row mx-1 justify-content-between"
+        class="ranking-item d-flex align-items-center"
         v-for="(user, index) in userRanking"
         :key="user.username"
         @click="goProfile(user.user_id)"
       >
-        <h5 class="col-8">{{ index }}위: <strong>{{ user.user_name }}</strong></h5>
-        <p class="col-4">💗 {{ user.total_likes }}</p>
+        <div class="profile-image-container me-3">
+          <img :src="store.BASE_URL + user.profile_picture" alt="profile" class="profile-picture">
+        </div>
+        <h5 class="ranking-name mb-0">{{ index }}위<br><strong>{{ user.user_name }}</strong></h5>
+        <p class="likes-count ms-auto mb-0">💗 {{ user.total_likes }}</p>
       </div>
     </div>
   </div>
@@ -45,6 +48,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .user-ranking-section {
   background: rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
@@ -74,6 +84,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.3s ease;
   color: white;
+  width: 100%;
 }
 
 .ranking-item:hover {
@@ -81,14 +92,15 @@ onMounted(() => {
   transform: translateX(5px);
 }
 
-.ranking-item h5 {
-  margin: 0;
+.ranking-name {
   font-size: 0.95rem;
+  flex: 1;
 }
 
-.ranking-item p {
-  margin: 0;
+.likes-count {
   font-size: 0.9rem;
   color: #ffb88c;
+  min-width: 60px;
+  text-align: right;
 }
 </style>

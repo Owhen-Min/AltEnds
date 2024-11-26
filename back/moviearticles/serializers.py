@@ -13,9 +13,14 @@ class MovieSerializer(serializers.ModelSerializer):
 
 class EndingListSerializer(serializers.ModelSerializer):
     user_nickname = serializers.CharField(source='user_id.nickname', read_only=True)
+    like_count = serializers.SerializerMethodField()
     class Meta:
         model = Ending
-        fields = ('id', 'prompt', 'user_nickname', 'view', 'like_users', 'comment_set' )
+        fields = ('id', 'prompt', 'user_nickname', 'view', 'comment_set', 'like_count' )
+
+    def get_like_count(self, obj):
+        return obj.like_users.count() - obj.dislike_users.count()
+
 
 
 class EndingSerializer(serializers.ModelSerializer):
