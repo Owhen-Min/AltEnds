@@ -4,7 +4,7 @@
       @click="pushLikes" 
       :class="['like-button', isLiked ? 'liked' : '']"
     >
-      {{ isLiked ? '좋아요 취소' : '좋아요' }}
+      {{ isLiked ? '❤' : '🤍' }}
     </button>
   </div>
 </template>
