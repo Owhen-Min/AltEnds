@@ -129,9 +129,9 @@ def generate_alt_ending(request, movie_pk):
     movie_plot = movie.plot
 
     if not prev_alt_ending:
-        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot of alternative ending by user input. Return plot only. If user input is irrelevant with movie, than return error message. PLEASE ANSWER IN KOREAN."        
+        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nGenerate an alternative ending for the movie {movie_title}. The alternative ending should diverge from the original conclusion with the given environment after. You will answer full plot of alternative ending by user input. Return plot only. If user input is irrelevant with movie, than return error message. NEVER ANSWER IN ENGLISH. PLEASE ANSWER IN KOREAN."        
     else:
-        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nYour Client is not content with your output. Generate an alternative ending for the movie {movie_title} again. The alternative ending(your result) should include the feedback from your client. You will answer full plot of alternative ending. Return plot only. If user input is irrelevant with movie or previous alternative ending, than return error message. PLEASE ANSWER IN KOREAN. The alternative ending you created is below. If previous alternative ending has error message, then you can skip it.\n\n{prev_alt_ending}"        
+        prompt_for_gpt = f"Plot summary: {movie_plot}\n\nYour Client is not content with your output. Generate an alternative ending for the movie {movie_title} again. The alternative ending(your result) should include the feedback from your client. You will answer full plot of alternative ending. Return plot only. If user input is irrelevant with movie or previous alternative ending, than return error message. NEVER ANSWER IN ENGLISH. PLEASE ANSWER IN KOREAN. The alternative ending you created is below. If previous alternative ending has error message, then you can skip it.\n\n{prev_alt_ending}"        
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",

@@ -1,0 +1,42 @@
+[
+{
+    "model": "communityarticles.article",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "title": "테스트 제목",
+        "content": "테스트 내용",
+        "created_at": "2024-11-25T04:57:52.666Z",
+        "view": 7,
+        "like_users": [
+            1
+        ]
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "title": "토큰 증가 확인용 게시글",
+        "content": "테스트 내용",
+        "created_at": "2024-11-25T05:13:18.874Z",
+        "view": 12,
+        "like_users": []
+    }
+},
+{
+    "model": "communityarticles.article",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "title": "아 여기 싫어요기능 만들어주면 안됌?",
+        "content": "싫어요 누르고 싶은데 없어서 못누름",
+        "created_at": "2024-11-25T08:57:19.998Z",
+        "view": 16,
+        "like_users": [
+            3
+        ]
+    }
+}
+]
