@@ -144,6 +144,7 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(10px);
   border: none;
+  margin-top : 2.7rem;
 }
 
 .gradient-text {
