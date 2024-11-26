@@ -37,16 +37,6 @@ class UserRankingSerializer(ModelSerializer):
         model = User
         fields = ('pk', 'nickname', 'total_likes')
 
-# class UserInfoSerializer(ModelSerializer):
-#     article_comments = ArticleCommentSerializer(many=True, read_only=True, source='comment_articles')
-#     ending_comments = EndingCommentSerializer(many=True, read_only=True, source='comment_endings')
-#     article_likes = ArticleSerializer(many=True, read_only=True, source='like_articles')
-#     ending_likes = EndingSerializer(many=True, read_only=True, source='like_endings')
-#     articles = ArticleSerializer(many=True, read_only=True, source='Community_Article')
-#     endings = EndingSerializer(many=True, read_only=True, source='Ending')
-#     class Meta:
-#         model = User
-#         fields = '__all__'
 
 class UserInfoSerializer(serializers.ModelSerializer):
     article_comment_count = serializers.SerializerMethodField()
@@ -55,11 +45,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
     ending_like_count = serializers.SerializerMethodField()
     article_count = serializers.SerializerMethodField()
     ending_count = serializers.SerializerMethodField()
+    recent_articles = serializers.SerializerMethodField()
+    recent_endings = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        # fields = '__all__'
-        fields = ('id', 'nickname', 'join_date', 'token', 'profile_picture', 'article_comment_count', 'ending_comment_count', 'article_like_count', 'ending_like_count', 'article_count', 'ending_count', )
+        fields = ('id', 'nickname', 'join_date', 'token', 'profile_picture', 'article_comment_count', 'ending_comment_count', 'article_like_count', 'ending_like_count', 'article_count', 'ending_count', 'recent_articles', 'recent_endings')
 
     def get_article_comment_count(self, obj):
         return obj.comment_articles.count()  # 해당 유저의 댓글 개수 (ArticleComment)
@@ -78,3 +69,23 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
     def get_ending_count(self, obj):
         return obj.Ending.count()  # 해당 유저의 대체 결말 개수 (Ending)
+
+    def get_recent_articles(self, obj):
+        recent_articles = obj.Community_Article.order_by('-created_at')[:5]  # 최근 5개 게시글
+        return [
+            {
+                'id': article.id,
+                'title': article.title,
+                'created_at': article.created_at,
+            } for article in recent_articles
+        ]
+    
+    def get_recent_endings(self, obj):
+        recent_endings = obj.Ending.order_by('-created_at')[:5]  # 최근 5개 대체 결말
+        return [
+            {
+                'id': ending.id,
+                'prompt': ending.prompt,
+                'created_at': ending.created_at,
+            } for ending in recent_endings
+        ]
