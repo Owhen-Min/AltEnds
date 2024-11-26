@@ -32,7 +32,7 @@
         <div class="col-7 text-left ending-prompt"> {{ ending.prompt }} <span class="comment-count">[{{ ending.comment_set.length }}]</span></div>
         <div class="col-2 text-center">{{ ending.user_nickname }}</div>
         <div class="col-1 text-center">{{ ending.view }}</div>
-        <div class="col-1 text-center">{{ ending.like_users.length }}</div>
+        <div class="col-1 text-center">{{ ending.like_count }}</div>
       </div>
 
       <!-- Pagination Footer -->

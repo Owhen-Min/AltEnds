@@ -138,10 +138,6 @@ const deleteAltEnding = async (endingId) => {
   }
 }
 
-// 영화 상세 모달 열기 함수
-const openMovieDetail = (movieId) => {
-  modalStore.openMovieDetailModal(movieId)
-}
 </script>
 
 <style scoped>

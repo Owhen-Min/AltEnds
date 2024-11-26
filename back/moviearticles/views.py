@@ -183,16 +183,42 @@ def generate_alt_ending(request, movie_pk):
 @api_view(['POST'])
 def likes(request, ending_pk):
     ending = get_object_or_404(Ending, pk=ending_pk)
+    # dislike 제거
+    if request.user in ending.dislike_users.all():
+        ending.dislike_users.remove(request.user)
+    
     if request.user in ending.like_users.all():
         ending.like_users.remove(request.user)
-        ending.save()
         is_liked = False
     else:
         ending.like_users.add(request.user)
-        ending.save()
         is_liked = True
+    ending.save()
+    
     context = {
         'is_liked': is_liked,
+        'is_disliked': False
+    }
+    return Response(context)
+
+@api_view(['POST'])
+def dislikes(request, ending_pk):
+    ending = get_object_or_404(Ending, pk=ending_pk)
+    # like 제거
+    if request.user in ending.like_users.all():
+        ending.like_users.remove(request.user)
+    
+    if request.user in ending.dislike_users.all():
+        ending.dislike_users.remove(request.user)
+        is_disliked = False
+    else:
+        ending.dislike_users.add(request.user)
+        is_disliked = True
+    ending.save()
+    
+    context = {
+        'is_liked': False,
+        'is_disliked': is_disliked
     }
     return Response(context)
 
@@ -220,7 +246,7 @@ def GetUserRanking(request):
 @api_view(['GET'])
 def GetEndingRanking(request):
     most_liked_article = (
-        Ending.objects.annotate(like_count=Count("like_users"))
+        Ending.objects.annotate(like_count=Count("like_users")-Count("dislike_users"))
         .order_by("-like_count")[:6]
     )
     ending_dict = dict()

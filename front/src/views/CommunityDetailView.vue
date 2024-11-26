@@ -27,9 +27,6 @@
           </div>
 
           <div class="action-buttons d-flex justify-content-between mb-4">
-            <RouterLink :to="{name:'Community'}" class="btn btn-warning">
-              이전으로
-            </RouterLink>
             <div class="d-flex gap-3" v-if="store.isLogin && article.user === store.user.pk">
               <button @click="updateArticle(article.id)" class="btn btn-primary">
                 수정하기
@@ -38,15 +35,19 @@
                 삭제
               </button>
             </div>
+            <div class="d-flex align-items-center" v-else>
+              <Like
+                :pk="article.id"
+                :isLiked="isLiked"
+                nextUrl="communities"
+              />
+            </div>
+            <RouterLink :to="{name:'Community'}" class="btn btn-warning d-flex align-items-center">
+              이전으로
+            </RouterLink>
           </div>
 
           <!-- Like Component -->
-          <Like
-            :pk="article.id"
-            :isLiked="isLiked"
-            nextUrl="communities"
-            class="mb-4"
-          />
 
           <!-- Comments Component -->
           <Comments
