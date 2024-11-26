@@ -86,6 +86,7 @@ const logOut = store.logOut
 .user-card {
   text-align: center;
   color: white;
+  margin-top: 1.8rem;
 }
 
 .profile-image {
