@@ -9,7 +9,7 @@
               <div class="meta-left">
                 <div class="meta-item">
                   <i class="bi bi-person-fill"></i>
-                  <span><img :src="store.BASE_URL + altending.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ altending.user_nickname }}</strong></span>
+                  <span @click="goProfile(altending.user_id)" class="cursor-pointer"><img :src="store.BASE_URL + altending.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ altending.user_nickname }}</strong></span>
                 </div>
               </div>
               <div class="meta-right">
@@ -47,7 +47,7 @@
                 삭제
               </button>
             </div>
-            <div class="col-2 justify-content-between align-items-center mb-4" v-else>
+            <div class="col-4 justify-content-between align-items-center mb-4" v-else>
               <Like
               :pk="altending.id"
               :isLiked="isLiked"
@@ -65,15 +65,14 @@
               </RouterLink>
             </div>
           </div>
-        </div>
-          <Comments 
-            :pk="altending.id" 
-            nextUrl="movies/altends"
-          />
-        </div>
+            <Comments 
+              :pk="altending.id" 
+              nextUrl="movies/altends"
+            />
+          </div>
+          </div>
       </div>
     </div>
-
 </template>
 
 <script setup>
@@ -99,7 +98,6 @@ watch(
       if (newAltending.like_users.includes(store.user.pk)){
         isLiked.value = true  
       } 
-      console.log(newAltending.dislike_users.includes(store.user.pk))
       if (newAltending.dislike_users.includes(store.user.pk)){
         isDisliked.value = true
       }
@@ -146,6 +144,10 @@ const deleteAltEnding = async (endingId) => {
   } catch (error) {
     store.showModalMessage('삭제에 실패했습니다.')
   }
+}
+
+const goProfile = (userid) => {
+  router.push({ name: 'Profile', params: { userid } })
 }
 
 </script>
@@ -394,5 +396,9 @@ const deleteAltEnding = async (endingId) => {
     max-height: none;
     font-size: 1rem;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>

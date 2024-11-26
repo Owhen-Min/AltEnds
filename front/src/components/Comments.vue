@@ -8,7 +8,7 @@
         class="d-flex comment-item pages col-12 justify-content-between align-items-center"
       >
         <div class="col-8">
-          <p class="comment-author">{{ comment.user_nickname }}</p>
+          <p class="comment-author" @click="goProfile(comment.user_id)">{{ comment.user_nickname }}</p>
           <p v-if="!comment.isEditing" class="comment-content">{{ comment.content }}</p>
           <textarea 
             v-else 
@@ -85,7 +85,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const store = useMovieStore()
-
+const router = useRouter()
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
@@ -126,6 +126,10 @@ const sortedComments = computed(() => {
       return sorted;
   }
 });
+
+const goProfile = (userid) => {
+  router.push({ name: 'Profile', params: { userid } })
+}
 
 const createComment = function () {
   axios({
@@ -256,6 +260,7 @@ const goToPage = (direction) => {
   color: #ff6b6b;
   font-weight: bold;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 .comment-content {

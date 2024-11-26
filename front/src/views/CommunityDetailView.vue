@@ -9,7 +9,7 @@
               <div class="meta-left">
                 <div class="meta-item">
                   <i class="bi bi-person-fill"></i>
-                  <span><img :src="store.BASE_URL + article.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ article.user_nickname }}</strong></span>
+                  <span @click="goProfile(article.user)" class="cursor-pointer"><img :src="store.BASE_URL + article.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ article.user_nickname }}</strong></span>
                 </div>
               </div>
               <div class="meta-right">
@@ -20,7 +20,6 @@
               </div>
             </div>
           </div>
-
           <!-- Article Body -->
           <div class="article-body card p-4 mb-4">
             <p class="article-text">{{ article.content }}</p>
@@ -78,6 +77,9 @@ watch(() => article.value?.like_users, (newValue) => {
   }
 }, { immediate: true })
 
+const goProfile = (userid) => {
+  router.push({ name: 'Profile', params: { userid } })
+}
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -114,6 +116,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .profile-picture {
   width: 40px;
   height: 40px;
