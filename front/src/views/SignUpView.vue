@@ -1,123 +1,88 @@
 <template>
-  <div class="container-fluid bg-dark py-5" v-if="store">
-    <div class="container">
-      <div class="row justify-content-center align-items-center gx-5">
-        <!-- 환영 메시지 섹션 -->
-        <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
-          <div class="welcome-section text-center">
-            <h1 class="gradient-text mb-4">환영합니다!</h1>
-            <div class="welcome-image mb-4">
-              <img src="http://127.0.0.1:8000/media/static/logo3.png/" alt="로고" class="img-fluid">
-            </div>
-            <p class="welcome-text mb-4">
-              영화의 새로운 결말을 만들어보세요.<br>
-              AI와 함께 당신만의 특별한 이야기를 시작하세요.
-            </p>
-            <div class="features">
-              <div class="feature-item">
-                <i class="bi bi-film"></i>
-                <span>다양한 영화 컨텐츠</span>
-              </div>
-              <div class="feature-item">
-                <i class="bi bi-robot"></i>
-                <span>AI 기반 결말 생성</span>
-              </div>
-              <div class="feature-item">
-                <i class="bi bi-people"></i>
-                <span>커뮤니티 활동</span>
-              </div>
-            </div>
-          </div>
+  <div class="row mt-5">
+    <div class="col-4"></div>
+    <div class="col-4 signup-card content-card">
+      <h2 class="gradient-text text-center mb-4">회원가입</h2>
+      <form @submit.prevent="signUp" class="signup-form">
+          <div class="form-group mb-3">
+          <label for="username" class="form-label">아이디</label>
+          <input 
+            type="text" 
+            id="username" 
+            class="form-control" 
+            autocomplete="username" 
+            v-model.trim="username"
+            :class="{ 'is-invalid': errors.username }"
+          >
+          <div class="error-message" v-if="errors.username">{{ errors.username }}</div>
         </div>
 
-        <!-- 회원가입 폼 섹션 -->
-        <div class="col-lg-6 col-md-6">
-          <div class="signup-card content-card">
-            <h2 class="gradient-text text-center mb-4">회원가입</h2>
-            
-            <form @submit.prevent="signUp" class="signup-form">
-              <div class="form-group mb-3">
-                <label for="username" class="form-label">아이디</label>
-                <input 
-                  type="text" 
-                  id="username" 
-                  class="form-control" 
-                  autocomplete="username" 
-                  v-model.trim="username"
-                  :class="{ 'is-invalid': errors.username }"
-                >
-                <div class="error-message" v-if="errors.username">{{ errors.username }}</div>
-              </div>
-
-              <div class="form-group mb-3">
-                <label for="password1" class="form-label">비밀번호</label>
-                <input 
-                  type="password" 
-                  id="password1" 
-                  class="form-control" 
-                  autocomplete="new-password" 
-                  v-model.trim="password1"
-                  :class="{ 'is-invalid': errors.password1 }"
-                >
-                <div class="error-message" v-if="errors.password1">{{ errors.password1 }}</div>
-              </div>
-
-              <div class="form-group mb-3">
-                <label for="password2" class="form-label">비밀번호 확인</label>
-                <input 
-                  type="password" 
-                  id="password2" 
-                  class="form-control" 
-                  autocomplete="new-password" 
-                  v-model.trim="password2"
-                  :class="{ 'is-invalid': errors.password2 }"
-                >
-                <div class="error-message" v-if="errors.password2">{{ errors.password2 }}</div>
-              </div>
-
-              <div class="form-group mb-3">
-                <label for="firstname" class="form-label">이름</label>
-                <input 
-                  type="text" 
-                  id="firstname" 
-                  class="form-control" 
-                  v-model.trim="firstname"
-                  :class="{ 'is-invalid': errors.firstname }"
-                >
-                <div class="error-message" v-if="errors.firstname">{{ errors.firstname }}</div>
-              </div>
-
-              <div class="form-group mb-3">
-                <label for="nickname" class="form-label">닉네임</label>
-                <input 
-                  type="text" 
-                  id="nickname" 
-                  class="form-control" 
-                  v-model.trim="nickname"
-                  :class="{ 'is-invalid': errors.nickname }"
-                >
-                <div class="error-message" v-if="errors.nickname">{{ errors.nickname }}</div>
-              </div>
-
-              <div class="form-group mb-4">
-                <label for="email" class="form-label">이메일</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  class="form-control" 
-                  v-model.trim="email"
-                  :class="{ 'is-invalid': errors.email }"
-                >
-                <div class="error-message" v-if="errors.email">{{ errors.email }}</div>
-              </div>
-
-              <div class="d-grid">
-                <button type="submit" class="btn btn-primary">회원가입</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <div class="form-group mb-3">
+        <label for="password1" class="form-label">비밀번호</label>
+        <input 
+          type="password" 
+          id="password1" 
+          class="form-control" 
+          autocomplete="new-password" 
+          v-model.trim="password1"
+          :class="{ 'is-invalid': errors.password1 }"
+        >
+        <div class="error-message" v-if="errors.password1">{{ errors.password1 }}</div>
       </div>
+
+      <div class="form-group mb-3">
+        <label for="password2" class="form-label">비밀번호 확인</label>
+        <input 
+          type="password" 
+          id="password2" 
+          class="form-control" 
+          autocomplete="new-password" 
+          v-model.trim="password2"
+          :class="{ 'is-invalid': errors.password2 }"
+        >
+        <div class="error-message" v-if="errors.password2">{{ errors.password2 }}</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="firstname" class="form-label">이름</label>
+        <input 
+          type="text" 
+          id="firstname" 
+          class="form-control" 
+          v-model.trim="firstname"
+          :class="{ 'is-invalid': errors.firstname }"
+        >
+        <div class="error-message" v-if="errors.firstname">{{ errors.firstname }}</div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="nickname" class="form-label">닉네임</label>
+        <input 
+          type="text" 
+          id="nickname" 
+          class="form-control" 
+          v-model.trim="nickname"
+          :class="{ 'is-invalid': errors.nickname }"
+        >
+        <div class="error-message" v-if="errors.nickname">{{ errors.nickname }}</div>
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="email" class="form-label">이메일</label>
+        <input 
+          type="email" 
+          id="email" 
+          class="form-control" 
+          v-model.trim="email"
+          :class="{ 'is-invalid': errors.email }"
+        >
+        <div class="error-message" v-if="errors.email">{{ errors.email }}</div>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">회원가입</button>
+      </div>
+    </form>
     </div>
   </div>
 </template>
@@ -324,5 +289,9 @@ h1.gradient-text {
   .feature-item {
     padding: 0.8rem;
   }
+}
+
+.signup-card {
+  margin-top: 1.8rem;
 }
 </style>
