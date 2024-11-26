@@ -86,10 +86,10 @@ import { useRouter } from 'vue-router';
 
 const store = useMovieStore()
 
-const router = useRouter();
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
+const sortOption = ref('recent');
 const content = ref(null)
 const comments = ref([])
 const props = defineProps({
@@ -113,6 +113,19 @@ onMounted(() => {
       store.showModalMessage('댓글 불러오기에 실패했습니다.', error)
     })
 })
+
+// 정렬된 게시글
+const sortedComments = computed(() => {
+  if (!comments.value) return [];
+  
+  const sorted = [...comments.value];
+  switch (sortOption.value) {
+    case 'recent':
+      return sorted.sort((a, b) => b.id - a.id);
+    default:
+      return sorted;
+  }
+});
 
 const createComment = function () {
   axios({
@@ -185,12 +198,12 @@ const formatDate = (dateString) => {
 const paginatedComments = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return comments.value.slice(start, end);
+  return sortedComments.value.slice(start, end);
 });
 
 // 전체 페이지 수
 const totalPages = computed(() => 
-  Math.ceil(comments.value.length / itemsPerPage)
+  Math.ceil(sortedComments.value.length / itemsPerPage)
 );
 
 
