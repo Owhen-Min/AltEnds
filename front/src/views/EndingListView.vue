@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid bg-dark py-5">
     <div class="container card bg-dark text-white py-5">
-      <!-- Board Header -->
       <header class="board-header d-flex justify-content-between align-items-center mb-4">
         <h2 class="gradient-text">AI 게시판</h2>
         <div class="d-flex align-items-center gap-3">
@@ -139,6 +138,7 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(10px);
   border: none;
+  margin-top : 2.3rem;
 }
 
 .gradient-text {
