@@ -20,7 +20,7 @@ class EndingListSerializer(serializers.ModelSerializer):
         fields = ('id', 'prompt', 'user_nickname', 'user_profile_picture', 'view', 'comment_set', 'like_count' )
 
     def get_like_count(self, obj):
-        return obj.like_users.count() - obj.dislike_users.count()
+        return max(0, obj.like_users.count() - obj.dislike_users.count())
 
 
 
