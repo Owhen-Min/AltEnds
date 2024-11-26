@@ -1,0 +1,244 @@
+[
+{
+    "model": "communityarticles.comment",
+    "pk": 1,
+    "fields": {
+        "article_id": 1,
+        "user_id": 1,
+        "content": "테스트 댓글",
+        "created_at": "2024-11-25T04:57:59.708Z",
+        "updated_at": "2024-11-25T04:57:59.709Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 2,
+    "fields": {
+        "article_id": 1,
+        "user_id": 2,
+        "content": "토큰 증가 확인",
+        "created_at": "2024-11-25T05:12:57.231Z",
+        "updated_at": "2024-11-25T05:12:57.231Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 4,
+    "fields": {
+        "article_id": 2,
+        "user_id": 2,
+        "content": "댓글이 다시 만들어지나요?",
+        "created_at": "2024-11-25T05:39:34.328Z",
+        "updated_at": "2024-11-25T05:39:34.328Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 5,
+    "fields": {
+        "article_id": 2,
+        "user_id": 2,
+        "content": "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하",
+        "created_at": "2024-11-25T05:52:01.236Z",
+        "updated_at": "2024-11-25T05:52:01.236Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 6,
+    "fields": {
+        "article_id": 1,
+        "user_id": 3,
+        "content": "어디갔어 이자식...",
+        "created_at": "2024-11-25T08:46:28.895Z",
+        "updated_at": "2024-11-25T08:46:28.895Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 7,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "1",
+        "created_at": "2024-11-25T23:59:52.909Z",
+        "updated_at": "2024-11-25T23:59:52.909Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 8,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "2",
+        "created_at": "2024-11-25T23:59:53.795Z",
+        "updated_at": "2024-11-25T23:59:53.795Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 9,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "3",
+        "created_at": "2024-11-25T23:59:55.325Z",
+        "updated_at": "2024-11-25T23:59:55.325Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 10,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "4",
+        "created_at": "2024-11-25T23:59:56.372Z",
+        "updated_at": "2024-11-25T23:59:56.372Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 11,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "5",
+        "created_at": "2024-11-25T23:59:57.565Z",
+        "updated_at": "2024-11-25T23:59:57.565Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 12,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "6",
+        "created_at": "2024-11-25T23:59:58.708Z",
+        "updated_at": "2024-11-25T23:59:58.708Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 13,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "7",
+        "created_at": "2024-11-26T00:00:00.108Z",
+        "updated_at": "2024-11-26T00:00:00.108Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 14,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "8",
+        "created_at": "2024-11-26T00:00:01.188Z",
+        "updated_at": "2024-11-26T00:00:01.188Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 15,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "9",
+        "created_at": "2024-11-26T00:00:02.276Z",
+        "updated_at": "2024-11-26T00:00:02.276Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 16,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "0",
+        "created_at": "2024-11-26T00:00:03.587Z",
+        "updated_at": "2024-11-26T00:00:03.588Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 17,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "1",
+        "created_at": "2024-11-26T00:00:05.107Z",
+        "updated_at": "2024-11-26T00:00:05.107Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 18,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "a",
+        "created_at": "2024-11-26T00:01:28.205Z",
+        "updated_at": "2024-11-26T00:01:28.205Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 19,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "afds",
+        "created_at": "2024-11-26T00:12:21.437Z",
+        "updated_at": "2024-11-26T00:12:21.437Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 20,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "ㅁㅇㄴㄹ",
+        "created_at": "2024-11-26T00:31:59.774Z",
+        "updated_at": "2024-11-26T00:31:59.774Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 21,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "ㅁㄴㅇㄹ",
+        "created_at": "2024-11-26T00:32:04.739Z",
+        "updated_at": "2024-11-26T00:32:04.739Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 22,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "ㅁㅇ",
+        "created_at": "2024-11-26T00:32:30.587Z",
+        "updated_at": "2024-11-26T00:32:30.587Z"
+    }
+},
+{
+    "model": "communityarticles.comment",
+    "pk": 23,
+    "fields": {
+        "article_id": 3,
+        "user_id": 1,
+        "content": "ㅁㄴㄹㅇㄻㅇㄴ",
+        "created_at": "2024-11-26T00:47:10.247Z",
+        "updated_at": "2024-11-26T00:47:10.247Z"
+    }
+}
+]

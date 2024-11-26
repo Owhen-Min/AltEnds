@@ -28,7 +28,7 @@ class EndingSerializer(serializers.ModelSerializer):
         
 
 class EndingCommentSerializer(serializers.ModelSerializer):
-    user_nickname = serializers.CharField(source='user_id', read_only=True)
+    user_nickname = serializers.CharField(source='user_id.nickname', read_only=True)
     class Meta:
         model = Comment
         fields = '__all__'

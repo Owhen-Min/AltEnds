@@ -31,7 +31,7 @@
                 이전으로
               </button>
               <RouterLink 
-                v-if="profile.pk === store.user?.pk"
+                v-if="profile.id === store.user?.pk"
                 :to="{ name: 'ProfileChange', params: { userid: user_pk } }"
                 class="btn btn-primary"
               >
