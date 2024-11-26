@@ -74,6 +74,7 @@
       </div>
     </div>
   </div>
+  <p class="text-white">{{ altending }}</p>
 </template>
 
 <script setup>
