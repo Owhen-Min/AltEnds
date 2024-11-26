@@ -122,6 +122,7 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then((response) => {
         token.value = null,
+        user.value = null,
         router.push({ name: 'Home' })
       })
       .catch((error) => {

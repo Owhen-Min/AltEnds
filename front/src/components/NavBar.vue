@@ -1,22 +1,23 @@
 <template>
   <nav class="nav-bar">
-    <div class="nav-container row justify-content-around">
-      <div class="pages col-sm-8 col-md-7 col-lg-5 justify-content-between align-items-center">
-        <RouterLink :to="{ name: 'Home' }" class="logo-link">
-          <img src="http://127.0.0.1:8000/media/static/logo3.png/" alt="홈" class="col-5 Logo">
+    <div class="nav-container row justify-content-around align-items-center">
+      <div class="d-flex pages col-sm-8 col-md-7 col-lg-5 justify-content-between">
+        <RouterLink :to="{ name: 'Introduction' }" class="logo-link d-flex align-items-center">
+          <img src="http://127.0.0.1:8000/media/static/logo3.png/" alt="홈" class="col-3 Logo">
         </RouterLink>
-        <RouterLink :to="{ name: 'EndingList' }" class="nav-link col-3">AI 게시판</RouterLink>
-        <RouterLink :to="{ name: 'Community' }" class="nav-link col-3">커뮤니티</RouterLink>
-        <RouterLink :to="{ name: 'MovieList'}" class="nav-link col-3">영화정보</RouterLink>
+        <RouterLink :to="{ name: 'EndingList' }" class="nav-link col-3 d-flex align-items-center justify-content-center">AI 게시판</RouterLink>
+        <RouterLink :to="{ name: 'Community' }" class="nav-link col-3 d-flex align-items-center justify-content-center">커뮤니티</RouterLink>
+        <RouterLink :to="{ name: 'MovieList'}" class="nav-link col-3 d-flex align-items-center justify-content-center">영화정보</RouterLink>
+      </div>
+      <div class="d-flex d-none d-md-block col-md-1 col-lg-2 justify-content-between align-items-center">
         <RouterLink 
-          v-if="store.user.is_admin" 
+          v-if="store.user?.is_admin" 
           :to="{ name: 'AdminMovieSelect' }" 
-          class="nav-link"
+          class="nav-link col-12"
         >
           영화관리
         </RouterLink>
       </div>
-      <div class="d-none d-md-block col-md-1 col-lg-2"></div>
       <div class="d-flex userpages col-sm-4 col-md-3 justify-content-center align-items-center" v-if="isLogin">
         <button @click="goMyProfile" class="nav-btn">마이 페이지</button>
         <button @click="store.logOut" class="nav-btn">로그아웃</button>

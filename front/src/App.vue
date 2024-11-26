@@ -19,25 +19,6 @@ const store = useMovieStore();
 </script>
 
 <style>
-@font-face {
-  font-family: 'GmarketSansMedium';
-  src: url('assets/fonts/GmarketSansMedium.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'GmarketSansBold';
-  src: url('assets/fonts/GmarketSansBold.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'GmarketSansLight';
-  src: url('assets/fonts/GmarketSansLight.otf') format('opentype');
-}
-
-* {
-  font-family: 'GmarketSansMedium', sans-serif;
-}
-
 .container-fluid {
     background-color: #212529;
   }
