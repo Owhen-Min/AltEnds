@@ -58,6 +58,9 @@ export const useMovieStore = defineStore('movie', () => {
       .then((response) => {
         const password = password1
         logIn({ username, password })
+          .then(() => {
+            router.push({ name: 'Instruction' })
+          })
       })
       .catch((error) => {
         const errorMessages = Object.entries(error.response.data)
@@ -86,16 +89,7 @@ export const useMovieStore = defineStore('movie', () => {
         token.value = response.data.key
         return axios({
           method: 'get',
-          url: `${API_URL}/accounts/user/`,
-          headers: {
-            Authorization: `Token ${token.value}`,
-          },
-        })
-      })
-      .then((response) => {
-        return axios({
-          method: 'get',
-          url: `${API_URL}/accounts/${response.data.pk}/`,
+          url: `${API_URL}/accounts/0/`,
           headers: {
             Authorization: `Token ${token.value}`,
           },

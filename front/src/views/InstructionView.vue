@@ -70,7 +70,7 @@
           <div class="instruction-image">
             <img src="@/assets/images/postending.gif" alt="결과 확인 및 공유 방법" />
           </div>
-          <p class="lead text-white">결말이 마음에 든다면<br>제목으로 쓸 프롬프트와 내용이 될 엔딩을 골라<br>다른 사용자들과 공유해보세요.</p>
+          <p class="lead text-white">결말이 마음에 든다면<br>제목으로 쓸 프롬프트와 내용이 될 엔딩을 골라<br>다른 사용자들과 공유해보세요!</p>
         </div>
       </div>
 
