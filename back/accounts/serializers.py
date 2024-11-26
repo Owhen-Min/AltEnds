@@ -35,7 +35,7 @@ class UserRankingSerializer(ModelSerializer):
     total_likes = serializers.IntegerField()
     class Meta:
         model = User
-        fields = ('pk', 'nickname', 'total_likes')
+        fields = ('pk', 'profile_picture', 'nickname', 'total_likes')
 
 
 class UserInfoSerializer(serializers.ModelSerializer):

@@ -26,7 +26,7 @@
               <div class="meta-left">
                 <div class="meta-item">
                   <i class="bi bi-person-fill"></i>
-                  <span>작성자: <strong>{{ altending.user_nickname }}</strong></span>
+                  <span><img :src="store.BASE_URL + altending.user_profile_picture" alt="프로필 사진" class="profile-picture"> <span class="mx-1"></span> <strong>{{ altending.user_nickname }}</strong></span>
                 </div>
               </div>
               <div class="meta-right">
@@ -74,6 +74,7 @@
       </div>
     </div>
   </div>
+  <p class="text-white">{{ altending }}</p>
 </template>
 
 <script setup>
@@ -138,13 +139,16 @@ const deleteAltEnding = async (endingId) => {
   }
 }
 
-// 영화 상세 모달 열기 함수
-const openMovieDetail = (movieId) => {
-  modalStore.openMovieDetailModal(movieId)
-}
 </script>
 
 <style scoped>
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .container {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(10px);

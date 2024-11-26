@@ -21,8 +21,8 @@
       <!-- Table Header -->
       <div class="d-flex table-header rounded">
         <div class="col-1 text-center">번호</div>
-        <div class="col-7 text-center">제목</div>
-        <div class="col-2 text-center">작성자</div>
+        <div class="col-6 text-center">제목</div>
+        <div class="col-3 text-center">작성자</div>
         <div class="col-1 text-center">조회수</div>
         <div class="col-1 text-center">좋아요</div>
       </div>
@@ -33,8 +33,11 @@
            class="post-item" 
            @click="goDetail(post.id)">
         <div class="col-1 text-center">{{ post.id }}</div>
-        <div class="col-7 text-left post-title">{{ post.title }} <span class="comment-count">[{{ post.comment_set.length }}]</span></div>
-        <div class="col-2 text-center">{{ post.user_nickname }}</div>
+        <div class="col-6 text-left post-title">{{ post.title }} <span class="comment-count">[{{ post.comment_set.length }}]</span></div>
+        <div class="col-3 text-center">
+          <img :src="store.BASE_URL + post.user_profile_picture" alt="프로필 사진" class="profile-picture">
+          {{ post.user_nickname }}
+        </div>
         <div class="col-1 text-center">{{ post.view }}</div>
         <div class="col-1 text-center">{{ post.like_users.length }}</div>
       </div>
@@ -140,6 +143,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .container {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(10px);

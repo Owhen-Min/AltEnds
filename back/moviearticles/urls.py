@@ -10,6 +10,7 @@ urlpatterns = [
     path('altends/<int:ending_pk>/comments/', views.comment_list),
     path('altends/<int:comment_pk>/comments/manage/', views.comment_manage),
     path('altends/<int:ending_pk>/likes/', views.likes),
+    path('altends/<int:ending_pk>/dislikes/', views.dislikes),
     path('ranking/user/', views.GetUserRanking),
     path('ranking/ending/', views.GetEndingRanking),
     path('select/', views.movie_select),

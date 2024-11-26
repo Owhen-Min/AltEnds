@@ -29,10 +29,13 @@
       <!-- Posts List -->
       <div v-for="ending in paginatedEndings" :key="ending.id" class="post-item" @click="goDetail(ending.id)">
         <div class="col-1 text-center">{{ ending.id }}</div>
-        <div class="col-7 text-left ending-prompt"> {{ ending.prompt }} <span class="comment-count">[{{ ending.comment_set.length }}]</span></div>
-        <div class="col-2 text-center">{{ ending.user_nickname }}</div>
+        <div class="col-6 text-left ending-prompt"> {{ ending.prompt }} <span class="comment-count">[{{ ending.comment_set.length }}]</span></div>
+        <div class="col-3 text-center">
+          <img :src="store.BASE_URL + ending.user_profile_picture" alt="프로필 사진" class="profile-picture">
+          {{ ending.user_nickname }}
+        </div>
         <div class="col-1 text-center">{{ ending.view }}</div>
-        <div class="col-1 text-center">{{ ending.like_users.length }}</div>
+        <div class="col-1 text-center">{{ ending.like_count }}</div>
       </div>
 
       <!-- Pagination Footer -->
@@ -134,6 +137,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .container {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(10px);
