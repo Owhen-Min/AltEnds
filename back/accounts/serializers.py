@@ -62,10 +62,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
         return obj.comment_endings.count()  # 해당 유저의 댓글 개수 (EndingComment)
 
     def get_article_like_count(self, obj):
-        return obj.like_articles.count()  # 해당 유저의 좋아요 개수 (Article)
+        # 사용자가 작성한 모든 게시글의 좋아요 수 합계
+        return sum(article.like_users.count() for article in obj.Community_Article.all())
 
     def get_ending_like_count(self, obj):
-        return obj.like_endings.count()  # 해당 유저의 좋아요 개수 (Ending)
+        # 사용자가 작성한 모든 엔딩의 좋아요 수 합계
+        return sum(ending.like_users.count() for ending in obj.Ending.all())
 
     def get_article_count(self, obj):
         return obj.Community_Article.count()  # 해당 유저의 게시글 개수 (Article)
